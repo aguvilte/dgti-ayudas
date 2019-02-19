@@ -20,28 +20,18 @@ class AyudasSearch extends Ayudas
     public function rules()
     {
         return [
-            [['id_tipo', 'id_ayuda', 'id_estado', 'entrega_dni', 'entrega_cuil', 'id_persona'], 'integer'],
-            [['asunto', 'monto', 'fecha_nota', 'fecha_entrada', 'fecha_pago', 'doc_adjunta', 'area', 'encargado', 'pdf_doc_adjunta', 'pdf_nota', 'pdf_gestor', 'pdf_domicilio', 'globalSearch'], 'safe'],
-            [['id_persona'], 'number'],
+            [['id_tipo', 'id_ayuda', 'id_estado', 'entrega_dni', 'entrega_cuil', 'id_beneficiario', 'id_area', 'id_referente'], 'integer'],
+            [['asunto', 'monto', 'fecha_nota', 'fecha_entrada', 'fecha_pago', 'doc_adjunta', 'pdf_doc_adjunta', 'pdf_nota', 'pdf_gestor', 'pdf_domicilio', 'globalSearch'], 'safe'],
+            [['id_beneficiario'], 'number'],
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
     public function scenarios()
     {
         // bypass scenarios() implementation in the parent class
         return Model::scenarios();
     }
 
-    /**
-     * Creates data provider instance with search query applied
-     *
-     * @param array $params
-     *
-     * @return ActiveDataProvider
-     */
     public function search($params)
     {
         $query = Ayudas::find();
@@ -70,10 +60,10 @@ class AyudasSearch extends Ayudas
             'id_ayuda' => $this->id_ayuda,
             //'entrega_dni' => $this->entrega_dni,
             //'entrega_cuil' => $this->entrega_cuil,
-            //'id_persona' => $this->id_persona,
+            //'id_beneficiario' => $this->id_beneficiario,
             'id_tipo' => $this->id_tipo,
             'id_estado' => $this->id_estado,
-            //'beneficiarios.documento' => $this->id_persona,
+            //'beneficiarios.documento' => $this->id_beneficiario,
 
         ]);
 
@@ -83,13 +73,13 @@ class AyudasSearch extends Ayudas
             //->andFilterWhere(['like', 'fecha_entrada', $this->fecha_entrada])
             //->andFilterWhere(['like', 'fecha_pago', $this->fecha_pago])
             ->andFilterWhere(['like', 'doc_adjunta', $this->doc_adjunta])
-            ->andFilterWhere(['like', 'area', $this->area])
-            ->andFilterWhere(['like', 'encargado', $this->encargado])
+            // ->andFilterWhere(['like', 'area', $this->area])
+            // ->andFilterWhere(['like', 'encargado', $this->encargado])
             ->andFilterWhere(['like', 'pdf_doc_adjunta', $this->pdf_doc_adjunta])
             ->andFilterWhere(['like', 'pdf_nota', $this->pdf_nota])
             ->andFilterWhere(['like', 'pdf_gestor', $this->pdf_gestor])
             ->andFilterWhere(['like', 'pdf_domicilio', $this->pdf_domicilio])
-            ->andFilterWhere(['like', 'beneficiarios.documento', $this->id_persona]);
+            ->andFilterWhere(['like', 'beneficiarios.documento', $this->id_beneficiario]);
 
     $query->orFilterWhere(['like', 'beneficiarios.documento', $this->globalSearch]);
 

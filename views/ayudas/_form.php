@@ -94,7 +94,7 @@ use app\models\Estados;
                       </div>
                       <div class="col-xs-12 col-sm-6">
                         <div class="form-group has-success">
-                        <?= $form->field($model, 'encargado')->textInput(['maxlength' => true]) ?> 
+                        <?= $form->field($model, 'id_referente')->textInput(['maxlength' => true]) ?> 
                         </div>
                       </div>
                     </div>
