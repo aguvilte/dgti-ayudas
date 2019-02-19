@@ -21,11 +21,13 @@ class Ayudas extends \yii\db\ActiveRecord
         return [
             [['id_estado', 'id_beneficiario','id_tipo','id_area','id_referente','entrega_dni', 'entrega_cuil'], 'integer'],
             [['fecha_entrada', 'id_beneficiario', 'id_tipo', 'monto','id_estado'], 'required'],
-             [['fecha_nota', 'fecha_entrada', 'fecha_pago'], 'safe'],
+            [['fecha_nota', 'fecha_entrada', 'fecha_pago'], 'safe'],
             [['monto'], 'string', 'max' => 45],
             [['asunto'], 'string', 'max' => 100],
             [['file','file1','file2','file3'],'file'],
             [['id_beneficiario'], 'exist', 'skipOnError' => true, 'targetClass' => Beneficiarios::className(), 'targetAttribute' => ['id_beneficiario' => 'id_beneficiario']],
+            [['id_area'], 'exist', 'skipOnError' => true, 'targetClass' => Areas::className(), 'targetAttribute' => ['id_area' => 'id_area']],
+            [['id_referente'], 'exist', 'skipOnError' => true, 'targetClass' => Referentes::className(), 'targetAttribute' => ['id_referente' => 'id_referente']],
             [['doc_adjunta', 'pdf_doc_adjunta', 'pdf_nota', 'pdf_gestor', 'pdf_domicilio'], 'string', 'max' => 255],
         ];
     }
@@ -57,5 +59,15 @@ class Ayudas extends \yii\db\ActiveRecord
     public function getIdBeneficiarios()
     {
         return $this->hasOne(Beneficiarios::className(), ['id_beneficiario' => 'id_beneficiario']);
+    }
+
+    public function getAreas()
+    {
+        return $this->hasOne(Areas::className(), ['id_area' => 'id_area']);
+    }
+
+    public function getReferentes()
+    {
+        return $this->hasOne(Referentes::className(), ['id_referente' => 'id_referente']);
     }
 }

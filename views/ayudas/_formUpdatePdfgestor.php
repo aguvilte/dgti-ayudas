@@ -4,10 +4,6 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
 use dosamigos\datepicker\DatePicker;
-
-/* @var $this yii\web\View */
-/* @var $model app\models\Beneficio */
-/* @var $form yii\widgets\ActiveForm */
 ?>
 
 <div class="beneficio-form">
