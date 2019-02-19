@@ -20,7 +20,7 @@ class AyudasSearch extends Ayudas
     public function rules()
     {
         return [
-            [['id_tipo', 'id_ayuda', 'id_estado', 'entrega_dni', 'entrega_cuil', 'id_beneficiario', 'id_area', 'id_referente'], 'integer'],
+            [['id_tipo', 'id_ayuda', 'id_estado', 'id_beneficiario', 'id_area', 'id_referente'], 'integer'],
             [['asunto', 'monto', 'fecha_nota', 'fecha_entrada', 'fecha_pago', 'doc_adjunta', 'pdf_doc_adjunta', 'pdf_nota', 'pdf_gestor', 'pdf_domicilio', 'globalSearch'], 'safe'],
             [['id_beneficiario'], 'number'],
         ];
