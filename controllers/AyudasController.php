@@ -122,11 +122,11 @@ class AyudasController extends Controller
         $fecha = Date('Y-m-d');
         $model->fecha_entrada=$fecha;
 
-        $model->id_persona=$id;
+        $model->id_beneficiario=$id;
         $model->id_estado=1; //estado iniciado
 
         //$NombrePdf = $model->nro_decreto;
-        $NombrePdf = str_replace("/","-", $model->id_persona.'-'.$model->fecha_entrada);
+        $NombrePdf = str_replace("/","-", $model->id_beneficiario.'-'.$model->fecha_entrada);
 
               $model->file = UploadedFile::getInstance($model,'file');
               if(!empty($model->file)){
@@ -138,7 +138,7 @@ class AyudasController extends Controller
               }
 
         //$NombrePdf = $model->nro_decreto;
-        $NombrePdf = str_replace("/","-", $model->id_persona.'-'.$model->fecha_entrada);
+        $NombrePdf = str_replace("/","-", $model->id_beneficiario.'-'.$model->fecha_entrada);
 
               $model->file1 = UploadedFile::getInstance($model,'file1');
               if(!empty($model->file1)){
@@ -150,7 +150,7 @@ class AyudasController extends Controller
               }
 
         //$NombrePdf = $model->nro_decreto;
-        $NombrePdf = str_replace("/","-", $model->id_persona.'-'.$model->fecha_entrada);
+        $NombrePdf = str_replace("/","-", $model->id_beneficiario.'-'.$model->fecha_entrada);
 
               $model->file2 = UploadedFile::getInstance($model,'file2');
               if(!empty($model->file2)){
@@ -162,7 +162,7 @@ class AyudasController extends Controller
               }
 
         //$NombrePdf = $model->nro_decreto;
-        $NombrePdf = str_replace("/","-", $model->id_persona.'-'.$model->fecha_entrada);
+        $NombrePdf = str_replace("/","-", $model->id_beneficiario.'-'.$model->fecha_entrada);
 
               $model->file3 = UploadedFile::getInstance($model,'file3');
               if(!empty($model->file3)){
@@ -256,7 +256,7 @@ class AyudasController extends Controller
                   ->where(['id_ayuda'=>$id])
                   ->one();
       $persona = Beneficiarios::find()
-                ->where(['id_persona'=>$ayuda->id_persona])
+                ->where(['id_beneficiario'=>$ayuda->id_beneficiario])
                 ->one();
 
       return $this->render('pdf_ayuda', [

@@ -98,7 +98,7 @@ class PagoController extends Controller
 
           if($model->fecha_pago!= NULL) {
 
-              $model->id_estado=3;
+              $model->id_estado=6;
               $model->save();
 
               RegistroMovimientos::registrarMovimiento(3, 'PAGO', $model->id_ayuda);
@@ -158,7 +158,7 @@ class PagoController extends Controller
                   ->where(['id_ayuda'=>$id])
                   ->one();
       $persona = Beneficiarios::find()
-                ->where(['id_persona'=>$ayuda->id_persona])
+                ->where(['id_beneficiario'=>$ayuda->id_beneficiario])
                 ->one();
 
       return $this->render('pdf_ayuda', [
