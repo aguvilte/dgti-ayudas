@@ -19,7 +19,7 @@ class Ayudas extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id_estado', 'id_beneficiario','id_tipo','id_area','id_referente','entrega_dni', 'entrega_cuil'], 'integer'],
+            [['id_estado', 'id_beneficiario','id_tipo','id_area','id_referente'], 'integer'],
             [['fecha_entrada', 'id_beneficiario', 'id_tipo', 'monto','id_estado'], 'required'],
             [['fecha_nota', 'fecha_entrada', 'fecha_pago'], 'safe'],
             [['monto'], 'string', 'max' => 45],
@@ -38,8 +38,6 @@ class Ayudas extends \yii\db\ActiveRecord
             'id_ayuda' => 'Id Ayuda',
             'id_tipo' => 'Tipo de ayuda',
             'id_estado' => 'Estado del trámite',
-            'entrega_dni' => 'Entrega de DNI',
-            'entrega_cuil' => 'Entrega de CUIL',
             'asunto' => 'Asunto',
             'monto' => 'Monto',
             'fecha_nota' => 'Fecha de nota',
