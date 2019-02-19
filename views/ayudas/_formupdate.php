@@ -23,12 +23,6 @@ use app\models\Estados;
                         <?php $var1 = \yii\helpers\ArrayHelper::map(TiposAyudas::find()->where(['estado'=>1])->all(), 'id_tipo', 'nombre');?>
                         <?= $form->field($model, 'id_tipo')->dropDownList($var1, ['prompt' => 'Seleccione Tipo de Ayuda']);?>
                     </div>
-                    <div class="form-group has-success">
-                        <?= $form->field($model, 'entrega_dni') ->checkbox(['uncheck' => '1', 'value' => '2']); ?>
-                    </div>
-                    <div class="form-group has-success">
-                        <?= $form->field($model, 'entrega_cuil') ->checkbox(['uncheck' => '1', 'value' => '2']); ?>
-                    </div>
                 </div>
                 <div class="col-xs-12 col-sm-6">
                     <div class="form-group has-success">
@@ -87,12 +81,42 @@ use app\models\Estados;
             <div class="row">
                 <div class="col-xs-12 col-sm-6">
                     <div class="form-group has-success">
-                        <?= $form->field($model, 'area')->textInput(['maxlength' => true]) ?>  
+                        <!-- <?= $form->field($model, 'id_area')->textInput(['maxlength' => true]) ?>   -->
+                        <?=
+                        $form
+                            ->field(
+                                $model,
+                                'id_area'
+                            )
+                            ->dropDownList(
+                                ArrayHelper::map(Areas::find()->orderBy(['nombre' => SORT_ASC])->all(), 'id_area', 'nombre'),
+                                [
+                                    'prompt' => '',
+                                    // 'style' => 'max-width: 400px',
+                                ]
+                            )
+                            ->label('Área', ['class'=>'label-class'])
+                        ?>
                     </div>
                 </div>
                 <div class="col-xs-12 col-sm-6">
                     <div class="form-group has-success">
-                        <?= $form->field($model, 'encargado')->textInput(['maxlength' => true]) ?> 
+                        <!-- <?= $form->field($model, 'id_referente')->textInput(['maxlength' => true]) ?>  -->
+                        <?=
+                        $form
+                            ->field(
+                                $model,
+                                'id_referente'
+                            )
+                            ->dropDownList(
+                                ArrayHelper::map(Referentes::find()->orderBy(['apeynom' => SORT_ASC])->all(), 'id_referente', 'apeynom'),
+                                [
+                                    'prompt' => '',
+                                    // 'style' => 'max-width: 400px',
+                                ]
+                            )
+                            ->label('Referente', ['class'=>'label-class'])
+                        ?>
                     </div>
                 </div>
             </div>
