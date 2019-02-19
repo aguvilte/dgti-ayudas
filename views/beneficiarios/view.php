@@ -39,8 +39,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 'label' => 'Archivo PDF de DNI',
                 'format' => 'raw',
                 'value' => function ($model) {
-                    if (!empty($model->ruta_pdf))
-                        return Html::a('<span class="glyphicon glyphicon-eye-open"></span>', $model->file, [ 'title' => Yii::t('app', 'Ver PDF'),'target'=>'_blank','class' => 'btn btn-success btn-xs']) .' '. Html::a('<span class="glyphicon glyphicon-arrow-up"></span>', ['updatepdfdni', 'id' => $model->id_beneficiario ],['title' => Yii::t('app', 'Actualizar PDF'),'class' => 'btn btn-warning btn-xs']);
+                    if (!empty($model->pdf_dni))
+                        return Html::a('<span class="glyphicon glyphicon-eye-open"></span>', $model->pdf_dni, [ 'title' => Yii::t('app', 'Ver PDF'),'target'=>'_blank','class' => 'btn btn-success btn-xs']) .' '. Html::a('<span class="glyphicon glyphicon-arrow-up"></span>', ['updatepdfdni', 'id' => $model->id_beneficiario ],['title' => Yii::t('app', 'Actualizar PDF'),'class' => 'btn btn-warning btn-xs']);
                     else
                         return Html::a('<span class="glyphicon glyphicon-arrow-up"></span>', ['updatepdfdni', 'id' => $model->id_beneficiario ],['title' => Yii::t('app', 'Subir PDF'),'class' => 'btn btn-success btn-xs']);
                 },
@@ -51,8 +51,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 'label' => 'Archivo PDF de CUIL',
                 'format' => 'raw',
                 'value' => function ($model) {
-                    if (!empty($model->ruta_pdf))
-                        return Html::a('<span class="glyphicon glyphicon-eye-open"></span>', $model->file, [ 'title' => Yii::t('app', 'Ver PDF'),'target'=>'_blank','class' => 'btn btn-success btn-xs']) .' '. Html::a('<span class="glyphicon glyphicon-arrow-up"></span>', ['updatepdfcuil', 'id' => $model->id_beneficiario ],['title' => Yii::t('app', 'Actualizar PDF'),'class' => 'btn btn-warning btn-xs']);
+                    if (!empty($model->pdf_cuil))
+                        return Html::a('<span class="glyphicon glyphicon-eye-open"></span>', $model->pdf_cuil, [ 'title' => Yii::t('app', 'Ver PDF'),'target'=>'_blank','class' => 'btn btn-success btn-xs']) .' '. Html::a('<span class="glyphicon glyphicon-arrow-up"></span>', ['updatepdfcuil', 'id' => $model->id_beneficiario ],['title' => Yii::t('app', 'Actualizar PDF'),'class' => 'btn btn-warning btn-xs']);
                     else
                         return Html::a('<span class="glyphicon glyphicon-arrow-up"></span>', ['updatepdfcuil', 'id' => $model->id_beneficiario ],['title' => Yii::t('app', 'Subir PDF'),'class' => 'btn btn-success btn-xs']);
                 },
@@ -76,13 +76,13 @@ $this->params['breadcrumbs'][] = $this->title;
                 <?php 
                 if(!empty($model->pdf_dni)) {
                     echo '
-                        <iframe src="/' . $model->pdf_dni.'" style="width:300px; height:300px;" frameborder="0"></iframe>
+                        <iframe src="/' . $model->pdf_dni . '" style="width:300px; height:300px;" frameborder="0"></iframe>
                         <br>
-                        <a href="/'.$model->pdf_dni.'" target="_blank">Ver Documento Completo</a>
+                        <a href="/' . $model->pdf_dni . '" target="_blank">Ver Documento Completo</a>
                     ';
                 }
                 else {
-                    echo '<a class="btn btn-success btn-xs" href="/index.php?r=beneficiarios%2Fupdatepdfdni&id='.$model->id_beneficiario.'" target="_blank" title="Subir PDF"><span class="glyphicon glyphicon-arrow-up"></span></a>';
+                    echo '<a class="btn btn-success btn-xs" href="/index.php?r=beneficiarios%2Fupdatepdfdni&id=' . $model->id_beneficiario . '" target="_blank" title="Subir PDF"><span class="glyphicon glyphicon-arrow-up"></span></a>';
                 }
                 ?>
             </td>
@@ -91,11 +91,13 @@ $this->params['breadcrumbs'][] = $this->title;
             <td>
               <?php if(!empty($model->pdf_cuil))
                 {
-                echo '<iframe src="/'.$model->pdf_cuil.'" style="width:300px; height:300px;" frameborder="0"></iframe>
-                <br>
-                <a href="/'.$model->pdf_cuil.'" target="_blank">Ver Documento Completo</a>';
-                }else {
-                   echo '<a class="btn btn-success btn-xs" href="/index.php?r=beneficiarios%2Fupdatepdfcuil&id='.$model->id_beneficiario.'" target="_blank" title="Subir PDF"><span class="glyphicon glyphicon-arrow-up"></span></a>';
+                echo '
+                    <iframe src="/' . $model->pdf_cuil . '" style="width:300px; height:300px;" frameborder="0"></iframe>
+                    <br>
+                    <a href="/' . $model->pdf_cuil . '" target="_blank">Ver Documento Completo</a>
+                ';
+                } else {
+                   echo '<a class="btn btn-success btn-xs" href="/index.php?r=beneficiarios%2Fupdatepdfcuil&id=' . $model->id_beneficiario . '" target="_blank" title="Subir PDF"><span class="glyphicon glyphicon-arrow-up"></span></a>';
                 }?>
             </td>
         </tr>

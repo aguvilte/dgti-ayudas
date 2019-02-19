@@ -31,12 +31,28 @@ use kartik\file\FileInput;
                 </div>
                 <div class="col-xs-12 col-sm-4">
                     <div class="form-group has-success">
-                        <?= $form->field($model, 'documento')->textInput(['placeholder' => '37895462','maxlength'=>8,'minlength'=>8,'required'=>true]) ?>
+                        <?=
+                        $form
+                            ->field($model, 'documento')
+                            ->textInput([
+                                'placeholder' => '37895462',
+                                'maxlength' => 8,
+                                'minlength' => 8,
+                                'required' => true
+                            ]) ?>
                     </div>
                 </div>
                 <div class="col-xs-12 col-sm-3">
                     <div class="form-group has-success">
-                        <?= $form->field($model, 'cuil')->textInput(['placeholder' => '21-37895462-4','maxlength'=>13,'minlength'=>13,'required'=>false]) ?>
+                        <?=
+                        $form
+                            ->field($model, 'cuil')
+                            ->textInput([
+                                'placeholder' => '21-37895462-4',
+                                'maxlength' => 13,
+                                'minlength' => 13,
+                                'required' => false
+                            ]) ?>
                     </div>
                 </div>
             </div>

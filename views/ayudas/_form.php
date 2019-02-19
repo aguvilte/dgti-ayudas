@@ -89,7 +89,7 @@ use app\models\Estados;
                     <div class="row">
                       <div class="col-xs-12 col-sm-6">
                         <div class="form-group has-success">
-                        <?= $form->field($model, 'area')->textInput(['maxlength' => true]) ?>  
+                        <?= $form->field($model, 'id_area')->textInput(['maxlength' => true]) ?>  
                         </div>
                       </div>
                       <div class="col-xs-12 col-sm-6">

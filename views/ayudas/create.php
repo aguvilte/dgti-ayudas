@@ -9,22 +9,22 @@ use app\models\Ayudas;
 /* @var $model app\models\Ayudas */
 
 $persona = Beneficiarios::find()
-				->where(['id_persona'=>$id])
+				->where(['id_beneficiario'=>$id])
 				->one();
 $this->title = $persona->apeynom.' DNI: '.$persona->documento;			
 $this->params['breadcrumbs'][] = ['label' => 'Personas', 'url' => ['/beneficiarios/index']];
 $this->params['breadcrumbs'][] = 'Crear Ayuda';
 
-$idpersona=$persona->id_persona;
+$idpersona=$persona->id_beneficiario;
 
 $countayudas=Ayudas::find()
-            ->where(['id_persona'=>$idpersona])
+            ->where(['id_beneficiario'=>$idpersona])
             ->count();
 
 
 if($countayudas>0) {
 $ayuda = Ayudas::find()
-    ->where(['id_persona'=>$idpersona])
+    ->where(['id_beneficiario'=>$idpersona])
     ->orderBy(['id_ayuda'=>SORT_DESC])
     ->one();
 
