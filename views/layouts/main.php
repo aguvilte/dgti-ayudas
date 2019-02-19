@@ -29,7 +29,7 @@ AppAsset::register($this);
 		<a class="logo fleft">
 			<img src="/img/logo-lar (1).png" alt="La Rioja - Argentina">
 		</a>
-    <a href="/index.php">
+    <a href="./index.php">
       <h2 class="titulo-principal">Sistema de Registración de Ayudas Económicas</h2>
     </a>
 		<a class="logo fright">
