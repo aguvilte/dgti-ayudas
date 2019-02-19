@@ -123,7 +123,7 @@ class DevolucionesController extends Controller
                     ->where(['id_ayuda'=>$id])
                     ->one();
 
-            $ayuda->id_estado=4;
+            $ayuda->id_estado=3; //estado "inconveniente"
 
             $ayuda->save();
 

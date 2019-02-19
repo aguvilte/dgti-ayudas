@@ -27,7 +27,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'rowOptions' => function($model) {
-            if($model->id_estado == 4) //0 Desactivada
+            if($model->id_estado == 3) //0 inconvenientes
                 return ['class' => 'danger'];
         },
         'columns' => [
@@ -39,9 +39,9 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'id_beneficiario',
                 'value' => function ($model) {
                    if (!empty($model->id_beneficiario)) {
-                        $persona = beneficiarios::findOne($model->id_beneficiario);
-                        if ($persona !== null) {
-                            return $persona->apeynom;
+                        $beneficiario = beneficiarios::findOne($model->id_beneficiario);
+                        if ($beneficiario !== null) {
+                            return $beneficiario->apeynom;
                         }
                     }
                 },
@@ -52,9 +52,9 @@ $this->params['breadcrumbs'][] = $this->title;
                 'value'=>function ($model) {
                    if (!empty($model->id_beneficiario))
                    {
-                      $persona = beneficiarios::findOne($model->id_beneficiario);
-                      if ($persona !== null) {
-                          return $persona->documento;
+                      $beneficiario = beneficiarios::findOne($model->id_beneficiario);
+                      if ($beneficiario !== null) {
+                          return $beneficiario->documento;
                       }
                    }
                 },
@@ -84,6 +84,32 @@ $this->params['breadcrumbs'][] = $this->title;
                    }
                 },
                 'filter'=> ArrayHelper::map(Estados::find()->groupBy('nombre')->all(), 'id_estado', 'nombre'),  
+            ],
+            [
+                'label' => 'Area',
+                'attribute' => 'id_area',
+                'value' => function($model){
+                   if(!empty($model->id_area)){
+                     $area = Areas::findOne($model->id_area);
+                     if ($area !== null) {
+                       return $area->nombre;
+                     }
+                   }
+                },
+                'filter'=> ArrayHelper::map(Areas::find()->groupBy('nombre')->all(), 'id_area', 'nombre'),  
+            ],
+            [
+                'label' => 'Referente',
+                'attribute' => 'id_referente',
+                'value' => function($model){
+                   if(!empty($model->id_referente)){
+                     $referente = Referentes::findOne($model->id_referente);
+                     if ($referente !== null) {
+                       return $referente->apeynom;
+                     }
+                   }
+                },
+                'filter'=> ArrayHelper::map(Referente::find()->groupBy('apeynom')->all(), 'id_referente', 'apeynom'),  
             ],
             //'entrega_dni',
             //'entrega_cuil',
@@ -140,7 +166,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                     },
                           'devolucion' => function ($url, $model)
                                     {
-                                      if($model->id_estado==4){ 
+                                      if($model->id_estado==3){ 
                                        return Html::a('<span class="glyphicon glyphicon-th-list"></span>', ['/devoluciones/view', 'id' => $model->id_ayuda], ['title' => Yii::t('app', 'Ver motivo de devolucion'),'class' => 'btn btn-warning btn-xs']);
                                       }
                                     },

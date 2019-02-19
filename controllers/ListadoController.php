@@ -101,10 +101,10 @@ class ListadoController extends Controller
                     $i++;
 
                     /*BUSCO DATOS DEL Beneficiario*/
-                    $idpersona=$ayuda->id_persona;
+                    $idbeneficiario=$ayuda->id_beneficiario;
 
-                    $persona = Beneficiarios::find()
-                                ->where(['id_persona'=>$idpersona])
+                    $beneficiario = Beneficiarios::find()
+                                ->where(['id_beneficiario'=>$idbeneficiario])
                                 ->one();
 
 
@@ -126,8 +126,8 @@ class ListadoController extends Controller
                     echo '
                         <tr>
                             <td>'.$i.'</td>
-                            <td>'.$persona['apeynom'].'</td>
-                            <td>'.$persona['documento'].'</td>
+                            <td>'.$beneficiario['apeynom'].'</td>
+                            <td>'.$beneficiario['documento'].'</td>
                             <td>'.$tipoayuda.'</td>
                             <td>'.$estado.'</td>
                             <td>'.$ayuda['monto'].'</td>
@@ -173,10 +173,10 @@ class ListadoController extends Controller
                     $i++;
 
                     /*BUSCO DATOS DEL Beneficiario*/
-                    $idpersona=$ayuda->id_persona;
+                    $idbeneficiario=$ayuda->id_beneficiario;
 
-                    $persona = Beneficiarios::find()
-                                ->where(['id_persona'=>$idpersona])
+                    $beneficiario = Beneficiarios::find()
+                                ->where(['id_beneficiario'=>$idbeneficiario])
                                 ->one();
 
 
@@ -198,8 +198,8 @@ class ListadoController extends Controller
                     echo '
                         <tr>
                             <td>'.$i.'</td>
-                            <td>'.$persona['apeynom'].'</td>
-                            <td>'.$persona['documento'].'</td>
+                            <td>'.$beneficiario['apeynom'].'</td>
+                            <td>'.$beneficiario['documento'].'</td>
                             <td>'.$tipoayuda.'</td>
                             <td>'.$estado.'</td>
                             <td>'.$ayuda['monto'].'</td>
@@ -245,10 +245,10 @@ class ListadoController extends Controller
                     $i++;
 
                     /*BUSCO DATOS DEL Beneficiario*/
-                    $idpersona=$ayuda->id_persona;
+                    $idbeneficiario=$ayuda->id_beneficiario;
 
-                    $persona = Beneficiarios::find()
-                                ->where(['id_persona'=>$idpersona])
+                    $beneficiario = Beneficiarios::find()
+                                ->where(['id_beneficiario'=>$idbeneficiario])
                                 ->one();
 
 
@@ -270,8 +270,8 @@ class ListadoController extends Controller
                     echo '
                         <tr>
                             <td>'.$i.'</td>
-                            <td>'.$persona['apeynom'].'</td>
-                            <td>'.$persona['documento'].'</td>
+                            <td>'.$beneficiario['apeynom'].'</td>
+                            <td>'.$beneficiario['documento'].'</td>
                             <td>'.$tipoayuda.'</td>
                             <td>'.$estado.'</td>
                             <td>'.$ayuda['monto'].'</td>
@@ -322,10 +322,10 @@ class ListadoController extends Controller
                     $i++;
                     
                     /*BUSCO DATOS DEL Beneficiario*/
-                    $idpersona=$ayuda->id_persona;
+                    $idbeneficiario=$ayuda->id_beneficiario;
 
-                    $persona = Beneficiarios::find()
-                                ->where(['id_persona'=>$idpersona])
+                    $beneficiario = Beneficiarios::find()
+                                ->where(['id_beneficiario'=>$idbeneficiario])
                                 ->one();
 
 
@@ -347,8 +347,8 @@ class ListadoController extends Controller
                     echo '
                         <tr>
                             <td>'.$i.'</td>
-                            <td>'.$persona['apeynom'].'</td>
-                            <td>'.$persona['documento'].'</td>
+                            <td>'.$beneficiario['apeynom'].'</td>
+                            <td>'.$beneficiario['documento'].'</td>
                             <td>'.$tipoayuda.'</td>
                             <td>'.$estado.'</td>
                             <td>'.$ayuda['monto'].'</td>
@@ -396,10 +396,10 @@ class ListadoController extends Controller
                     $i++;
 
                     /*BUSCO DATOS DEL Beneficiario*/
-                    $idpersona=$ayuda->id_persona;
+                    $idbeneficiario=$ayuda->id_beneficiario;
 
-                    $persona = Beneficiarios::find()
-                                ->where(['id_persona'=>$idpersona])
+                    $beneficiario = Beneficiarios::find()
+                                ->where(['id_beneficiario'=>$idbeneficiario])
                                 ->one();
 
 
@@ -421,8 +421,8 @@ class ListadoController extends Controller
                     echo '
                         <tr>
                             <td>'.$i.'</td>
-                            <td>'.$persona['apeynom'].'</td>
-                            <td>'.$persona['documento'].'</td>
+                            <td>'.$beneficiario['apeynom'].'</td>
+                            <td>'.$beneficiario['documento'].'</td>
                             <td>'.$tipoayuda.'</td>
                             <td>'.$estado.'</td>
                             <td>'.$ayuda['monto'].'</td>
