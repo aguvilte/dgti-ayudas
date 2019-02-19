@@ -6,6 +6,9 @@ use yii\helpers\ArrayHelper;
 use dosamigos\datepicker\DatePicker;
 use app\models\TiposAyudas;
 use app\models\Estados;
+use app\models\Referentes;
+use app\models\Areas;
+
 ?>
 
 <div class="ayudas-form">
