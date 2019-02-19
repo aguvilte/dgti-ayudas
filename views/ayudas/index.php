@@ -6,6 +6,9 @@ use app\models\Beneficiarios;
 use app\models\TiposAyudas;
 use yii\helpers\ArrayHelper;
 use app\models\Estados;
+use app\models\Referentes;
+use app\models\Areas;
+
 
 
 /* @var $this yii\web\View */
@@ -18,7 +21,6 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="ayudas-index">
 
     <h2 class="titulo-area"><?= Html::encode($this->title) ?></h2>
-    <button class="btn btn-danger" id="btn-pdf">Generar pdf</button>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
     
@@ -109,7 +111,7 @@ $this->params['breadcrumbs'][] = $this->title;
                      }
                    }
                 },
-                'filter'=> ArrayHelper::map(Referente::find()->groupBy('apeynom')->all(), 'id_referente', 'apeynom'),  
+                'filter'=> ArrayHelper::map(Referentes::find()->groupBy('apeynom')->all(), 'id_referente', 'apeynom'),  
             ],
             //'entrega_dni',
             //'entrega_cuil',
@@ -117,7 +119,7 @@ $this->params['breadcrumbs'][] = $this->title;
              'monto',
             // 'fecha_nota',
             // 'doc_adjunta',
-             'area',
+             //'area',
              [
                 'attribute' => 'fecha_pago',
                 'format' => ['date', 'php:d-m-Y']
@@ -147,7 +149,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                      },
                           'update' => function ($url, $model)
                                     {
-                                      if($model->id_estado==1 or $model->id_estado==4){ 
+                                      if($model->id_estado==1 or $model->id_estado==3){ 
                                        return Html::a('<span class="glyphicon glyphicon-pencil"></span>', $url, [ 'title' => Yii::t('app', 'Editar'),'class' => 'btn btn-primary btn-xs', ]);
                                       }
                                     },
@@ -180,7 +182,7 @@ $this->params['breadcrumbs'][] = $this->title;
 </div>
 
 <script>
-      btnPDF = document.getElementById('btn-pdf');
+   /*  btnPDF = document.getElementById('btn-pdf');
           inputCodigo = document.getElementsByClassName('form-control')[1];
           inputCodigo2 = document.getElementsByClassName('form-control')[2];
           inputCodigo3 = document.getElementsByClassName('form-control')[3];
@@ -208,5 +210,5 @@ $this->params['breadcrumbs'][] = $this->title;
     inputCodigo0.parentNode.removeChild(inputCodigo0);
     inputCodigo6.parentNode.removeChild(inputCodigo6);
     inputCodigo7.parentNode.removeChild(inputCodigo7);
-    inputCodigo8.parentNode.removeChild(inputCodigo8);
+    inputCodigo8.parentNode.removeChild(inputCodigo8); */
 </script>
