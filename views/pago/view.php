@@ -25,11 +25,19 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <?php if($model->id_estado==2) {?>
     <p>
-      <a class="btn btn-info" href="?r=pago%2Fpago&id=<?php echo $id; ?>" title="Realizar pago" aria-label="Pago">
-        <span class="glyphicon glyphicon-usd"></span> Pagar
+      <a class="btn btn-info" href="?r=pago%2Fautorizar&id=<?php echo $id; ?>" title="Autorizar Pago" aria-label="Autorizar">
+        <span class="glyphicon glyphicon-usd"></span> Autorizar
       </a>
       <a class="btn btn-danger" href="?r=devoluciones%2Fcreate&id=<?php echo $id; ?>" title="Regresar ayuda al área que realizó el envío" aria-label="Exportar">
         <span class="glyphicon glyphicon-thumbs-down"></span> Regresar
+      </a>
+    </p>
+    <?php }?>
+
+<?php if($model->id_estado==5) {?>
+    <p>
+      <a class="btn btn-info" href="?r=pago%2Fpago&id=<?php echo $id; ?>" title="Realizar pago" aria-label="Pago">
+        <span class="glyphicon glyphicon-usd"></span> Pagar
       </a>
     </p>
     <?php }?>

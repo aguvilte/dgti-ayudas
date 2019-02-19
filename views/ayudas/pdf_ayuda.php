@@ -3,7 +3,8 @@ use app\models\TiposAyudas;
 use app\models\Beneficiarios;
 use app\models\Ayudas;
 use app\models\Estados;
-
+use app\models\Areas;
+use app\models\Referentes;
 
 
 $arrayMeses = array('Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
@@ -14,25 +15,22 @@ $arrayDias = array( 'Domingo', 'Lunes', 'Martes',
 
 ini_set('date.timezone','America/Argentina/La_Rioja');
 $hora = date("g:i A");
-  if (!empty($ayuda->entrega_dni))
-     {
-      $entrega_dni=$ayuda->entrega_dni;
-       if($entrega_dni == '1') {
-            $entrega_dni = 'Sin entregar'; // or return false;
-        } else if($entrega_dni == '2') {
-            $entrega_dni = 'Entregado'; // or return false;
-        }
-     }
 
-  if (!empty($ayuda->entrega_cuil))
-       {
-        $entrega_cuil=$ayuda->entrega_cuil;
-         if($entrega_cuil == '1') {
-              $entrega_cuil = 'Sin entregar'; // or return false;
-          } else if($entrega_cuil == '2') {
-              $entrega_cuil = 'Entregado'; // or return false;
-          }
-       }
+  
+  if (!empty($beneficiario->pdf_dni))
+     {
+            $pdf_dni = 'SI'; // or return false;
+        } else {
+            $pdf_dni = 'NO'; // or return false;
+        }
+
+    if (!empty($beneficiario->pdf_cuil))
+     {
+            $pdf_cuil = 'SI'; // or return false;
+        } else {
+            $pdf_cuil = 'NO'; // or return false;
+        }
+
 
   //DEFINIENDO TIPO DE AYUDA
   if (!empty($ayuda->id_tipo))
@@ -50,6 +48,22 @@ $hora = date("g:i A");
         $estado = Estados::findOne($ayuda->id_estado)->nombre;
      }else{
         $estado = '';
+     }
+  }
+  if (!empty($ayuda->id_area))
+  {
+     if ((Areas::findOne($ayuda->id_area)) !== null) {
+        $area = Areas::findOne($ayuda->id_area)->nombre;
+     }else{
+        $area = '';
+     }
+  }
+  if (!empty($ayuda->id_referente))
+  {
+     if ((Referentes::findOne($ayuda->id_referente)) !== null) {
+        $referente = Referentes::findOne($ayuda->id_referente)->apeynom;
+     }else{
+        $referente = '';
      }
   }
 
@@ -101,11 +115,11 @@ $mpdf->WriteHTML($html);
         </TR>
         <tr>
           <td>Apellido y Nombre</td>
-          <td>'.$persona->apeynom.'</td>
+          <td>'.$beneficiario->apeynom.'</td>
         </tr>
         <tr>
           <td>Documento</td>
-          <td>'.$persona->documento.'</td>
+          <td>'.$beneficiario->documento.'</td>
         </tr>
           <TR>
            <td COLSPAN="2"><h2 style="text-align: center;color:#0078CF;">Ayuda Económica</h2></td>
@@ -150,11 +164,11 @@ $mpdf->WriteHTML($html);
           </TR>
           <tr>
             <td>Área</td>
-            <td>'.$ayuda->area.'</td>
+            <td>'.$area.'</td>
           </tr>
           <tr>
             <td>Encargado del Área</td>
-            <td>'.$ayuda->encargado.'</td>
+            <td>'.$referente.'</td>
           </tr>
           <br>
           <TR>
@@ -162,11 +176,11 @@ $mpdf->WriteHTML($html);
           </TR>
           <tr>
             <td>DNI</td>
-            <td>'.$entrega_dni.'</td>
+            <td>'.$pdf_dni.'</td>
           </tr>
           <tr>
             <td>CUIL</td>
-            <td>'.$entrega_cuil.'</td>
+            <td>'.$pdf_cuil.'</td>
           </tr>
           <tr>
             <td>Documentacion adjunta</td>

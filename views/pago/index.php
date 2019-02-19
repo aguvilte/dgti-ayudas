@@ -6,6 +6,9 @@ use app\models\Beneficiarios;
 use app\models\TiposAyudas;
 use yii\helpers\ArrayHelper;
 use app\models\Estados;
+use app\models\Referentes;
+use app\models\Areas;
+
 
 
 /* @var $this yii\web\View */
@@ -18,39 +21,42 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="ayudas-index">
 
     <h2 class="titulo-area"><?= Html::encode($this->title) ?></h2>
-   <button class="btn btn-danger" id="btn-pdf">Generar pdf</button>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+    
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
+        'rowOptions' => function($model) {
+            if($model->id_estado == 3) //0 inconvenientes
+                return ['class' => 'danger'];
+        },
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
             //'id_ayuda',
             [
                 'label' => 'Apellido y Nombre',
-                'attribute'=>'id_persona',
-                'value'=>function ($model) {
-                   if (!empty($model->id_persona))
-                   {
-                      $persona = beneficiarios::findOne($model->id_persona);
-                      if ($persona !== null) {
-                          return $persona->apeynom;
-                      }
-                   }
+                'attribute' => 'id_beneficiario',
+                'value' => function ($model) {
+                   if (!empty($model->id_beneficiario)) {
+                        $beneficiario = beneficiarios::findOne($model->id_beneficiario);
+                        if ($beneficiario !== null) {
+                            return $beneficiario->apeynom;
+                        }
+                    }
                 },
               ],
               [
                 'label' => 'Documento',
-                'attribute'=>'id_persona',
+                'attribute'=>'id_beneficiario',
                 'value'=>function ($model) {
-                   if (!empty($model->id_persona))
+                   if (!empty($model->id_beneficiario))
                    {
-                      $persona = beneficiarios::findOne($model->id_persona);
-                      if ($persona !== null) {
-                          return $persona->documento;
+                      $beneficiario = beneficiarios::findOne($model->id_beneficiario);
+                      if ($beneficiario !== null) {
+                          return $beneficiario->documento;
                       }
                    }
                 },
@@ -81,13 +87,39 @@ $this->params['breadcrumbs'][] = $this->title;
                 },
                 'filter'=> ArrayHelper::map(Estados::find()->groupBy('nombre')->all(), 'id_estado', 'nombre'),  
             ],
+            [
+                'label' => 'Area',
+                'attribute' => 'id_area',
+                'value' => function($model){
+                   if(!empty($model->id_area)){
+                     $area = Areas::findOne($model->id_area);
+                     if ($area !== null) {
+                       return $area->nombre;
+                     }
+                   }
+                },
+                'filter'=> ArrayHelper::map(Areas::find()->groupBy('nombre')->all(), 'id_area', 'nombre'),  
+            ],
+            [
+                'label' => 'Referente',
+                'attribute' => 'id_referente',
+                'value' => function($model){
+                   if(!empty($model->id_referente)){
+                     $referente = Referentes::findOne($model->id_referente);
+                     if ($referente !== null) {
+                       return $referente->apeynom;
+                     }
+                   }
+                },
+                'filter'=> ArrayHelper::map(Referentes::find()->groupBy('apeynom')->all(), 'id_referente', 'apeynom'),  
+            ],
             //'entrega_dni',
             //'entrega_cuil',
             // 'asunto',
              'monto',
             // 'fecha_nota',
             // 'doc_adjunta',
-             'area',
+             //'area',
              [
                 'attribute' => 'fecha_pago',
                 'format' => ['date', 'php:d-m-Y']
@@ -100,36 +132,22 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'fecha_nota',
                 'format' => ['date', 'php:d-m-Y']
             ],
-            // 'encargado',
-            // 'pdf_doc_adjunta',
-            // 'pdf_nota',
-            // 'pdf_gestor',
-            // 'pdf_domicilio',
-            // 'id_persona',
-
             [
              'class' => 'yii\grid\ActionColumn',
-             'template' => '{view} {pagar} {regresar}',
+             'template' => '{view} {observaciones} ',
              'buttons' => [
                            'view' => function ($url, $model)
                                     {
-                                       if($model->id_estado != 1 and $model->id_estado != 4)
+                                       if($model->id_estado != 1 and $model->id_estado != 3)
                                        return Html::a('<span class="glyphicon glyphicon-eye-open"></span>', $url, [ 'title' => Yii::t('app', 'Ver'),'class' => 'btn btn-success btn-xs', ]);
                                      },
-                            'pagar' => function ($url, $model)
+                            'observaciones' => function ($url, $model)
                                    {
-                                    if($model->id_estado == 2)  //estado en proceso
+                                    if($model->id_estado == 2 or $model->id_estado == 3)  //estado en proceso
                                         {
                                            return Html::a('<span class="glyphicon glyphicon-usd"></span>', ['pago', 'id' => $model->id_ayuda], ['title' => Yii::t('app', 'Pagar'),'class' => 'btn btn-info btn-xs']);
                                         }
                                    },
-                            'regresar' => function ($url, $model)
-                                   {
-                                    if($model->id_estado == 2)  //estado en proceso
-                                        {
-                                           return Html::a('<span class="glyphicon glyphicon-thumbs-down"></span>', ['/devoluciones/create', 'id' => $model->id_ayuda], [ 'title' => Yii::t('app', 'Regresar'),'class' => 'btn btn-danger btn-xs']);
-                                        }
-                                      },
                           ],
             'options' => ['class' => 'tbl-col-btn-ben'],
             ],
@@ -139,7 +157,7 @@ $this->params['breadcrumbs'][] = $this->title;
 </div>
 
 <script>
-      btnPDF = document.getElementById('btn-pdf');
+   /*   btnPDF = document.getElementById('btn-pdf');
           inputCodigo = document.getElementsByClassName('form-control')[1];
           inputCodigo2 = document.getElementsByClassName('form-control')[2];
           inputCodigo3 = document.getElementsByClassName('form-control')[3];
@@ -167,5 +185,5 @@ $this->params['breadcrumbs'][] = $this->title;
     inputCodigo0.parentNode.removeChild(inputCodigo0);
     inputCodigo6.parentNode.removeChild(inputCodigo6);
     inputCodigo7.parentNode.removeChild(inputCodigo7);
-    inputCodigo8.parentNode.removeChild(inputCodigo8);
+    inputCodigo8.parentNode.removeChild(inputCodigo8); */
 </script>

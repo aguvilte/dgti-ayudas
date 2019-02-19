@@ -157,13 +157,13 @@ class PagoController extends Controller
       $ayuda = Ayudas::find()
                   ->where(['id_ayuda'=>$id])
                   ->one();
-      $persona = Beneficiarios::find()
+      $beneficiario = Beneficiarios::find()
                 ->where(['id_beneficiario'=>$ayuda->id_beneficiario])
                 ->one();
 
       return $this->render('pdf_ayuda', [
                 'ayuda' => $ayuda,
-                'persona'=>$persona,
+                'beneficiario'=>$beneficiario,
           ]);
 
     }

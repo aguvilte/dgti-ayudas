@@ -5,6 +5,10 @@ use yii\widgets\DetailView;
 use app\models\Beneficiarios;
 use app\models\TiposAyudas;
 use app\models\Estados;
+use app\models\Areas;
+use app\models\Referentes;
+
+
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Ayudas */
@@ -147,8 +151,32 @@ $this->params['breadcrumbs'][] = $this->title;
                 'format' => ['date', 'php:d-m-Y']
             ],
             'doc_adjunta',
-            'area',
-            'encargado',
+            [
+                'label' => 'Area',
+                'attribute'=>'id_area',
+                'value'=>function ($model) {
+                   if (!empty($model->id_area))
+                   {
+                      $area = Areas::findOne($model->id_area);
+                      if ($area !== null) {
+                          return $area->nombre;
+                      }
+                   }
+                },
+              ],
+                        [
+                'label' => 'Referente',
+                'attribute'=>'id_referente',
+                'value'=>function ($model) {
+                   if (!empty($model->id_referente))
+                   {
+                      $referente = Referentes::findOne($model->id_referente);
+                      if ($referente !== null) {
+                          return $referente->apeynom;
+                      }
+                   }
+                },
+              ],
         ],
     ]) ?>
 
