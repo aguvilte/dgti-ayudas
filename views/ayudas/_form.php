@@ -25,12 +25,6 @@ use app\models\Referentes;
                         <?php $var1 = \yii\helpers\ArrayHelper::map(TiposAyudas::find()->where(['estado'=>1])->all(), 'id_tipo', 'nombre');?>
                         <?= $form->field($model, 'id_tipo')->dropDownList($var1, ['prompt' => 'Seleccione Tipo de Ayuda']);?>
                     </div>
-                    <div class="form-group has-success">
-                        <?= $form->field($model, 'entrega_dni') ->checkbox(['uncheck' => '1', 'value' => '2']); ?>
-                    </div>
-                    <div class="form-group has-success">
-                        <?= $form->field($model, 'entrega_cuil') ->checkbox(['uncheck' => '1', 'value' => '2']); ?>
-                    </div>
                 </div>
                 <div class="col-xs-12 col-sm-6">
                     <div class="form-group has-success">
