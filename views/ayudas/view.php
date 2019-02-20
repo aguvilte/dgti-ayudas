@@ -32,17 +32,24 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a('Eliminar', ['delete', 'id' => $model->id_ayuda], [
             'class' => 'btn btn-danger',
             'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
+                'confirm' => 'Esta seguro de eliminar esta ayuda económica?',
                 'method' => 'post',
             ],
         ]) ?>
       <?php } ?>
-<?php if($model->id_estado==1 or $model->id_estado==3) {?>
-        <?= Html::a('Actualizar', ['update', 'id' => $model->id_ayuda], ['class' => 'btn btn-primary']) ?>
-    <?= Html::a('Enviar al área de pago', ['enviar', 'id' => $model->id_ayuda], [
-            'class' => 'btn btn-danger',
-            'data' => [
+    <?php if($model->id_estado==1 or $model->id_estado==3) {?>
+            <?= Html::a('Actualizar', ['update', 'id' => $model->id_ayuda], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Enviar al área de pago', ['enviar', 'id' => $model->id_ayuda], [
+                'class' => 'btn btn-danger',
+                'data' => [
                 'confirm' => 'Está seguro de enviar esta ayuda al área de pago? Considere que no podrá realizar modificaciones futuras a dicha ayuda',
+                'method' => 'post',
+            ],
+        ]) ?>
+        <?= Html::a('Cancelar', ['cancelar', 'id' => $model->id_ayuda], [
+                'class' => 'btn btn-danger',
+                'data' => [
+                'confirm' => 'Está seguro de cancelar la ayuda económica? Considere que no podrá seguir operando con dicha ayuda',
                 'method' => 'post',
             ],
         ]) ?>
@@ -55,26 +62,26 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             [
                 'label' => 'Apellido y Nombre',
-                'attribute'=>'id_persona',
+                'attribute'=>'id_beneficiario',
                 'value'=>function ($model) {
-                   if (!empty($model->id_persona))
+                   if (!empty($model->id_beneficiario))
                    {
-                      $persona = Beneficiarios::findOne($model->id_persona);
-                      if ($persona !== null) {
-                          return $persona->apeynom;
+                      $beneficiario = Beneficiarios::findOne($model->id_beneficiario);
+                      if ($beneficiario !== null) {
+                          return $beneficiario->apeynom;
                       }
                    }
                 },
               ],
               [
                 'label' => 'Documento',
-                'attribute'=>'id_persona',
+                'attribute'=>'id_beneficiario',
                 'value'=>function ($model) {
-                   if (!empty($model->id_persona))
+                   if (!empty($model->id_beneficiario))
                    {
-                      $persona = Beneficiarios::findOne($model->id_persona);
-                      if ($persona !== null) {
-                          return $persona->documento;
+                      $beneficiario = Beneficiarios::findOne($model->id_beneficiario);
+                      if ($beneficiario !== null) {
+                          return $beneficiario->documento;
                       }
                    }
                 },
@@ -108,33 +115,31 @@ $this->params['breadcrumbs'][] = $this->title;
               ],
             [
                 'label' => 'Entrega DNI',
-                'attribute'=>'entrega_dni',
+                'attribute'=>'id_beneficiario',
                 'value'=>function ($model) {
-                   if (!empty($model->entrega_dni))
-                   {
-                    $entrega_dni=$model->entrega_dni;
-                     if($entrega_dni == '1') {
-                         return $entrega_dni = 'Sin entregar'; // or return false;
-                      } else if($entrega_dni == '2') {
-                         return $entrega_dni = 'Entregado'; // or return false;
-                      }
-                   }
-                },
+
+                  $beneficiario = Beneficiarios::findOne($model->id_beneficiario);
+                  if (!empty($beneficiario->pdf_dni))
+                       {
+                                return $pdf_dni = 'SI'; // or return false;
+                            } else {
+                               return $pdf_dni = 'NO'; // or return false;
+                            }
+                   },
               ],
             [
                 'label' => 'Entrega CUIL',
-                'attribute'=>'entrega_cuil',
+                'attribute'=>'id_beneficiario',
                 'value'=>function ($model) {
-                   if (!empty($model->entrega_cuil))
-                   {
-                    $entrega_cuil=$model->entrega_cuil;
-                     if($entrega_cuil == '1') {
-                         return $entrega_cuil = 'Sin entregar'; // or return false;
-                      } else if($entrega_cuil == '2') {
-                         return $entrega_cuil = 'Entregado'; // or return false;
-                      }
-                   }
-                },
+
+                  $beneficiario = Beneficiarios::findOne($model->id_beneficiario);
+                  if (!empty($beneficiario->pdf_cuil))
+                       {
+                               return $pdf_cuil = 'SI'; // or return false;
+                            } else {
+                               return $pdf_cuil = 'NO'; // or return false;
+                            }
+                   },
               ],
             'asunto',
             'monto',
@@ -180,7 +185,7 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ]) ?>
 
-  <?php if($model->id_estado==1 or $model->id_estado==4){ ?>
+  <?php if($model->id_estado==1 or $model->id_estado==3){ ?>
 
 
     <table class="table table-striped table-bordered detail-view">

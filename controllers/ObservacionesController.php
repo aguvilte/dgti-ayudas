@@ -8,6 +8,13 @@ use app\models\ObservacionesSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use app\models\Ayudas;
+use app\models\TiposAyudas;
+use app\models\Areas;
+use app\models\Referentes;
+use app\components\RegistroMovimientos;
+
+
 
 /**
  * ObservacionesController implements the CRUD actions for Observaciones model.
@@ -51,8 +58,19 @@ class ObservacionesController extends Controller
      */
     public function actionView($id)
     {
+
+        $Observaciones = Observaciones::find()
+                    ->where(['id_ayuda'=>$id])
+                    ->OrderBy(['id_observacion'=> SORT_DESC])
+                    ->all();
+
+        $model = Ayudas::find()
+                    ->where(['id_ayuda'=>$id])
+                    ->one();
+
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'Observaciones' => $Observaciones,
+            'model' => $model,
         ]);
     }
 
@@ -61,12 +79,40 @@ class ObservacionesController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
+    public function actionCreate($id)
     {
-        $model = new Observaciones();
+         $model = new Observaciones();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id_observacion]);
+        if ($model->load(Yii::$app->request->post())) {
+
+            date_default_timezone_set('America/Argentina/Buenos_Aires');
+            $fecha = Date('Y-m-d');
+            $model->fecha_observacion=$fecha;
+            $model->id_ayuda=$id;
+
+            if (!Yii::$app->user->isGuest)
+              {
+               $usuario_activo=Yii::$app->user->identity->id;
+              }
+              $model->id_usuario=$usuario_activo;
+
+            $model->save();
+
+            RegistroMovimientos::registrarMovimiento(3, 'OBSERVACION', $model->id_ayuda);
+
+            $Observaciones = Observaciones::find()
+                    ->where(['id_ayuda'=>$id])
+                    ->OrderBy(['id_observacion'=> SORT_DESC])
+                    ->all();
+
+             $model = Ayudas::find()
+                    ->where(['id_ayuda'=>$id])
+                    ->one();
+
+            return $this->render('view', [
+            'Observaciones' => $Observaciones,
+            'model' => $model,
+        ]);
         } else {
             return $this->render('create', [
                 'model' => $model,

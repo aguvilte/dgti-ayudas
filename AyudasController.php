@@ -103,7 +103,7 @@ class AyudasController extends Controller
       return $this->render('mensaje_exito');
     }
 
-    public function actionCancelar($id)
+     public function actionCancelar($id)
     {
 
       $ayuda = Ayudas::find()
@@ -189,6 +189,8 @@ class AyudasController extends Controller
                 /*Le asignamos en la db la ruta donde esta el pdf*/ 
                 $model->pdf_domicilio = 'uploads/Pdf-DOMICILIO/'.$NombrePdf.'.'.$model->file3->extension;
               }
+
+
 
              $model->save();
 
@@ -495,17 +497,6 @@ class AyudasController extends Controller
                 'model' => $model,
             ]);
         }
-    }
-
-    public function actionFilters()
-    {
-        $searchModel = new AyudasSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
-        return $this->render('filters', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
     }
 
     /**

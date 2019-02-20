@@ -8,6 +8,8 @@ use yii\helpers\ArrayHelper;
 use app\models\Estados;
 use app\models\Referentes;
 use app\models\Areas;
+use app\models\Observaciones;
+
 
 
 
@@ -138,14 +140,20 @@ $this->params['breadcrumbs'][] = $this->title;
              'buttons' => [
                            'view' => function ($url, $model)
                                     {
-                                       if($model->id_estado != 1 and $model->id_estado != 3)
+                                       if($model->id_estado != 1)
                                        return Html::a('<span class="glyphicon glyphicon-eye-open"></span>', $url, [ 'title' => Yii::t('app', 'Ver'),'class' => 'btn btn-success btn-xs', ]);
                                      },
                             'observaciones' => function ($url, $model)
                                    {
-                                    if($model->id_estado == 2 or $model->id_estado == 3)  //estado en proceso
+                                    $observaciones= Observaciones::find()
+                                                  ->where(['id_ayuda'=>$model->id_ayuda])
+                                                  ->all();
+                                    if(!empty($observaciones))  //estado en proceso
                                         {
-                                           return Html::a('<span class="glyphicon glyphicon-usd"></span>', ['pago', 'id' => $model->id_ayuda], ['title' => Yii::t('app', 'Pagar'),'class' => 'btn btn-info btn-xs']);
+                                           return Html::a('<span class="glyphicon glyphicon-tags"></span>', ['/observaciones/view', 'id' => $model->id_ayuda], ['title' => Yii::t('app', 'Observaciones'),'class' => 'btn btn-info btn-xs']);
+                                        } else if($model->id_estado == 2 or $model->id_estado == 3)  //estado en proceso
+                                        {
+                                           return Html::a('<span class="glyphicon glyphicon-tags"></span>', ['/observaciones/view', 'id' => $model->id_ayuda], ['title' => Yii::t('app', 'Observaciones'),'class' => 'btn btn-info btn-xs']);
                                         }
                                    },
                           ],

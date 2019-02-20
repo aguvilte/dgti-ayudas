@@ -125,7 +125,7 @@ class DevolucionesController extends Controller
 
             $ayuda->id_estado=3; //estado "inconveniente"
 
-            $ayuda->save();
+            $ayuda->save(false);
 
             RegistroMovimientos::registrarMovimiento(3, 'DEVOLUCION', $ayuda->id_ayuda);
             return $this->redirect(['mensaje_exito']);

@@ -50,26 +50,26 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             [
                 'label' => 'Apellido y Nombre',
-                'attribute'=>'id_persona',
+                'attribute'=>'id_beneficiario',
                 'value'=>function ($model) {
-                   if (!empty($model->id_persona))
+                   if (!empty($model->id_beneficiario))
                    {
-                      $persona = beneficiarios::findOne($model->id_persona);
-                      if ($persona !== null) {
-                          return $persona->apeynom;
+                      $beneficiario = Beneficiarios::findOne($model->id_beneficiario);
+                      if ($beneficiario !== null) {
+                          return $beneficiario->apeynom;
                       }
                    }
                 },
               ],
               [
                 'label' => 'Documento',
-                'attribute'=>'id_persona',
+                'attribute'=>'id_beneficiario',
                 'value'=>function ($model) {
-                   if (!empty($model->id_persona))
+                   if (!empty($model->id_beneficiario))
                    {
-                      $persona = Beneficiarios::findOne($model->id_persona);
-                      if ($persona !== null) {
-                          return $persona->documento;
+                      $beneficiario = Beneficiarios::findOne($model->id_beneficiario);
+                      if ($beneficiario !== null) {
+                          return $beneficiario->documento;
                       }
                    }
                 },
@@ -103,33 +103,31 @@ $this->params['breadcrumbs'][] = $this->title;
               ],
             [
                 'label' => 'Entrega DNI',
-                'attribute'=>'entrega_dni',
+                'attribute'=>'id_beneficiario',
                 'value'=>function ($model) {
-                   if (!empty($model->entrega_dni))
-                   {
-                    $entrega_dni=$model->entrega_dni;
-                     if($entrega_dni == '1') {
-                         return $entrega_dni = 'Sin entregar'; // or return false;
-                      } else if($entrega_dni == '2') {
-                         return $entrega_dni = 'Entregado'; // or return false;
-                      }
-                   }
-                },
+
+                  $beneficiario = Beneficiarios::findOne($model->id_beneficiario);
+                  if (!empty($beneficiario->pdf_dni))
+                       {
+                                return $pdf_dni = 'SI'; // or return false;
+                            } else {
+                               return $pdf_dni = 'NO'; // or return false;
+                            }
+                   },
               ],
             [
                 'label' => 'Entrega CUIL',
-                'attribute'=>'entrega_cuil',
+                'attribute'=>'id_beneficiario',
                 'value'=>function ($model) {
-                   if (!empty($model->entrega_cuil))
-                   {
-                    $entrega_cuil=$model->entrega_cuil;
-                     if($entrega_cuil == '1') {
-                         return $entrega_cuil = 'Sin entregar'; // or return false;
-                      } else if($entrega_cuil == '2') {
-                         return $entrega_cuil = 'Entregado'; // or return false;
-                      }
-                   }
-                },
+
+                  $beneficiario = Beneficiarios::findOne($model->id_beneficiario);
+                  if (!empty($beneficiario->pdf_cuil))
+                       {
+                               return $pdf_cuil = 'SI'; // or return false;
+                            } else {
+                               return $pdf_cuil = 'NO'; // or return false;
+                            }
+                   },
               ],
             'asunto',
             'monto',
