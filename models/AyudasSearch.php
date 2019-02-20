@@ -6,6 +6,7 @@ use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use app\models\Ayudas;
+use app\models\Beneficiarios;
 
 /**
  * AyudasSearch represents the model behind the search form about `app\models\Ayudas`.
@@ -53,9 +54,6 @@ class AyudasSearch extends Ayudas
             return $dataProvider;
         }
 
-        $query->joinWith('idBeneficiarios');
-
-        // grid filtering conditions
         $query->andFilterWhere([
             'id_ayuda' => $this->id_ayuda,
             //'entrega_dni' => $this->entrega_dni,
@@ -63,25 +61,24 @@ class AyudasSearch extends Ayudas
             //'id_beneficiario' => $this->id_beneficiario,
             'id_tipo' => $this->id_tipo,
             'id_estado' => $this->id_estado,
-            //'beneficiarios.documento' => $this->id_beneficiario,
+            // 'id_beneficiario' => $consultaBeneficiario->id_beneficiario,
+            // 'beneficiarios.documento' => $this->id_beneficiario,
 
         ]);
 
+        // BUSCA EL DNI DEL USUARIO QUE SE INGRESO EN LA TABLA beneficiarios PARA OBTENER SU ID
+        $consultaBeneficiario = Beneficiarios::find()->where(['documento' => $this->id_beneficiario])->one();
+        if($consultaBeneficiario)
+            $query->andFilterWhere(['id_beneficiario' => $consultaBeneficiario->id_beneficiario]);
+        
+
         $query->andFilterWhere(['like', 'asunto', $this->asunto])
             ->andFilterWhere(['like', 'monto', $this->monto])
-            //->andFilterWhere(['like', 'fecha_nota', $this->fecha_nota])
-            //->andFilterWhere(['like', 'fecha_entrada', $this->fecha_entrada])
-            //->andFilterWhere(['like', 'fecha_pago', $this->fecha_pago])
             ->andFilterWhere(['like', 'doc_adjunta', $this->doc_adjunta])
-            // ->andFilterWhere(['like', 'area', $this->area])
-            // ->andFilterWhere(['like', 'encargado', $this->encargado])
             ->andFilterWhere(['like', 'pdf_doc_adjunta', $this->pdf_doc_adjunta])
             ->andFilterWhere(['like', 'pdf_nota', $this->pdf_nota])
             ->andFilterWhere(['like', 'pdf_gestor', $this->pdf_gestor])
-            ->andFilterWhere(['like', 'pdf_domicilio', $this->pdf_domicilio])
-            ->andFilterWhere(['like', 'beneficiarios.documento', $this->id_beneficiario]);
-
-    $query->orFilterWhere(['like', 'beneficiarios.documento', $this->globalSearch]);
+            ->andFilterWhere(['like', 'pdf_domicilio', $this->pdf_domicilio]);
 
     if (!is_null($this->fecha_entrada) && 
         strpos($this->fecha_entrada, ' - ') !== false ) {

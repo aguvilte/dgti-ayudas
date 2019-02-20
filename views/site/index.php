@@ -38,7 +38,7 @@ $this->title = 'SRAE - Sistema de Registración de Ayudas Económicas';
                     echo '
                     <article class="grid col-one-quarter mq3-col-full">
                      <div class="ipanel_icon ">';
-                      echo Html::a(Html::img('@web/img/ico_consulta.png') . Yii::t('app','AYUDAS'), ['/ayudas/index']);
+                      echo Html::a(Html::img('@web/img/ico_consulta.png') . Yii::t('app','AYUDAS'), ['/ayudas/filters']);
                     echo '
                      </div>
                     </article>';

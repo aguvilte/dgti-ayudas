@@ -484,6 +484,17 @@ class AyudasController extends Controller
         }
     }
 
+    public function actionFilters()
+    {
+        $searchModel = new AyudasSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        return $this->render('filters', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
     /**
      * Finds the Ayudas model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
