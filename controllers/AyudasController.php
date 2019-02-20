@@ -94,8 +94,10 @@ class AyudasController extends Controller
             ->where(['id_ayuda'=>$id])
             ->one();
 
-      $ayuda->id_estado=2; //estado en proceso, lo que permite mostrarse en la otra seccion y evita que se realicen modificaciones o eliminacion de la ayuda
-        $ayuda->save();
+      Ayudas::updateAllCounters(['id_estado' => 1]);
+      //$ayuda->id_estado=2; //estado en proceso, lo que permite mostrarse en la otra seccion y evita que se realicen modificaciones o eliminacion de la ayuda
+      //$ayuda->update();
+      //$ayuda->save();
 
       RegistroMovimientos::registrarMovimiento(2, 'ENVIO', $ayuda->id_ayuda);
 

@@ -85,7 +85,7 @@ $this->params['breadcrumbs'][] = $this->title;
                      }
                    }
                 },
-                'filter'=> ArrayHelper::map(Estados::find()->groupBy('nombre')->all(), 'id_estado', 'nombre'),  
+                'filter'=> ArrayHelper::map(Estados::find()->groupBy('nombre')->OrderBy(['id_estado' =>SORT_ASC])->all(), 'id_estado', 'nombre'),  
             ],
             [
                 'label' => 'Area',

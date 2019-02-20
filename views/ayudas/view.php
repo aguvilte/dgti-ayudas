@@ -37,7 +37,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ]) ?>
       <?php } ?>
-<?php if($model->id_estado==1 or $model->id_estado==4) {?>
+<?php if($model->id_estado==1 or $model->id_estado==3) {?>
         <?= Html::a('Actualizar', ['update', 'id' => $model->id_ayuda], ['class' => 'btn btn-primary']) ?>
     <?= Html::a('Enviar al área de pago', ['enviar', 'id' => $model->id_ayuda], [
             'class' => 'btn btn-danger',
