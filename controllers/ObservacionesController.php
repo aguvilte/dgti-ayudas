@@ -109,10 +109,7 @@ class ObservacionesController extends Controller
                     ->where(['id_ayuda'=>$id])
                     ->one();
 
-            return $this->render('view', [
-            'Observaciones' => $Observaciones,
-            'model' => $model,
-        ]);
+            return $this->redirect(['view', 'id' => $model->id_ayuda]);
         } else {
             return $this->render('create', [
                 'model' => $model,
