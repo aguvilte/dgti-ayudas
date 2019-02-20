@@ -508,6 +508,106 @@ class AyudasController extends Controller
         ]);
     }
 
+    public function actionListado()
+    {
+        $searchModel  = new AyudasSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider->pagination  = false;
+        $content = $this->renderPartial(
+            'listado',
+            [
+                'dataProvider' => $dataProvider,
+                'searchModel'  => $searchModel
+            ]
+        );
+            
+        $pdf = new Pdf([
+            'format' => Pdf::FORMAT_A4, 
+            'orientation' => Pdf::ORIENT_PORTRAIT, 
+            'destination' => Pdf::DEST_BROWSER, 
+            'content' => $content,  
+            'cssFile' => '@vendor/kartik-v/yii2-mpdf/assets/kv-mpdf-bootstrap.min.css',
+            'cssInline' => '.kv-heading-1{font-size:18px}', 
+            'options' => ['title' => 'Krajee Report Title'],
+            'methods' => [ 
+                'SetFooter'=>['{PAGENO}'],
+            ]
+        ]);
+        
+        return $pdf->render(); 
+    }
+
+    public function actionExcel() {
+
+        // $searchModel  = new AyudasSearch();
+        // $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        $ayudas = Ayudas::find()
+            ->orderBy(['id_ayuda'=>SORT_DESC])   
+            ->all();
+
+        $filename = 'ayudas-'.Date('YmdGis').'.xls';
+        header("Content-type: application/vnd-ms-excel");
+        header("Content-Disposition: attachment; filename=".$filename);
+        echo '
+            <table border="1" width="100%">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Apellido y nombre</th>
+                        <th>Documento</th>
+                        <th>Tipo de ayuda</th>
+                        <th>Estado</th>
+                        <th>Monto</th>
+                        <th>Área</th>
+                        <th>Fecha de pago</th>
+                        <th>Fecha de eEntrada</th>
+                        <th>Fecha de nota</th>
+                    </tr>
+                </thead>
+        ';
+
+        $i=0;
+        foreach($ayudas as $ayuda){
+            $i++;
+
+            /*BUSCO DATOS DEL Beneficiario*/
+            $idbeneficiario = $ayuda->id_beneficiario;
+
+            $beneficiario = Beneficiarios::find()
+                ->where(['id_beneficiario' => $idbeneficiario])
+                ->one();
+
+            $tipoayuda = TiposAyudas::findOne($ayuda->id_tipo);
+            if ($tipoayuda !== null)
+                $tipoayuda = $tipoayuda->nombre;
+            else
+                $tipoayuda = '';
+
+            $estado = Estados::findOne($ayuda->id_estado);
+            if ($estado !== null)
+                $estado = $estado->nombre;
+            else
+                $estado = '';
+
+            echo '
+                <tr>
+                    <td>' . $i . '</td>
+                    <td>' . $beneficiario['apeynom'] . '</td>
+                    <td>' . $beneficiario['documento'] . '</td>
+                    <td>' . $tipoayuda . '</td>
+                    <td>' . $estado . '</td>
+                    <td>' . $ayuda['monto'] . '</td>
+                    <td>' . $ayuda['area'] . '</td>
+                    <td>' . $ayuda['fecha_pago'] . '</td>
+                    <td>' . $ayuda['fecha_entrada'] . '</td>
+                    <td>' . $ayuda['fecha_nota'] . '</td>
+                </tr>
+            ';
+        }
+        echo '</table>';
+    }
+
     /**
      * Finds the Ayudas model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.

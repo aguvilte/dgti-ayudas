@@ -19,6 +19,13 @@ $this->title = 'Consulta General';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="ayudas-index">
+    <p>
+        <?= Html::a('Realizar nueva búsqueda', ['filters'], ['class' => 'btn btn-primary']) ?>
+        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal" id="btn-pdf">
+            Generar PDF
+        </button>
+        <?= Html::a('Generar Excel', ['excel'], ['class' => 'btn btn-success']) ?>
+    </p>
 
     <h2 class="titulo-area"><?= Html::encode($this->title) ?></h2>
 
@@ -179,8 +186,31 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
         'options' => ['class' => 'tbl-completa'],
     ]); ?>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel"><b>Generar listado</b></h5>
+            </div>
+            <div class="modal-body">
+                
+                <div class="form-group">
+                    <label for="nombreListado">Nombre del listado</label>
+                    <input type="text" class="form-control" id="input-nombre-listado">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                <!-- <button type="button" class="btn btn-success" id="btn-pdf">Generar</button> -->
+            </div>
+            </div>
+        </div>
+    </div>
 </div>
 
+<script src='js/ayudas/index.js'></script>
 <script>
    /*  btnPDF = document.getElementById('btn-pdf');
           inputCodigo = document.getElementsByClassName('form-control')[1];
