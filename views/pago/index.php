@@ -150,9 +150,8 @@ $this->params['breadcrumbs'][] = $this->title;
                                                   ->all();
                                     if(!empty($observaciones))  //estado en proceso
                                         {
-                                           return Html::a('<span class="glyphicon glyphicon-tags"></span>', ['/observaciones/view', 'id' => $model->id_ayuda], ['title' => Yii::t('app', 'Observaciones'),'class' => 'btn btn-info btn-xs']);
-                                        } else if($model->id_estado == 2 or $model->id_estado == 3)  //estado en proceso
-                                        {
+                                           return Html::a('<span class="glyphicon glyphicon-tags"></span>', ['/observaciones/view', 'id' => $model->id_ayuda], ['title' => Yii::t('app', 'Observaciones'),'class' => 'btn btn-warning btn-xs']);
+                                        } else {
                                            return Html::a('<span class="glyphicon glyphicon-tags"></span>', ['/observaciones/view', 'id' => $model->id_ayuda], ['title' => Yii::t('app', 'Observaciones'),'class' => 'btn btn-info btn-xs']);
                                         }
                                    },
