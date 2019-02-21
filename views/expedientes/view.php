@@ -38,12 +38,27 @@ $this->params['breadcrumbs'][] = $this->title;
                    {
                         $expediente = Expedientes::findOne($model->id_expediente);
                         if ($expediente !== null) {
-                            return '$' . $expediente->monto_total;
+                            return '$' .  number_format($expediente->monto_total, 2, ',', '.');
                         }
                    }
                 },
-              ],
-            'estado',
+            ],
+            [
+                'label' => 'Estado',
+                'attribute' => 'estado',
+                'value' => function ($model) {
+                   if (!empty($model->id_expediente))
+                   {
+                        $expediente = Expedientes::findOne($model->id_expediente);
+                        if ($expediente->estado == 1) {
+                            return 'Activo';
+                        }
+                        else {
+                            return 'Inactivo';
+                        }
+                   }
+                },
+            ],
             [
                 'attribute' => 'fecha_alta',
                 'format' => ['date', 'php:d/m/Y']

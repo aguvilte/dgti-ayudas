@@ -63,7 +63,7 @@ $this->params['breadcrumbs'][] = $this->title;
                    {
                       $beneficiario = beneficiarios::findOne($model->id_beneficiario);
                       if ($beneficiario !== null) {
-                          return $beneficiario->documento;
+                          return number_format($beneficiario->documento, 0, ',', '.');
                       }
                    }
                 },
@@ -120,10 +120,19 @@ $this->params['breadcrumbs'][] = $this->title;
                 },
                 'filter'=> ArrayHelper::map(Referentes::find()->groupBy('apeynom')->all(), 'id_referente', 'apeynom'),  
             ],
+            [
+                'label' => 'Monto',
+                'attribute' => 'monto',
+                'value' => function($model){
+                    if(!empty($model->id_referente)){
+                        return number_format($model->monto, 2, ',', '.');
+                    }
+                },
+            ],
             //'entrega_dni',
             //'entrega_cuil',
             // 'asunto',
-             'monto',
+            //  'monto',
             // 'fecha_nota',
             // 'doc_adjunta',
              //'area',

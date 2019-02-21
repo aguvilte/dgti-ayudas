@@ -81,7 +81,7 @@ $this->params['breadcrumbs'][] = $this->title;
                    {
                       $beneficiario = Beneficiarios::findOne($model->id_beneficiario);
                       if ($beneficiario !== null) {
-                          return $beneficiario->documento;
+                          return number_format($beneficiario->documento, 0, ',', '.');
                       }
                    }
                 },
@@ -142,18 +142,26 @@ $this->params['breadcrumbs'][] = $this->title;
                    },
               ],
             'asunto',
-            'monto',
+            [
+                'label' => 'Monto',
+                'attribute' => 'monto',
+                'value' => function($model){
+                    if(!empty($model->id_referente)){
+                        return '$' . number_format($model->monto, 2, ',', '.');
+                    }
+                },
+            ],
             [
                 'attribute' => 'fecha_nota',
-                'format' => ['date', 'php:d-m-Y']
+                'format' => ['date', 'php:d/m/Y']
             ],
             [
                 'attribute' => 'fecha_entrada',
-                'format' => ['date', 'php:d-m-Y']
+                'format' => ['date', 'php:d/m/Y']
             ],
             [
                 'attribute' => 'fecha_pago',
-                'format' => ['date', 'php:d-m-Y']
+                'format' => ['date', 'php:d/m/Y']
             ],
             'doc_adjunta',
             [
