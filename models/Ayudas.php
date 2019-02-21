@@ -19,12 +19,14 @@ class Ayudas extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id_estado', 'id_beneficiario','id_tipo','id_area','id_referente'], 'integer'],
-            [['fecha_entrada', 'id_beneficiario', 'id_tipo', 'monto','id_estado'], 'required'],
+            [['id_estado', 'id_beneficiario', 'id_tipo', 'id_area', 'id_referente'], 'integer'],
+            [['fecha_entrada', 'id_beneficiario', 'id_tipo', 'monto', 'id_estado'], 'required'],
             [['fecha_nota', 'fecha_entrada', 'fecha_pago'], 'safe'],
             [['monto'], 'string', 'max' => 45],
             [['asunto'], 'string', 'max' => 100],
             [['file','file1','file2','file3'],'file'],
+            [['id_tipo'], 'exist', 'skipOnError' => true, 'targetClass' => TiposAyudas::className(), 'targetAttribute' => ['id_tipo' => 'id_tipo']],
+            [['id_estado'], 'exist', 'skipOnError' => true, 'targetClass' => Estado::className(), 'targetAttribute' => ['id_estado' => 'id_estado']],
             [['id_beneficiario'], 'exist', 'skipOnError' => true, 'targetClass' => Beneficiarios::className(), 'targetAttribute' => ['id_beneficiario' => 'id_beneficiario']],
             [['id_area'], 'exist', 'skipOnError' => true, 'targetClass' => Areas::className(), 'targetAttribute' => ['id_area' => 'id_area']],
             [['id_referente'], 'exist', 'skipOnError' => true, 'targetClass' => Referentes::className(), 'targetAttribute' => ['id_referente' => 'id_referente']],
@@ -52,6 +54,16 @@ class Ayudas extends \yii\db\ActiveRecord
             'file3' => 'PDF de domicilio',
             'id_beneficiario' => 'Id Persona',
         ];
+    }
+
+    public function getEstados()
+    {
+        return $this->hasOne(Estados::className(), ['id_estado' => 'id_estado']);
+    }
+
+    public function getTiposAyudas()
+    {
+        return $this->hasOne(TiposAyudas::className(), ['id_tipo' => 'id_tipo']);
     }
 
     public function getIdBeneficiarios()

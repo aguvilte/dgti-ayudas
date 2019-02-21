@@ -34,7 +34,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
+        // 'filterModel' => $searchModel,
         'rowOptions' => function($model) {
             if($model->id_estado == 3) //0 inconvenientes
                 return ['class' => 'danger'];
@@ -56,7 +56,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 },
               ],
               [
-                'label' => 'Documento',
+                'label' => 'DNI',
                 'attribute'=>'id_beneficiario',
                 'value'=>function ($model) {
                    if (!empty($model->id_beneficiario))
@@ -69,13 +69,13 @@ $this->params['breadcrumbs'][] = $this->title;
                 },
               ],
             [
-                'label' => 'Tipo de Ayuda',
+                'label' => 'Tipo de ayuda',
                 'attribute' => 'id_tipo',
                 'value' => function($model){
                    if(!empty($model->id_tipo)){
-                     $Tipo = TiposAyudas::findOne($model->id_tipo);
-                     if ($Tipo !== null) {
-                       return $Tipo->nombre;
+                     $tipo = TiposAyudas::findOne($model->id_tipo);
+                     if ($tipo !== null) {
+                       return $tipo->nombre;
                      }
                    }
                 },
@@ -95,7 +95,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'filter'=> ArrayHelper::map(Estados::find()->groupBy('nombre')->OrderBy(['id_estado' =>SORT_ASC])->all(), 'id_estado', 'nombre'),  
             ],
             [
-                'label' => 'Area',
+                'label' => 'Área',
                 'attribute' => 'id_area',
                 'value' => function($model){
                    if(!empty($model->id_area)){
@@ -129,15 +129,15 @@ $this->params['breadcrumbs'][] = $this->title;
              //'area',
              [
                 'attribute' => 'fecha_pago',
-                'format' => ['date', 'php:d-m-Y']
+                'format' => ['date', 'php:d/m/Y']
             ],
              [
                 'attribute' => 'fecha_entrada',
-                'format' => ['date', 'php:d-m-Y']
+                'format' => ['date', 'php:d/m/Y']
             ],
             [
                 'attribute' => 'fecha_nota',
-                'format' => ['date', 'php:d-m-Y']
+                'format' => ['date', 'php:d/m/Y']
             ],
             // 'encargado',
             // 'pdf_doc_adjunta',

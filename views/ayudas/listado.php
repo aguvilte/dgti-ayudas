@@ -24,25 +24,25 @@ $this->title = 'Listado';
             [
                 'attribute' => 'id_tipo',
                 'label' => 'Tipo',
-                'value' => 'tipo.nombre',
+                'value' => 'tiposAyudas.nombre',
                 'enableSorting' => false
             ],
             [
                 'attribute' => 'id_estado',
                 'label' => 'Estado',
-                'value' => 'estado.nombre',
+                'value' => 'estados.nombre',
                 'enableSorting' => false
             ],
             [
                 'attribute' => 'id_area',
                 'label' => 'Area',
-                'value' => 'area.nombre',
+                'value' => 'areas.nombre',
                 'enableSorting' => false
             ],
             [
                 'attribute' => 'id_referente',
                 'label' => 'Referente',
-                'value' => 'referente.nombre',
+                'value' => 'referentes.apeynom',
                 'enableSorting' => false
             ],
             [
