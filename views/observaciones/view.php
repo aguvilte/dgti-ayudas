@@ -14,7 +14,7 @@ use app\models\Estados;
 /* @var $model app\models\Devoluciones */
 
 $this->title = 'Observaciones';
-$this->params['breadcrumbs'][] = ['label' => 'Ayudas', 'url' => ['/ayudas/index']];
+$this->params['breadcrumbs'][] = ['label' => 'Ayudas', 'url' => ['/pago/index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="devoluciones-view">

@@ -17,6 +17,7 @@ use app\models\TiposAyudas;
 use app\models\Estados;
 use app\models\Areas;
 use app\models\Movimientos;
+use app\models\AyudasExpedientes;
 use app\components\RegistroMovimientos;
 
 class AyudasController extends Controller
@@ -102,6 +103,13 @@ class AyudasController extends Controller
       $ayuda->id_estado=4; //estado en proceso, lo que permite mostrarse en la otra seccion y evita que se realicen modificaciones o eliminacion de la ayuda
       $ayuda->save(false);
 
+      $ayudaExpediente = AyudasExpedientes::find()
+                        ->where(['id_ayuda'=>$id])
+                        ->one();
+       if(!empty($ayudaExpediente)){                 
+                $ayudaExpediente->delete();
+            }
+            
       RegistroMovimientos::registrarMovimiento(2, 'CANCELADO', $ayuda->id_ayuda);
 
       return $this->render('mensaje_cancelado');
