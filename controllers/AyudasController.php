@@ -59,7 +59,7 @@ class AyudasController extends Controller
     public function actionIndex()
     {
         $searchModel = new AyudasSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);        
 
         return $this->render('index', [
             'searchModel' => $searchModel,
