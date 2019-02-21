@@ -22,7 +22,7 @@ class AyudasSearch extends Ayudas
     {
         return [
             [['id_tipo', 'id_ayuda', 'id_estado', 'id_beneficiario', 'id_area', 'id_referente'], 'integer'],
-            [['asunto', 'monto', 'fecha_nota', 'fecha_entrada', 'fecha_pago', 'doc_adjunta', 'pdf_doc_adjunta', 'pdf_nota', 'pdf_gestor', 'pdf_domicilio', 'globalSearch'], 'safe'],
+            [['asunto', 'monto', 'fecha_nota', 'fecha_entrada', 'fecha_pago', 'doc_adjunta', 'pdf_doc_adjunta', 'pdf_nota', 'pdf_gestor', 'pdf_domicilio', 'globalSearch', 'horario_carga'], 'safe'],
             [['id_beneficiario'], 'number'],
         ];
     }
@@ -41,8 +41,11 @@ class AyudasSearch extends Ayudas
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            // 'sort'=>[
+            //     'defaultOrder'=>['id_ayuda'=> SORT_DESC],
+            // ],
             'sort'=>[
-                'defaultOrder'=>['id_ayuda'=> SORT_DESC],
+                'defaultOrder'=>['horario_carga'=> SORT_DESC],
             ],
         ]);
 

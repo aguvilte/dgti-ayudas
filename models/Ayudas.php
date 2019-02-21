@@ -21,7 +21,7 @@ class Ayudas extends \yii\db\ActiveRecord
         return [
             [['id_estado', 'id_beneficiario', 'id_tipo', 'id_area', 'id_referente'], 'integer'],
             [['fecha_entrada', 'id_beneficiario', 'id_tipo', 'monto', 'id_estado'], 'required'],
-            [['fecha_nota', 'fecha_entrada', 'fecha_pago'], 'safe'],
+            [['fecha_nota', 'fecha_entrada', 'fecha_pago', 'horario_carga'], 'safe'],
             [['monto'], 'string', 'max' => 45],
             [['asunto'], 'string', 'max' => 100],
             [['file','file1','file2','file3'],'file'],
