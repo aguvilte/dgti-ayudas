@@ -26,7 +26,7 @@ class Ayudas extends \yii\db\ActiveRecord
             [['asunto'], 'string', 'max' => 100],
             [['file','file1','file2','file3'],'file'],
             [['id_tipo'], 'exist', 'skipOnError' => true, 'targetClass' => TiposAyudas::className(), 'targetAttribute' => ['id_tipo' => 'id_tipo']],
-            [['id_estado'], 'exist', 'skipOnError' => true, 'targetClass' => Estado::className(), 'targetAttribute' => ['id_estado' => 'id_estado']],
+            [['id_estado'], 'exist', 'skipOnError' => true, 'targetClass' => Estados::className(), 'targetAttribute' => ['id_estado' => 'id_estado']],
             [['id_beneficiario'], 'exist', 'skipOnError' => true, 'targetClass' => Beneficiarios::className(), 'targetAttribute' => ['id_beneficiario' => 'id_beneficiario']],
             [['id_area'], 'exist', 'skipOnError' => true, 'targetClass' => Areas::className(), 'targetAttribute' => ['id_area' => 'id_area']],
             [['id_referente'], 'exist', 'skipOnError' => true, 'targetClass' => Referentes::className(), 'targetAttribute' => ['id_referente' => 'id_referente']],

@@ -45,11 +45,11 @@ class Expedientes extends \yii\db\ActiveRecord
     {
         return [
             'id_expediente' => 'Id Expediente',
-            'numero' => 'Numero',
+            'numero' => 'Número',
             'monto_total' => 'Monto Total',
             'estado' => 'Estado',
-            'fecha_alta' => 'Fecha Alta',
-            'fecha_cierre' => 'Fecha Cierre',
+            'fecha_alta' => 'Fecha de alta',
+            'fecha_cierre' => 'Fecha de cierre',
         ];
     }
 }

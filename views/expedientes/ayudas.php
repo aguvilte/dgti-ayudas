@@ -3,16 +3,19 @@
 use yii\helpers\Html;
 
 
-$this->title = 'Crear expediente';
+$this->title = 'Agregar ayuda a expediente';
 $this->params['breadcrumbs'][] = ['label' => 'Expedientes', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="expedientes-create">
+<div class="expedientes-ayudas">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <?= $this->render('_form', [
+    <?= $this->render('_form_ayudas', [
         'model' => $model,
+        'ayuda' => $ayuda,
     ]) ?>
 
 </div>
+
+<script src='js/expedientes/ayudas.js'></script>

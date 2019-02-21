@@ -5,18 +5,14 @@ namespace app\controllers;
 use Yii;
 use app\models\Expedientes;
 use app\models\ExpedientesSearch;
+use app\models\AyudasExpedientes;
+use app\models\Ayudas;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
-/**
- * ExpedientesController implements the CRUD actions for Expedientes model.
- */
 class ExpedientesController extends Controller
 {
-    /**
-     * @inheritdoc
-     */
     public function behaviors()
     {
         return [
@@ -29,10 +25,6 @@ class ExpedientesController extends Controller
         ];
     }
 
-    /**
-     * Lists all Expedientes models.
-     * @return mixed
-     */
     public function actionIndex()
     {
         $searchModel = new ExpedientesSearch();
@@ -44,11 +36,6 @@ class ExpedientesController extends Controller
         ]);
     }
 
-    /**
-     * Displays a single Expedientes model.
-     * @param integer $id
-     * @return mixed
-     */
     public function actionView($id)
     {
         return $this->render('view', [
@@ -56,16 +43,15 @@ class ExpedientesController extends Controller
         ]);
     }
 
-    /**
-     * Creates a new Expedientes model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return mixed
-     */
     public function actionCreate()
     {
         $model = new Expedientes();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post())) {
+            $model->monto_total = 0;
+            $model->estado = 1;
+            $model->fecha_alta = Date('Y-m-d');
+            $model->save();
             return $this->redirect(['view', 'id' => $model->id_expediente]);
         } else {
             return $this->render('create', [
@@ -74,12 +60,6 @@ class ExpedientesController extends Controller
         }
     }
 
-    /**
-     * Updates an existing Expedientes model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
-     * @return mixed
-     */
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
@@ -93,26 +73,42 @@ class ExpedientesController extends Controller
         }
     }
 
-    /**
-     * Deletes an existing Expedientes model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
-     * @return mixed
-     */
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
     }
+    
+    public function actionAyudas($id)
+    {
+        $model = new Expedientes();
+        $ayuda = Ayudas::findOne($id);
 
-    /**
-     * Finds the Expedientes model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param integer $id
-     * @return Expedientes the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
-     */
+        if ($model->load(Yii::$app->request->post())) {
+            $ayudasExpedientesModel = new AyudasExpedientes();
+            $ayudasExpedientesModel->id_ayuda = $id;
+
+            // trae el id_expediente como numero. no sé por qué
+            $idExpediente = $model->numero;
+
+            $ayudasExpedientesModel->id_expediente = $idExpediente;
+            $ayudasExpedientesModel->save();
+
+            $expedienteToActualizar = Expedientes::findOne($idExpediente);
+            $expedienteToActualizar->monto_total = $expedienteToActualizar->monto_total + $ayuda->monto;
+            $expedienteToActualizar->save();
+
+            return $this->redirect(['index']);
+        } else {
+            return $this->render('ayudas', [
+                'model' => $model,
+                'ayuda' => $ayuda,
+            ]);
+        }
+
+    }
+
     protected function findModel($id)
     {
         if (($model = Expedientes::findOne($id)) !== null) {

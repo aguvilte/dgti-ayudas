@@ -147,41 +147,40 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'id_beneficiario',
 
             [
-             'class' => 'yii\grid\ActionColumn',
-             'template' => '{view} {update} {delete} {devolucion}',
-             'buttons' => [
-                           'view' => function ($url, $model)
-                                    {
-                                       return Html::a('<span class="glyphicon glyphicon-eye-open"></span>', $url, [ 'title' => Yii::t('app', 'Ver'),'class' => 'btn btn-success btn-xs', ]);
-                                     },
-                          'update' => function ($url, $model)
-                                    {
-                                      if($model->id_estado==1 or $model->id_estado==3){ 
-                                       return Html::a('<span class="glyphicon glyphicon-pencil"></span>', $url, [ 'title' => Yii::t('app', 'Editar'),'class' => 'btn btn-primary btn-xs', ]);
-                                      }
-                                    },
-                          'delete' => function ($url, $model)
-                                    {
-                                      if($model->id_estado == 1)
-                                        {
-                                         return Html::a('<span class="glyphicon glyphicon-trash"></span>', ['delete', 'id' => $model->id_ayuda], [
-                                               'class' => 'btn btn-danger btn-xs',
-                                               'data' => [
-                                               'confirm' => 'Estás seguro de que quieres eliminar este Registro?',
-                                               'method' => 'post',
-                                             ],
-                                           ]);
-                                        }
-                                    },
-                          'devolucion' => function ($url, $model)
-                                    {
-                                      if($model->id_estado==3){ 
-                                       return Html::a('<span class="glyphicon glyphicon-th-list"></span>', ['/devoluciones/view', 'id' => $model->id_ayuda], ['title' => Yii::t('app', 'Ver motivo de devolucion'),'class' => 'btn btn-warning btn-xs']);
-                                      }
-                                    },
-
-                          ],
-            'options' => ['class' => 'tbl-col-btn-ben'],
+                'class' => 'yii\grid\ActionColumn',
+                'template' => '{view} {update} {delete} {devolucion} {expediente}',
+                'buttons' => [
+                    'view' => function ($url, $model) {
+                        return Html::a('<span class="glyphicon glyphicon-eye-open"></span>', $url, [ 'title' => Yii::t('app', 'Ver'),'class' => 'btn btn-success btn-xs', ]);
+                    },
+                    'update' => function ($url, $model) {
+                        if ($model->id_estado==1 or $model->id_estado==3){ 
+                            return Html::a('<span class="glyphicon glyphicon-pencil"></span>', $url, [ 'title' => Yii::t('app', 'Editar'),'class' => 'btn btn-primary btn-xs', ]);
+                        }
+                    },
+                    'delete' => function ($url, $model) {
+                        if ($model->id_estado == 1) {
+                            return Html::a('<span class="glyphicon glyphicon-trash"></span>', ['delete', 'id' => $model->id_ayuda], [
+                                'class' => 'btn btn-danger btn-xs',
+                                'data' => [
+                                'confirm' => 'Estás seguro de que quieres eliminar este Registro?',
+                                'method' => 'post',
+                                ],
+                            ]);
+                        }
+                    },
+                    'devolucion' => function ($url, $model) {
+                        if ($model->id_estado==3) { 
+                            return Html::a('<span class="glyphicon glyphicon-th-list"></span>', ['/devoluciones/view', 'id' => $model->id_ayuda], ['title' => Yii::t('app', 'Ver motivo de devolucion'),'class' => 'btn btn-warning btn-xs']);
+                        }
+                    },
+                    'expediente' => function ($url, $model) {
+                        
+                        
+                        return Html::a('<span class="glyphicon glyphicon-plus"></span>', ['/expedientes/ayudas', 'id' => $model->id_ayuda], ['title' => Yii::t('app', 'Crear ayuda'),'class' => 'btn btn-warning btn-xs']);
+                    },
+                ],
+                'options' => ['class' => 'tbl-col-btn-ben'],
             ],
         ],
         'options' => ['class' => 'tbl-completa'],

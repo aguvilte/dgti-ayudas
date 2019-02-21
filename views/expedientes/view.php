@@ -2,11 +2,12 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use app\models\Expedientes;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Expedientes */
 
-$this->title = $model->id_expediente;
+$this->title = 'Expediente ' . $model->numero;
 $this->params['breadcrumbs'][] = ['label' => 'Expedientes', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -15,25 +16,42 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Update', ['update', 'id' => $model->id_expediente], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->id_expediente], [
+        <?= Html::a('Modificar', ['update', 'id' => $model->id_expediente], ['class' => 'btn btn-primary']) ?>
+        <!-- <?= Html::a('Eliminar', ['delete', 'id' => $model->id_expediente], [
             'class' => 'btn btn-danger',
             'data' => [
                 'confirm' => 'Are you sure you want to delete this item?',
                 'method' => 'post',
             ],
-        ]) ?>
+        ]) ?> -->
     </p>
 
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'id_expediente',
             'numero',
-            'monto_total',
+            [
+                'label' => 'Monto total',
+                'attribute' => 'monto_total',
+                'value' => function ($model) {
+                   if (!empty($model->id_expediente))
+                   {
+                        $expediente = Expedientes::findOne($model->id_expediente);
+                        if ($expediente !== null) {
+                            return '$' . $expediente->monto_total;
+                        }
+                   }
+                },
+              ],
             'estado',
-            'fecha_alta',
-            'fecha_cierre',
+            [
+                'attribute' => 'fecha_alta',
+                'format' => ['date', 'php:d/m/Y']
+            ],
+            [
+                'attribute' => 'fecha_cierre',
+                'format' => ['date', 'php:d/m/Y']
+            ],
         ],
     ]) ?>
 
