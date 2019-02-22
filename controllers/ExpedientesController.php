@@ -38,8 +38,15 @@ class ExpedientesController extends Controller
 
     public function actionView($id)
     {
+        $modelAyudasExpediente = AyudasExpedientes::find()->where(['id_expediente' => $id]);
+        // $modelAyudasExpedientes = new AyudasExpedientes();
+        // $countAyudasExpediente = $modelAyudasExpediente::find()->where(['id_expediente' => $id])->count();
+        $countAyudasExpediente = $modelAyudasExpediente->count();
+
         return $this->render('view', [
             'model' => $this->findModel($id),
+            'modelAyudasExpediente' => $modelAyudasExpediente,
+            'ayudasEnExpediente' => $countAyudasExpediente, 
         ]);
     }
 

@@ -4,9 +4,6 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 use app\models\Expedientes;
 
-/* @var $this yii\web\View */
-/* @var $model app\models\Expedientes */
-
 $this->title = 'Expediente ' . $model->numero;
 $this->params['breadcrumbs'][] = ['label' => 'Expedientes', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
@@ -69,5 +66,16 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ],
     ]) ?>
+
+    <!-- <div style="width: 40%; padding: 20px; border: 1px solid darkgrey; text-align: center; border-radius: 10px; margin: 20px auto;">
+        <?php
+        // $texto = 'Esta norma modifica/complementa a ' . $asModificador . ' norma/s.';
+        $texto = 'Ayudas en expediente';
+        if($ayudasEnExpediente > 0) {
+        }
+        else
+            echo '<p style="margin: 0;">' . $texto . '</p>';
+        ?>
+    </div> -->
 
 </div>

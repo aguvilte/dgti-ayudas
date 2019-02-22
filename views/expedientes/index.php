@@ -3,10 +3,6 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 
-/* @var $this yii\web\View */
-/* @var $searchModel app\models\ExpedientesSearch */
-/* @var $dataProvider yii\data\ActiveDataProvider */
-
 $this->title = 'Expedientes';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -16,7 +12,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Create Expedientes', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Crear expediente', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -24,11 +20,35 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id_expediente',
+            // 'id_expediente',
             'numero',
-            'monto_total',
-            'estado',
-            'fecha_alta',
+            [
+                'label' => 'Monto total',
+                'attribute' => 'monto_total',
+                'value' => function($model){
+                    // if(!empty($model->id_referente)){
+                        return '$' . number_format($model->monto_total, 2, ',', '.');
+                    // }
+                },
+            ],
+            [
+                'label' => 'Estado',
+                'attribute' => 'id_estado',
+                'value' => function($model) {
+                    if ($model->estado == 1)
+                        return 'Activo';
+                    else
+                        return 'Inactivo';
+                }
+            ],
+            [
+                'attribute' => 'fecha_alta',
+                'format' => ['date', 'php:d/m/Y']
+            ],
+            [
+                'attribute' => 'fecha_cierre',
+                'format' => ['date', 'php:d/m/Y']
+            ],
             // 'fecha_cierre',
 
             ['class' => 'yii\grid\ActionColumn'],

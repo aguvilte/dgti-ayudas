@@ -129,11 +129,11 @@ $this->params['breadcrumbs'][] = $this->title;
                     }
                 },
             ],
-             [
+            [
                 'attribute' => 'fecha_pago',
                 'format' => ['date', 'php:d/m/Y']
             ],
-             [
+            [
                 'attribute' => 'fecha_entrada',
                 'format' => ['date', 'php:d/m/Y']
             ],
