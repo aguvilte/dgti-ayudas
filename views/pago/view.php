@@ -220,6 +220,18 @@ $this->params['breadcrumbs'][] = $this->title;
                 }?>
             </td>
         </tr>
+      <?php if($model->id_estado==6) { ?>
+        <tr><th>Pdf RECIBO</th>
+            <td>
+              <?php if(!empty($model->pdf_recibo))
+                {
+                echo '<iframe src="'.$model->pdf_recibo.'" style="width:300px; height:300px;" frameborder="0"></iframe>
+                <br>
+                <a href="'.$model->pdf_recibo.'" target="_blank">Ver Documento Completo</a>';
+                }?>
+            </td>
+        </tr>
+        <?php } ?>
       </tbody>
     </table>
 

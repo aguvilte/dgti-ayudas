@@ -25,6 +25,11 @@ use app\models\Estados;
             <div class="panel-body">
               <div class="row">
                  
+                <div class="col-xs-12 col-sm-6">
+                    <div class="form-group has-success">
+                        <?= $form->field($model, 'file4')->fileInput(); ?>                        
+                    </div>
+                </div>     
                 <div class="col-xs-12 col-sm-4">
                   <?= $form->field($model, 'fecha_pago')->widget(
                             DatePicker::className(), [
@@ -39,7 +44,7 @@ use app\models\Estados;
                                     'todayHighlight'=> true
                                 ]
                         ]);?>
-                </div>     
+                </div>
               </div>
              </div>
         </div>

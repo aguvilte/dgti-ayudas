@@ -117,12 +117,28 @@ class PagoController extends Controller
 
           if($model->fecha_pago!= NULL) {
 
-              $model->id_estado=6;
-              $model->save();
 
-              RegistroMovimientos::registrarMovimiento(3, 'PAGO', $model->id_ayuda);
+               //$NombrePdf = $model->nro_decreto;
+                $NombrePdf = str_replace("/","-", $model->id_ayuda);
+                $NombrePdf = $model->id_ayuda.'-'.$NombrePdf;
 
-            return $this->redirect(['view', 'id' => $model->id_ayuda]);
+                $model->file4 = UploadedFile::getInstance($model,'file4');
+                if(!empty($model->file4)){
+                    /*Guardamos pdf en carpeta uploads*/ 
+                    $model->file4->saveAs( 'uploads/Pdf-RECIBO/'.$NombrePdf.'.'.$model->file4->extension );
+
+                    /*Le asignamos en la db la ruta donde esta el pdf*/ 
+                    $model->pdf_recibo = 'uploads/Pdf-RECIBO/'.$NombrePdf.'.'.$model->file4->extension;
+                 
+                  $model->id_estado=6;
+                  $model->save(false);
+
+                  RegistroMovimientos::registrarMovimiento(3, 'PAGO', $model->id_ayuda);
+
+                  return $this->redirect(['view', 'id' => $model->id_ayuda]);
+                } else {
+                  throw new NotFoundHttpException('Es requerido que complete el campo de PDF Recibo para realizar la operación.');
+                }
             }else {
               throw new NotFoundHttpException('Es requerido que complete el campo de Fecha de Pago para realizar la operación.');
             }
