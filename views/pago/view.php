@@ -23,12 +23,17 @@ $this->params['breadcrumbs'][] = $this->title;
       <a class="btn btn-pdf" target="_blank" href="?r=pago%2Fpdf_ayuda&id=<?php echo $id; ?>" title="Exportar" aria-label="Exportar">
         <span class="glyphicon glyphicon-stats"></span> Exportar Informe
       </a>
+     <?php if($model->id_estado==5) {?> 
+      <a class="btn btn-pdf" target="_blank" href="?r=pago%2Fpdf_recibo&id=<?php echo $id; ?>" title="Exportar Recibo" aria-label="Exportar Recibo">
+        <span class="glyphicon glyphicon-stats"></span> Exportar Recibo
+      </a>
+      <?php }?>
     </p>
 
 <?php if($model->id_estado==2) {?>
     <p>
-      <a class="btn btn-info" href="?r=pago%2Fautorizar&id=<?php echo $id; ?>" title="Autorizar Pago" aria-label="Autorizar">
-        <span class="glyphicon glyphicon-usd"></span> Autorizar
+      <a class="btn btn-info" href="?r=pago%2Fautorizacion&id=<?php echo $id; ?>" title="Autorizar Pago" aria-label="Autorizar">
+        <span class="glyphicon glyphicon-thumbs-up"></span> Autorizar
       </a>
       <a class="btn btn-danger" href="?r=devoluciones%2Fcreate&id=<?php echo $id; ?>" title="Regresar ayuda al área que realizó el envío" aria-label="Exportar">
         <span class="glyphicon glyphicon-thumbs-down"></span> Regresar

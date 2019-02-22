@@ -89,6 +89,25 @@ class PagoController extends Controller
         ]);
     }
 
+    public function actionAutorizacion($id)
+    {
+
+      $ayuda = Ayudas::find()
+            ->where(['id_ayuda'=>$id])
+            ->one();
+
+      //Ayudas::updateAllCounters(['id_estado' => 1]);
+      $ayuda->id_estado=5; //estado autorizado
+      $ayuda->save(false);
+
+      RegistroMovimientos::registrarMovimiento(3, 'AUTORIZACIÓN', $ayuda->id_ayuda);
+
+      return $this->render('view', [
+            'model' => $this->findModel($id),
+            'id' => $id,
+        ]);
+    }
+
     public function actionPago($id)
     {
         $model = $this->findModel($id);
@@ -162,6 +181,25 @@ class PagoController extends Controller
                 ->one();
 
       return $this->render('pdf_ayuda', [
+                'ayuda' => $ayuda,
+                'beneficiario'=>$beneficiario,
+          ]);
+
+    }
+
+    public function actionPdf_recibo($id)
+    {
+
+      /*BUSCO DATOS DE LA AYUDA*/
+
+      $ayuda = Ayudas::find()
+                  ->where(['id_ayuda'=>$id])
+                  ->one();
+      $beneficiario = Beneficiarios::find()
+                ->where(['id_beneficiario'=>$ayuda->id_beneficiario])
+                ->one();
+
+      return $this->render('pdf_recibo', [
                 'ayuda' => $ayuda,
                 'beneficiario'=>$beneficiario,
           ]);

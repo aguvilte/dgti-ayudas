@@ -100,7 +100,7 @@ class AyudasController extends Controller
             ->one();
 
       //Ayudas::updateAllCounters(['id_estado' => 1]);
-      $ayuda->id_estado=4; //estado en proceso, lo que permite mostrarse en la otra seccion y evita que se realicen modificaciones o eliminacion de la ayuda
+      $ayuda->id_estado=4; //estado cancelado.
       $ayuda->save(false);
 
       $ayudaExpediente = AyudasExpedientes::find()
@@ -109,7 +109,7 @@ class AyudasController extends Controller
        if(!empty($ayudaExpediente)){                 
                 $ayudaExpediente->delete();
             }
-            
+
       RegistroMovimientos::registrarMovimiento(2, 'CANCELADO', $ayuda->id_ayuda);
 
       return $this->render('mensaje_cancelado');
