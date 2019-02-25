@@ -4,37 +4,22 @@ namespace app\models;
 
 use Yii;
 
-/**
- * This is the model class for table "ayudas_expedientes".
- *
- * @property integer $id
- * @property integer $id_ayuda
- * @property integer $id_expediente
- */
 class AyudasExpedientes extends \yii\db\ActiveRecord
 {
-    /**
-     * @inheritdoc
-     */
     public static function tableName()
     {
         return 'ayudas_expedientes';
     }
 
-    /**
-     * @inheritdoc
-     */
     public function rules()
     {
         return [
             [['id_ayuda', 'id_expediente'], 'required'],
             [['id_ayuda', 'id_expediente'], 'integer'],
+            [['id_ayuda'], 'exist', 'skipOnError' => true, 'targetClass' => Ayudas::className(), 'targetAttribute' => ['id_ayuda' => 'id_ayuda']],
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
     public function attributeLabels()
     {
         return [
@@ -42,5 +27,10 @@ class AyudasExpedientes extends \yii\db\ActiveRecord
             'id_ayuda' => 'Id Ayuda',
             'id_expediente' => 'Id Expediente',
         ];
+    }
+
+    public function getAyudas()
+    {
+        return $this->hasOne(Ayudas::className(), ['id_ayuda' => 'id_ayuda']);
     }
 }

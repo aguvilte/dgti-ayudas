@@ -6,10 +6,12 @@ use Yii;
 use app\models\Expedientes;
 use app\models\ExpedientesSearch;
 use app\models\AyudasExpedientes;
+use app\models\AyudasExpedientesSearch;
 use app\models\Ayudas;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use kartik\mpdf\Pdf;
 
 class ExpedientesController extends Controller
 {
@@ -38,15 +40,14 @@ class ExpedientesController extends Controller
 
     public function actionView($id)
     {
-        $modelAyudasExpediente = AyudasExpedientes::find()->where(['id_expediente' => $id]);
-        // $modelAyudasExpedientes = new AyudasExpedientes();
-        // $countAyudasExpediente = $modelAyudasExpediente::find()->where(['id_expediente' => $id])->count();
-        $countAyudasExpediente = $modelAyudasExpediente->count();
+        $searchModelAyudasExp = new AyudasExpedientesSearch();
+        $dataProviderAyudasExp = $searchModelAyudasExp->search(Yii::$app->request->queryParams);
+        $dataProviderAyudasExp->query->andWhere('id_expediente = ' . $id);
 
         return $this->render('view', [
             'model' => $this->findModel($id),
-            'modelAyudasExpediente' => $modelAyudasExpediente,
-            'ayudasEnExpediente' => $countAyudasExpediente, 
+            'modelAyudasExp' => $searchModelAyudasExp,
+            'dataProviderAyudasExp' => $dataProviderAyudasExp,
         ]);
     }
 
@@ -113,7 +114,42 @@ class ExpedientesController extends Controller
                 'ayuda' => $ayuda,
             ]);
         }
+    }
 
+    public function actionListado($id)
+    {
+        $searchModel  = new AyudasExpedientesSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider->query->andWhere('id_expediente = ' . $id);
+
+        $numeroExpediente = Expedientes::findOne($id)->numero;
+        $montoExpediente = Expedientes::findOne($id)->monto_total;
+
+        $dataProvider->pagination  = false;
+        $content = $this->renderPartial(
+            'listado',
+            [
+                'dataProvider' => $dataProvider,
+                'searchModel'  => $searchModel,
+                'numeroExp' => $numeroExpediente,
+                'montoExp' => $montoExpediente,
+            ]
+        );
+            
+        $pdf = new Pdf([
+            'format' => Pdf::FORMAT_A4, 
+            'orientation' => Pdf::ORIENT_PORTRAIT, 
+            'destination' => Pdf::DEST_BROWSER, 
+            'content' => $content,  
+            'cssFile' => '@vendor/kartik-v/yii2-mpdf/assets/kv-mpdf-bootstrap.min.css',
+            'cssInline' => '.kv-heading-1{font-size:18px}', 
+            'options' => ['title' => 'Krajee Report Title'],
+            'methods' => [ 
+                'SetFooter'=>['{PAGENO}'],
+            ]
+        ]);
+        
+        return $pdf->render(); 
     }
 
     protected function findModel($id)

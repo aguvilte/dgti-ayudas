@@ -24,38 +24,38 @@ class AyudasController extends Controller
 {
     public function behaviors()
     {
-              return [
-                  'access' => [
-                      'class' => AccessControl::className(),
-                      'only' => ['view','enviar','update','index','mensaje_exito','create','mpdf','pdf_ayuda','updatepdf_doc_adjunta','updatepdfgestor','updatepdfnota','updatepdfdomicilio'],
-                      'rules' => [
-                        [
-                            //El administrador tiene permisos sobre las siguientes acciones
-                            'actions' => ['view','enviar','update','index','mensaje_exito','create','mpdf','pdf_ayuda','updatepdf_doc_adjunta','updatepdfgestor','updatepdfnota','updatepdfdomicilio'],
-                            //Esta propiedad establece que tiene permisos
-                            'allow' => true,
-                            //Usuarios autenticados, el signo ? es para invitados
-                            'roles' => ['@'],
-                            //Este método nos permite crear un filtro sobre la identidad del usuario
-                            //y así establecer si tiene permisos o no
-                            'matchCallback' => function ($rule, $action) {
-                                //Llamada al método que comprueba si es un administrador
-                                return Usuarios::isUserAdmin(Yii::$app->user->identity->id);
-                            },
-                        ],
-                        [
-                            //Los usuarios simples tienen permisos sobre las siguientes acciones
-                            'actions' => ['view','enviar','update','index','mensaje_exito','create','mpdf','pdf_ayuda','updatepdf_doc_adjunta','updatepdfgestor','updatepdfnota','updatepdfdomicilio'],
-                            'allow' => true,
-                            'roles' => ['@'],
-                            'matchCallback' => function ($rule, $action) {
-                               return Usuarios::isAyudas(Yii::$app->user->identity->id);
-                           },
-                         ],
-                     ],
-                  ],
-              ];
-          }
+        return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => ['view','enviar','update','index','mensaje_exito','create','mpdf','pdf_ayuda','updatepdf_doc_adjunta','updatepdfgestor','updatepdfnota','updatepdfdomicilio'],
+                'rules' => [
+                [
+                    //El administrador tiene permisos sobre las siguientes acciones
+                    'actions' => ['view','enviar','update','index','mensaje_exito','create','mpdf','pdf_ayuda','updatepdf_doc_adjunta','updatepdfgestor','updatepdfnota','updatepdfdomicilio'],
+                    //Esta propiedad establece que tiene permisos
+                    'allow' => true,
+                    //Usuarios autenticados, el signo ? es para invitados
+                    'roles' => ['@'],
+                    //Este método nos permite crear un filtro sobre la identidad del usuario
+                    //y así establecer si tiene permisos o no
+                    'matchCallback' => function ($rule, $action) {
+                        //Llamada al método que comprueba si es un administrador
+                        return Usuarios::isUserAdmin(Yii::$app->user->identity->id);
+                    },
+                ],
+                [
+                    //Los usuarios simples tienen permisos sobre las siguientes acciones
+                    'actions' => ['view','enviar','update','index','mensaje_exito','create','mpdf','pdf_ayuda','updatepdf_doc_adjunta','updatepdfgestor','updatepdfnota','updatepdfdomicilio'],
+                    'allow' => true,
+                    'roles' => ['@'],
+                    'matchCallback' => function ($rule, $action) {
+                        return Usuarios::isAyudas(Yii::$app->user->identity->id);
+                    },
+                ],
+                ],
+            ],
+        ];
+    }
 
     public function actionIndex()
     {
@@ -76,7 +76,7 @@ class AyudasController extends Controller
         ]);
     }
 
-     public function actionEnviar($id)
+    public function actionEnviar($id)
     {
 
       $ayuda = Ayudas::find()

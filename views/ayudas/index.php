@@ -48,36 +48,36 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'id_beneficiario',
                 'value' => function ($model) {
                    if (!empty($model->id_beneficiario)) {
-                        $beneficiario = beneficiarios::findOne($model->id_beneficiario);
+                        $beneficiario = Beneficiarios::findOne($model->id_beneficiario);
                         if ($beneficiario !== null) {
                             return $beneficiario->apeynom;
                         }
                     }
                 },
-              ],
-              [
+            ],
+            [
                 'label' => 'DNI',
                 'attribute'=>'id_beneficiario',
                 'value'=>function ($model) {
-                   if (!empty($model->id_beneficiario))
-                   {
-                      $beneficiario = beneficiarios::findOne($model->id_beneficiario);
-                      if ($beneficiario !== null) {
-                          return number_format($beneficiario->documento, 0, ',', '.');
-                      }
-                   }
+                    if (!empty($model->id_beneficiario))
+                    {
+                        $beneficiario = beneficiarios::findOne($model->id_beneficiario);
+                        if ($beneficiario !== null) {
+                            return number_format($beneficiario->documento, 0, ',', '.');
+                        }
+                    }
                 },
-              ],
+            ],
             [
                 'label' => 'Tipo de ayuda',
                 'attribute' => 'id_tipo',
                 'value' => function($model){
-                   if(!empty($model->id_tipo)){
-                     $tipo = TiposAyudas::findOne($model->id_tipo);
-                     if ($tipo !== null) {
-                       return $tipo->nombre;
-                     }
-                   }
+                    if(!empty($model->id_tipo)){
+                        $tipo = TiposAyudas::findOne($model->id_tipo);
+                        if ($tipo !== null) {
+                            return $tipo->nombre;
+                        }
+                    }
                 },
                 'filter'=> ArrayHelper::map(TiposAyudas::find()->groupBy('nombre')->all(), 'id_tipo', 'nombre'),  
             ],
@@ -85,12 +85,12 @@ $this->params['breadcrumbs'][] = $this->title;
                 'label' => 'Estado',
                 'attribute' => 'id_estado',
                 'value' => function($model){
-                   if(!empty($model->id_estado)){
-                     $estado = Estados::findOne($model->id_estado);
-                     if ($estado !== null) {
-                       return $estado->nombre;
-                     }
-                   }
+                    if(!empty($model->id_estado)){
+                        $estado = Estados::findOne($model->id_estado);
+                        if ($estado !== null) {
+                            return $estado->nombre;
+                        }
+                    }
                 },
                 'filter'=> ArrayHelper::map(Estados::find()->groupBy('nombre')->OrderBy(['id_estado' =>SORT_ASC])->all(), 'id_estado', 'nombre'),  
             ],
@@ -98,12 +98,12 @@ $this->params['breadcrumbs'][] = $this->title;
                 'label' => 'Área',
                 'attribute' => 'id_area',
                 'value' => function($model){
-                   if(!empty($model->id_area)){
-                     $area = Areas::findOne($model->id_area);
-                     if ($area !== null) {
-                       return $area->nombre;
-                     }
-                   }
+                    if(!empty($model->id_area)){
+                        $area = Areas::findOne($model->id_area);
+                        if ($area !== null) {
+                            return $area->nombre;
+                        }
+                    }
                 },
                 'filter'=> ArrayHelper::map(Areas::find()->groupBy('nombre')->all(), 'id_area', 'nombre'),  
             ],
@@ -111,12 +111,12 @@ $this->params['breadcrumbs'][] = $this->title;
                 'label' => 'Referente',
                 'attribute' => 'id_referente',
                 'value' => function($model){
-                   if(!empty($model->id_referente)){
-                     $referente = Referentes::findOne($model->id_referente);
-                     if ($referente !== null) {
-                       return $referente->apeynom;
-                     }
-                   }
+                    if(!empty($model->id_referente)){
+                        $referente = Referentes::findOne($model->id_referente);
+                        if ($referente !== null) {
+                            return $referente->apeynom;
+                        }
+                    }
                 },
                 'filter'=> ArrayHelper::map(Referentes::find()->groupBy('apeynom')->all(), 'id_referente', 'apeynom'),  
             ],
@@ -124,9 +124,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'label' => 'Monto',
                 'attribute' => 'monto',
                 'value' => function($model){
-                    if(!empty($model->id_referente)){
-                        return number_format($model->monto, 2, ',', '.');
-                    }
+                    return number_format($model->monto, 2, ',', '.');
                 },
             ],
             [
