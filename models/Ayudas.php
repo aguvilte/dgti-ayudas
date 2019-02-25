@@ -21,7 +21,7 @@ class Ayudas extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id_estado', 'id_beneficiario', 'id_tipo', 'id_area', 'id_referente'], 'integer'],
+            [['id_estado', 'id_beneficiario', 'id_tipo', 'id_area', 'id_referente', 'nro_cheque'], 'integer'],
             [['fecha_entrada', 'id_beneficiario', 'id_tipo', 'monto','id_referente','id_area', 'id_estado'], 'required'],
             [['fecha_nota', 'fecha_entrada', 'fecha_pago'], 'safe'],
             [['monto'], 'string', 'max' => 45],
@@ -56,6 +56,7 @@ class Ayudas extends \yii\db\ActiveRecord
             'file3' => 'PDF de domicilio',
             'file4' => 'PDF de Recibo',
             'id_beneficiario' => 'Id Beneficiario',
+            'nro_cheque' => 'Nro Cheque',
         ];
     }
 

@@ -109,17 +109,20 @@ $mpdf->WriteHTML($html);
     $mpdf->WriteHTML('
 <h3 style="text-align: center;"><a name="top"></a>GOBERNADOR</h3>
 <h2 style="text-align: center;"><a name="top"></a>Cr. SERGIO GUILLERMO CASAS</h2>
-<h4 style="text-align: letf;"><a name="top"></a>PERSONA FÍSICA - ORGANISMO NO GUBERNAMENTALES Y/O PARA ESTATALES - OTROS ORGANISMOS PROVINCIALES Y/O MUNICIPALES</h4>
-<p style="text-align: letf;" class="titulo-area">Recibí de la Dirección General de Administración</p>
-<p style="text-align: letf;" class="titulo-area">CHEQUE Nº................., Librado contra Nuevo Banco de la Rioja S.A. por la suma de pesos: ($<b>'.$ayuda->monto.'</b>),
- Pesos en Letras: (..........................................................................................), en concepto de Asistencia Económica y/o Transferencia de Fondo, a favor de <b>'.$beneficiario->apeynom.'</b></p>
+<h4 style="text-align: letf;"><a name="top"></a>PERSONA FÍSICA - ORGANISMO NO GUBERNAMENTALES Y/O PARA ESTATALES - OTROS ORGANISMOS PROVINCIALES Y/O MUNICIPALES.</h4>
+<p style="text-align: letf;" class="titulo-area">Recibí de la Dirección General de Administración.</p>
+<p style="text-align: letf;" class="titulo-area">CHEQUE Nº <b>'.$ayuda->nro_cheque.' </b>, Librado contra Nuevo Banco de la Rioja S.A. por la suma de pesos: ($<b>'.$ayuda->monto.'</b>),
+ Pesos en Letras: (..........................................................................................), en concepto de Asistencia Económica y/o Transferencia de Fondo, a favor de <b>'.$beneficiario->apeynom.'.</b></p>
 <p style="text-align: letf;" class="titulo-area">De conformidad a los términos de Resolución S.G.yL.G. Nº.....................................</p>
-<h5 style="text-align: letf;"><a name="top"></a>Con cargo de oportuna rendición de cuentas, Art. 223 a 228; 229 a 241 y 242 a 260 de la Resolución del Tribulan de Cuentas Nº 11/11</h5>
+<h5 style="text-align: letf;"><a name="top"></a>Con cargo de oportuna rendición de cuentas, Art. 223 a 228; 229 a 241 y 242 a 260 de la Resolución del Tribulan de Cuentas Nº 11/11.</h5>
 <br>
 <p style="text-align: letf;" class="titulo-area">La Rioja, '.date('d').' de '.$arrayMeses[date('m')-1].' de '.date('Y').'</p>
 <p style="text-align: letf;" class="titulo-area">Domicilio: '.$beneficiario->domicilio.'</p>
 <br>
 <br>
+<br>
+<br>
+
 
 <pre style="text-align: letf;" class="titulo-area">
 ................           ................           ................

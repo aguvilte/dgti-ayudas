@@ -90,23 +90,39 @@ class PagoController extends Controller
     }
 
     public function actionAutorizacion($id)
-    {
+      {
+      $model = $this->findModel($id);
 
-      $ayuda = Ayudas::find()
-            ->where(['id_ayuda'=>$id])
-            ->one();
+      if ($model->load(Yii::$app->request->post())) {
 
-      //Ayudas::updateAllCounters(['id_estado' => 1]);
-      $ayuda->id_estado=5; //estado autorizado
-      $ayuda->save(false);
 
-      RegistroMovimientos::registrarMovimiento(3, 'AUTORIZACIÓN', $ayuda->id_ayuda);
+        if($model->nro_cheque!= NULL) {
 
-      return $this->render('view', [
-            'model' => $this->findModel($id),
-            'id' => $id,
-        ]);
+          $ayuda = Ayudas::find()
+          ->where(['id_ayuda'=>$id])
+          ->one();
+
+          //Ayudas::updateAllCounters(['id_estado' => 1]);
+          $ayuda->id_estado=5; //estado autorizado
+          $ayuda->nro_cheque= $model->nro_cheque;
+          $ayuda->save(false);
+
+          RegistroMovimientos::registrarMovimiento(3, 'AUTORIZACIÓN', $ayuda->id_ayuda);
+
+          return $this->redirect(['view', 'id' => $model->id_ayuda]);
+
+          }else {
+            throw new NotFoundHttpException('Es requerido que complete el campo de Nro de Cheque para realizar la operación.');
+          }
+      } else {
+          return $this->render('autorizacion', [
+              'model' => $model,
+          ]);
+      }
     }
+
+
+
 
     public function actionPago($id)
     {

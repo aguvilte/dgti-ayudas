@@ -21,7 +21,7 @@ class AyudasSearch extends Ayudas
     public function rules()
     {
         return [
-            [['id_tipo', 'id_ayuda', 'id_estado', 'id_beneficiario', 'id_area', 'id_referente'], 'integer'],
+            [['id_tipo', 'id_ayuda', 'id_estado', 'id_beneficiario', 'id_area', 'id_referente', 'nro_cheque'], 'integer'],
             [['asunto', 'monto', 'fecha_nota', 'fecha_entrada', 'fecha_pago', 'doc_adjunta', 'pdf_doc_adjunta', 'pdf_nota', 'pdf_gestor', 'pdf_domicilio', 'globalSearch', 'horario_carga'], 'safe'],
             [['id_beneficiario'], 'number'],
         ];
@@ -77,6 +77,7 @@ class AyudasSearch extends Ayudas
 
         $query->andFilterWhere(['like', 'asunto', $this->asunto])
             ->andFilterWhere(['like', 'monto', $this->monto])
+            ->andFilterWhere(['like', 'nro_cheque', $this->nro_cheque])
             ->andFilterWhere(['like', 'doc_adjunta', $this->doc_adjunta])
             ->andFilterWhere(['like', 'pdf_doc_adjunta', $this->pdf_doc_adjunta])
             ->andFilterWhere(['like', 'pdf_nota', $this->pdf_nota])
