@@ -17,6 +17,7 @@ use app\models\TiposAyudas;
 use app\models\Estados;
 use app\models\Areas;
 use app\models\Movimientos;
+use app\models\Expedientes;
 use app\models\AyudasExpedientes;
 use app\components\RegistroMovimientos;
 
@@ -106,8 +107,13 @@ class AyudasController extends Controller
       $ayudaExpediente = AyudasExpedientes::find()
                         ->where(['id_ayuda'=>$id])
                         ->one();
-       if(!empty($ayudaExpediente)){                 
-                $ayudaExpediente->delete();
+       if(!empty($ayudaExpediente)){
+
+            $expedienteToActualizar = Expedientes::findOne($ayudaExpediente->id_expediente);
+            $expedienteToActualizar->monto_total = $expedienteToActualizar->monto_total - $ayuda->monto;
+            $expedienteToActualizar->save();
+
+            $ayudaExpediente->delete();
             }
 
       RegistroMovimientos::registrarMovimiento(2, 'CANCELADO', $ayuda->id_ayuda);
