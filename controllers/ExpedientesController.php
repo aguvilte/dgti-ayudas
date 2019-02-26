@@ -3,6 +3,8 @@
 namespace app\controllers;
 
 use Yii;
+use app\models\Usuarios;
+use yii\filters\AccessControl;
 use app\models\Expedientes;
 use app\models\ExpedientesSearch;
 use app\models\AyudasExpedientes;
@@ -18,10 +20,33 @@ class ExpedientesController extends Controller
     public function behaviors()
     {
         return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['POST'],
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => ['view','ayudas','update','index','listado','create'],
+                'rules' => [
+                [
+                    //El administrador tiene permisos sobre las siguientes acciones
+                    'actions' => ['view','ayudas','update','index','listado','create'],
+                    //Esta propiedad establece que tiene permisos
+                    'allow' => true,
+                    //Usuarios autenticados, el signo ? es para invitados
+                    'roles' => ['@'],
+                    //Este método nos permite crear un filtro sobre la identidad del usuario
+                    //y así establecer si tiene permisos o no
+                    'matchCallback' => function ($rule, $action) {
+                        //Llamada al método que comprueba si es un administrador
+                        return Usuarios::isUserAdmin(Yii::$app->user->identity->id);
+                    },
+                ],
+                [
+                    //Los usuarios simples tienen permisos sobre las siguientes acciones
+                    'actions' => ['view','ayudas','update','index','listado','create'],
+                    'allow' => true,
+                    'roles' => ['@'],
+                    'matchCallback' => function ($rule, $action) {
+                        return Usuarios::isExpedientes(Yii::$app->user->identity->id);
+                    },
+                ],
                 ],
             ],
         ];
