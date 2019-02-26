@@ -9,7 +9,7 @@ use app\models\Areas;
 
 <div class="archivos-filters">
     <p>
-        <a class="btn btn-success" href="?r=ayudas/index">
+        <a class="btn btn-success" href="?r=pago/index">
             Ver todas las ayudas
         </a>
     </p>
