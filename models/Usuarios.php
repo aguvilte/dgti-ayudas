@@ -259,6 +259,39 @@ class Usuarios extends \yii\db\ActiveRecord implements IdentityInterface
        }
     }
 
+    public static function isExpedientes($id)
+    {
+      if (Usuarios::findOne(['id' => $id, 'id_rol' => 3])){
+        if (UsuariosSecciones::findOne(['id_usuario' => $id, 'id_seccion' => 12])){
+         return true;
+        }
+       } else {
+       return false;
+       }
+    }
+
+    public static function isAreas($id)
+    {
+      if (Usuarios::findOne(['id' => $id, 'id_rol' => 3])){
+        if (UsuariosSecciones::findOne(['id_usuario' => $id, 'id_seccion' => 13])){
+         return true;
+        }
+       } else {
+       return false;
+       }
+    }
+
+    public static function isReferentes($id)
+    {
+      if (Usuarios::findOne(['id' => $id, 'id_rol' => 3])){
+        if (UsuariosSecciones::findOne(['id_usuario' => $id, 'id_seccion' => 14])){
+         return true;
+        }
+       } else {
+       return false;
+       }
+    }
+
 
 
 }

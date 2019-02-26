@@ -160,6 +160,33 @@ $this->title = 'SRAE - Sistema de Registración de Ayudas Económicas';
                      </div>
                     </article>';
                   }
+                  if ($UsuariosSeccion->id_seccion==11) {
+                    echo '
+                    <article class="grid col-one-quarter mq3-col-full">
+                     <div class="ipanel_icon ">';
+                      echo Html::a(Html::img('@web/img/ico_expedientes.png') . Yii::t('app','EXPEDIENTES'), ['/expedientes/index']);
+                    echo '
+                     </div>
+                    </article>';
+                  }
+                  if ($UsuariosSeccion->id_seccion==11) {
+                    echo '
+                    <article class="grid col-one-quarter mq3-col-full">
+                     <div class="ipanel_icon ">';
+                      echo Html::a(Html::img('@web/img/ico_estructuras.png') . Yii::t('app','ÁREAS'), ['/areas/index']);
+                    echo '
+                     </div>
+                    </article>';
+                  }
+                  if ($UsuariosSeccion->id_seccion==11) {
+                    echo '
+                    <article class="grid col-one-quarter mq3-col-full">
+                     <div class="ipanel_icon ">';
+                      echo Html::a(Html::img('@web/img/ico_no_escalafonados.png') . Yii::t('app','REFERENTES'), ['/referentes/index']);
+                    echo '
+                     </div>
+                    </article>';
+                  }
                 }
               echo '</div>';
               ?>

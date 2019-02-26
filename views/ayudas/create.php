@@ -51,7 +51,7 @@ form = document.getElementById('w0')
 
     function formatFechaToUser() {    //cambia fecha yyyy-mm-dd a dd/mm/yyyy
     var date = inputFecha.value;
-    var newdate = date.split('-').reverse().join('-');
+    var newdate = date.split('/').reverse().join('-');
     document.getElementById('ayudas-fecha_nota').value = newdate;
 }
 
@@ -66,7 +66,7 @@ form.addEventListener('submit', function() {
     //formatFechaToDb();
     inputFecha = document.getElementById('ayudas-fecha_nota')
     var date = inputFecha.value;
-    var newdate = date.split('-').reverse().join('-');
+    var newdate = date.split('/').reverse().join('-');
     document.getElementById('ayudas-fecha_nota').value = newdate;
 });
 
