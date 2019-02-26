@@ -25,4 +25,4 @@ use app\models\Areas;
     </div>
 </div>
 
-<script src='js/ayudas/filters.js'></script>
+<script src='js/pago/filters.js'></script>

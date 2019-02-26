@@ -16,6 +16,7 @@ use app\models\Beneficiarios;
 use app\models\Movimientos;
 use app\components\RegistroMovimientos;
 use app\models\AyudasExpedientes;
+use app\models\AyudasExpedientesSearch;
 use app\models\ExpedientesSearch;
 use app\models\TiposAyudas;
 use app\models\Estados;
@@ -61,6 +62,11 @@ class PagoController extends Controller
 
     public function actionIndex()
     {
+        if(isset($_GET['ExpedientesSearch'])) {
+            if ($_GET['ExpedientesSearch']['id_expediente'])
+                return $this->redirect('index.php?r=expedientes/view&id=' . $_GET['ExpedientesSearch']['id_expediente']);
+        }
+
         $searchModel = new AyudasSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 

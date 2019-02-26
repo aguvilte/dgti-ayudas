@@ -7,15 +7,10 @@ use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use app\models\Ayudas;
 use app\models\Beneficiarios;
+use app\models\AyudasExpedientes;
 
-/**
- * AyudasSearch represents the model behind the search form about `app\models\Ayudas`.
- */
 class AyudasSearch extends Ayudas
 {
-    /**
-     * @inheritdoc
-     */
     public $globalSearch;
 
     public function rules()
@@ -35,6 +30,14 @@ class AyudasSearch extends Ayudas
 
     public function search($params)
     {
+        // if(isset($_GET['ExpedientesSearch'])) {
+        //     // $idExp = $_GET['ExpedientesSearch']['id_expediente'];
+        //     // echo $idExp;
+        //     // $idsAyudas = [];
+        //     // $preQuery = AyudasExpedientes::find()->where(['id_expediente' => $idExp]);
+        //     // $i = 0;
+        // }
+
         $query = Ayudas::find();
 
         // add conditions that should always apply here
@@ -56,6 +59,14 @@ class AyudasSearch extends Ayudas
             // $query->where('0=1');
             return $dataProvider;
         }
+
+        // if(isset($_GET['ExpedientesSearch'])) {
+        //     foreach ($idsAyudas as $idAyuda) {
+        //         $query->andFilterWhere([
+        //             'id_ayuda' => $idAyuda,
+        //         ]);
+        //     }
+        // }
 
         $query->andFilterWhere([
             'id_ayuda' => $this->id_ayuda,
