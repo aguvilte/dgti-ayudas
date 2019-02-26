@@ -11,10 +11,6 @@ use app\models\Areas;
 use app\models\Expedientes;
 use app\models\AyudasExpedientes;
 
-/* @var $this yii\web\View */
-/* @var $searchModel app\models\AyudasSearch */
-/* @var $dataProvider yii\data\ActiveDataProvider */
-
 $this->title = 'Consulta General';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -28,10 +24,7 @@ $this->params['breadcrumbs'][] = $this->title;
     </p>
 
     <h2 class="titulo-area"><?= Html::encode($this->title) ?></h2>
-
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-    
-
+  
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         // 'filterModel' => $searchModel,
@@ -139,20 +132,20 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'fecha_nota',
                 'format' => ['date', 'php:d/m/Y']
             ],
-            [
-                'class' => 'yii\grid\DataColumn',
-                'header' => 'Expediente',
-                'value' => function($model) {
-                    $ayudaExpediente = AyudasExpedientes::find()->where(['id' => $model->id_ayuda])->one();
-                    if($ayudaExpediente) {
-                        $expediente = Expedientes::findOne($ayudaExpediente->id_expediente)->numero;
-                        return $expediente;
-                    }
-                    else {
-                        return 'No asignado';
-                    }
-                },
-            ],
+            // [
+            //     'class' => 'yii\grid\DataColumn',
+            //     'header' => 'Expediente',
+            //     'value' => function($model) {
+            //         $ayudaExpediente = AyudasExpedientes::find()->where(['id' => $model->id_ayuda])->one();
+            //         if($ayudaExpediente) {
+            //             $expediente = Expedientes::findOne($ayudaExpediente->id_expediente)->numero;
+            //             return $expediente;
+            //         }
+            //         else {
+            //             return 'No asignado';
+            //         }
+            //     },
+            // ],
             [
                 'class' => 'yii\grid\ActionColumn',
                 'header' => 'Ver/Editar/Borrar',
@@ -185,24 +178,24 @@ $this->params['breadcrumbs'][] = $this->title;
                 ],
                 'options' => ['class' => 'tbl-col-btn-ben'],
             ],
-            [
-                'class' => 'yii\grid\ActionColumn',
-                'header' => 'Agregar/Quitar expediente',
-                // 'template' => '{view} {update} {delete} {devolucion} {expediente} {expediente2}',
-                'template' => '{expediente}',
-                'buttons' => [
-                    'expediente' => function ($url, $model) {
-                        $ayudaExpediente = AyudasExpedientes::find()->where(['id' => $model->id_ayuda])->one();
-                        if($model->id_estado != 4 && !$ayudaExpediente)
-                            return Html::a('<span class="glyphicon glyphicon-plus"></span>', ['/expedientes/ayudas', 'id' => $model->id_ayuda], ['title' => Yii::t('app', 'Agregar a expediente'),'class' => 'btn btn-success btn-xs']);
-                        else
-                            return Html::a('<span class="glyphicon glyphicon-minus"></span>', ['/expedientes/ayudas', 'id' => $model->id_ayuda], ['title' => Yii::t('app', 'Quitar de expediente'),'class' => 'btn btn-danger btn-xs']);
-                    },
-                    // 'expediente2' => function ($url, $model) {
-                    //     return Html::a('<span class="glyphicon glyphicon-minus"></span>', ['/expedientes/ayudas', 'id' => $model->id_ayuda], ['title' => Yii::t('app', 'Crear ayuda'),'class' => 'btn btn-danger btn-xs']);
-                    // },
-                ],
-            ],    
+            // [
+            //     'class' => 'yii\grid\ActionColumn',
+            //     'header' => 'Agregar/Quitar expediente',
+            //     // 'template' => '{view} {update} {delete} {devolucion} {expediente} {expediente2}',
+            //     'template' => '{expediente}',
+            //     'buttons' => [
+            //         'expediente' => function ($url, $model) {
+            //             $ayudaExpediente = AyudasExpedientes::find()->where(['id' => $model->id_ayuda])->one();
+            //             if($model->id_estado != 4 && !$ayudaExpediente)
+            //                 return Html::a('<span class="glyphicon glyphicon-plus"></span>', ['/expedientes/ayudas', 'id' => $model->id_ayuda], ['title' => Yii::t('app', 'Agregar a expediente'),'class' => 'btn btn-success btn-xs']);
+            //             else
+            //                 return Html::a('<span class="glyphicon glyphicon-minus"></span>', ['/expedientes/ayudas', 'id' => $model->id_ayuda], ['title' => Yii::t('app', 'Quitar de expediente'),'class' => 'btn btn-danger btn-xs']);
+            //         },
+            //         // 'expediente2' => function ($url, $model) {
+            //         //     return Html::a('<span class="glyphicon glyphicon-minus"></span>', ['/expedientes/ayudas', 'id' => $model->id_ayuda], ['title' => Yii::t('app', 'Crear ayuda'),'class' => 'btn btn-danger btn-xs']);
+            //         // },
+            //     ],
+            // ],
         ],
         'options' => ['class' => 'tbl-completa'],
     ]); ?>

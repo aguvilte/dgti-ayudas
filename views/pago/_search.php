@@ -99,7 +99,7 @@ use app\models\Expedientes;
             ->label('Fecha de entrada (dd/mm/aaaa)')
         ?>
 
-        <?=
+        <?= 
         Html::textInput(
             '',     // Label
             '',     // Valor
@@ -120,7 +120,7 @@ use app\models\Expedientes;
             ->label('Fecha de pago (dd/mm/aaaa)')
         ?>
 
-        <?=
+        <?= 
         Html::textInput(
             '',     // Label
             '',     // Valor
@@ -141,7 +141,7 @@ use app\models\Expedientes;
             ->label('Beneficiario (DNI)', ['class'=>'label-class'])
         ?>
 
-        <!-- <?=
+        <?=
         $form
             ->field($modelExp, 'id_expediente')
             // ->field($model, 'id_expediente')
@@ -158,7 +158,7 @@ use app\models\Expedientes;
                 ]
             )
             ->label('Expediente', ['class'=>'label-class label-titulo'])
-        ?> -->
+        ?>
     </div>
     <br>
 

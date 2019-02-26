@@ -110,7 +110,7 @@ $this->title = 'SRAE - Sistema de Registración de Ayudas Económicas';
                       echo '
                       <article class="grid col-one-quarter mq3-col-full">
                        <div class="ipanel_icon ">';
-                        echo Html::a(Html::img('@web/img/ico_orden_pago.png') . Yii::t('app','PAGO'), ['/pago/index']);
+                        echo Html::a(Html::img('@web/img/ico_orden_pago.png') . Yii::t('app','PAGO'), ['/pago/filters']);
                       echo '
                        </div>
                       </article>';

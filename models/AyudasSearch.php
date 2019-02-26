@@ -62,6 +62,7 @@ class AyudasSearch extends Ayudas
             //'entrega_dni' => $this->entrega_dni,
             //'entrega_cuil' => $this->entrega_cuil,
             //'id_beneficiario' => $this->id_beneficiario,
+            'id_referente' => $this->id_referente,
             'id_tipo' => $this->id_tipo,
             'id_estado' => $this->id_estado,
             // 'id_beneficiario' => $consultaBeneficiario->id_beneficiario,
@@ -84,18 +85,18 @@ class AyudasSearch extends Ayudas
             ->andFilterWhere(['like', 'pdf_gestor', $this->pdf_gestor])
             ->andFilterWhere(['like', 'pdf_domicilio', $this->pdf_domicilio]);
 
-    if (!is_null($this->fecha_entrada) && 
-        strpos($this->fecha_entrada, ' - ') !== false ) {
-            list($start_date, $end_date) = explode(' - ', $this->fecha_entrada);
-            $query->andFilterWhere(['between', 'date(fecha_entrada)', $start_date, $end_date]);
-        }
+        if (!is_null($this->fecha_entrada) && 
+            strpos($this->fecha_entrada, ' - ') !== false ) {
+                list($start_date, $end_date) = explode(' - ', $this->fecha_entrada);
+                $query->andFilterWhere(['between', 'date(fecha_entrada)', $start_date, $end_date]);
+            }
 
-    if (!is_null($this->fecha_pago) && 
-        strpos($this->fecha_pago, ' - ') !== false ) {
-            list($start_date, $end_date) = explode(' - ', $this->fecha_pago);
-            $query->andFilterWhere(['between', 'date(fecha_pago)', $start_date, $end_date]);
-        }
+        if (!is_null($this->fecha_pago) && 
+            strpos($this->fecha_pago, ' - ') !== false ) {
+                list($start_date, $end_date) = explode(' - ', $this->fecha_pago);
+                $query->andFilterWhere(['between', 'date(fecha_pago)', $start_date, $end_date]);
+            }
         
-    return $dataProvider;
+        return $dataProvider;
     }
 }

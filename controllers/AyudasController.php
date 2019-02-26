@@ -18,6 +18,7 @@ use app\models\Estados;
 use app\models\Areas;
 use app\models\Movimientos;
 use app\models\AyudasExpedientes;
+use app\models\ExpedientesSearch;
 use app\components\RegistroMovimientos;
 
 class AyudasController extends Controller
@@ -60,7 +61,7 @@ class AyudasController extends Controller
     public function actionIndex()
     {
         $searchModel = new AyudasSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);        
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
@@ -79,40 +80,40 @@ class AyudasController extends Controller
     public function actionEnviar($id)
     {
 
-      $ayuda = Ayudas::find()
+        $ayuda = Ayudas::find()
             ->where(['id_ayuda'=>$id])
             ->one();
 
-      //Ayudas::updateAllCounters(['id_estado' => 1]);
-      $ayuda->id_estado=2; //estado en proceso, lo que permite mostrarse en la otra seccion y evita que se realicen modificaciones o eliminacion de la ayuda
-      $ayuda->save(false);
+        //Ayudas::updateAllCounters(['id_estado' => 1]);
+        $ayuda->id_estado=2; //estado en proceso, lo que permite mostrarse en la otra seccion y evita que se realicen modificaciones o eliminacion de la ayuda
+        $ayuda->save(false);
 
-      RegistroMovimientos::registrarMovimiento(2, 'ENVIO', $ayuda->id_ayuda);
+        RegistroMovimientos::registrarMovimiento(2, 'ENVIO', $ayuda->id_ayuda);
 
-      return $this->render('mensaje_exito');
+        return $this->render('mensaje_exito');
     }
 
     public function actionCancelar($id)
     {
 
-      $ayuda = Ayudas::find()
+        $ayuda = Ayudas::find()
             ->where(['id_ayuda'=>$id])
             ->one();
 
-      //Ayudas::updateAllCounters(['id_estado' => 1]);
-      $ayuda->id_estado=4; //estado cancelado.
-      $ayuda->save(false);
+        //Ayudas::updateAllCounters(['id_estado' => 1]);
+        $ayuda->id_estado=4; //estado cancelado.
+        $ayuda->save(false);
 
-      $ayudaExpediente = AyudasExpedientes::find()
-                        ->where(['id_ayuda'=>$id])
-                        ->one();
-       if(!empty($ayudaExpediente)){                 
-                $ayudaExpediente->delete();
-            }
+        $ayudaExpediente = AyudasExpedientes::find()
+                            ->where(['id_ayuda'=>$id])
+                            ->one();
+        if(!empty($ayudaExpediente)){                 
+                    $ayudaExpediente->delete();
+                }
 
-      RegistroMovimientos::registrarMovimiento(2, 'CANCELADO', $ayuda->id_ayuda);
+        RegistroMovimientos::registrarMovimiento(2, 'CANCELADO', $ayuda->id_ayuda);
 
-      return $this->render('mensaje_cancelado');
+        return $this->render('mensaje_cancelado');
     }
 
     public function actionMensaje_exito()
@@ -473,9 +474,14 @@ class AyudasController extends Controller
         $searchModel = new AyudasSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
+        $searchModelExp = new ExpedientesSearch();
+        $dataProviderExp = $searchModelExp->search(Yii::$app->request->queryParams);
+
         return $this->render('filters', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'searchModelExp' => $searchModelExp,
+            'dataProviderExp' => $dataProviderExp,
         ]);
     }
 

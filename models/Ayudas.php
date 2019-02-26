@@ -70,7 +70,7 @@ class Ayudas extends \yii\db\ActiveRecord
         return $this->hasOne(TiposAyudas::className(), ['id_tipo' => 'id_tipo']);
     }
 
-    public function getIdBeneficiarios()
+    public function getBeneficiarios()
     {
         return $this->hasOne(Beneficiarios::className(), ['id_beneficiario' => 'id_beneficiario']);
     }
