@@ -9,6 +9,7 @@ use app\models\Ayudas;
 use app\models\Beneficiarios;
 use app\models\Estados;
 use app\models\Referentes;
+use app\models\AyudasExpedientes;
 use app\models\TiposAyudas;
 
 $this->title = 'Expediente ' . $model->numero;
@@ -193,19 +194,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         return Html::a('<span class="glyphicon glyphicon-eye-open"></span>', 'index.php?r=pago/view&id=' . $model->id_ayuda, [ 'title' => Yii::t('app', 'Ver'),'class' => 'btn btn-success btn-xs', ]);
                     },
                     'expediente' => function ($url, $model) {
-                        if($model->id_estado != 4 AND $model->id_estado != 1) {//si los estados de la ayuda son iniciados o cancelados no permite agregarlas a un expediente
-                        $ayudaExpediente = AyudasExpedientes::find()->where(['id_ayuda' => $model->id_ayuda])->one();
-
-                         if($ayudaExpediente!=NULL) { //si ya se asigno a un expediente
-                            $Expediente = Expedientes::find()->where(['id_expediente' => $ayudaExpediente->id_expediente])->one();
-                                if($Expediente!=NULL AND $Expediente->estado==1) { //si la ayuda ya esta en un expediente cerrado no visualiza los botones
                                 return Html::a('<span class="glyphicon glyphicon-minus"></span>', ['/expedientes/quitar', 'id' => $model->id_ayuda], ['title' => Yii::t('app', 'Quitar de expediente'),'class' => 'btn btn-danger btn-xs']);
-                                }
-                                }else{
-                                return Html::a('<span class="glyphicon glyphicon-plus"></span>', ['/expedientes/ayudas', 'id' => $model->id_ayuda], ['title' => Yii::t('app', 'Agregar a expediente'),'class' => 'btn btn-success btn-xs']);
-                            }
-                        }
-
                     },
                 ],
                 'options' => ['class' => 'tbl-col-btn-ben', 'style' => 'max-width: 20px'],
