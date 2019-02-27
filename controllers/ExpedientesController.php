@@ -141,6 +141,24 @@ class ExpedientesController extends Controller
         }
     }
 
+    public function actionQuitar($id)
+    {
+            $ayudasExpedientes = AyudasExpedientes::find()
+                             ->where(['id_ayuda'=>$id])
+                             ->one();
+
+            $ayuda = Ayudas::findOne($id);
+            $expedienteToActualizar = Expedientes::findOne($ayudasExpedientes->id_expediente);
+
+            $ayudasExpedientes->delete();
+
+
+            $expedienteToActualizar->monto_total = $expedienteToActualizar->monto_total - $ayuda->monto;
+            $expedienteToActualizar->save();      
+
+            return $this->redirect(['/expedientes/view','id'=>$expedienteToActualizar->id_expediente]);
+    }
+
     public function actionListado($id)
     {
         $searchModel  = new AyudasExpedientesSearch();

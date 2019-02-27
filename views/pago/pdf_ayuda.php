@@ -5,6 +5,10 @@ use app\models\Ayudas;
 use app\models\Estados;
 use app\models\Areas;
 use app\models\Referentes;
+use app\models\Expedientes;
+use app\models\AyudasExpedientes;
+
+
 
 
 $arrayMeses = array('Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
@@ -91,6 +95,14 @@ $hora = date("g:i A");
                 }else {
                 $pdf_domicilio='NO';
                 }
+
+  $ayudaExpediente = AyudasExpedientes::find()->where(['id_ayuda' => $ayuda->id_ayuda])->one();
+    if($ayudaExpediente) {
+        $expediente = Expedientes::findOne($ayudaExpediente->id_expediente)->numero;
+    }
+    else {
+        $expediente = 'No asignado';
+    }
 $html = '
 <img src="/img/cabecera.png" alt="La Rioja - Argentina">
 <h1 style="text-align: center;color:#0078CF;"><a name="top"></a>Ayuda Económica</h1>
@@ -139,6 +151,10 @@ $mpdf->WriteHTML($html);
           <tr>
             <td>Fecha de Pago</td>
             <td>'.$ayuda->fecha_pago.'</td>
+          </tr>
+          <tr>
+            <td>Número de Expediente</td>
+            <td>'.$expediente.'</td>
           </tr>
           <TR>
            <td COLSPAN="2"><h2 style="text-align: center;color:#0078CF;">Nota de Solicitud</h2></td>

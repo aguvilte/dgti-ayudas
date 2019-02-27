@@ -182,7 +182,7 @@ $this->params['breadcrumbs'][] = $this->title;
                          if($ayudaExpediente!=NULL) { //si ya se asigno a un expediente
                             $Expediente = Expedientes::find()->where(['id_expediente' => $ayudaExpediente->id_expediente])->one();
                                 if($Expediente!=NULL AND $Expediente->estado==1) { //si la ayuda ya esta en un expediente cerrado no visualiza los botones
-                                return Html::a('<span class="glyphicon glyphicon-minus"></span>', ['/expedientes/ayudas', 'id' => $model->id_ayuda], ['title' => Yii::t('app', 'Quitar de expediente'),'class' => 'btn btn-danger btn-xs']);
+                                return Html::a('<span class="glyphicon glyphicon-minus"></span>', ['/expedientes/quitar', 'id' => $model->id_ayuda], ['title' => Yii::t('app', 'Quitar de expediente'),'class' => 'btn btn-danger btn-xs']);
                                 }
                                 }else{
                                 return Html::a('<span class="glyphicon glyphicon-plus"></span>', ['/expedientes/ayudas', 'id' => $model->id_ayuda], ['title' => Yii::t('app', 'Agregar a expediente'),'class' => 'btn btn-success btn-xs']);

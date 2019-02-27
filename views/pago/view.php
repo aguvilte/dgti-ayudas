@@ -7,6 +7,10 @@ use app\models\TiposAyudas;
 use app\models\Estados;
 use app\models\Areas;
 use app\models\Referentes;
+use app\models\Expedientes;
+use app\models\AyudasExpedientes;
+
+
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Ayudas */
@@ -162,7 +166,7 @@ $this->params['breadcrumbs'][] = $this->title;
                    }
                 },
               ],
-                        [
+              [
                 'label' => 'Referente',
                 'attribute'=>'id_referente',
                 'value'=>function ($model) {
@@ -175,6 +179,20 @@ $this->params['breadcrumbs'][] = $this->title;
                    }
                 },
               ],
+              [
+                'label' => 'Expediente',
+                'attribute' => 'id_ayuda',
+                'value' => function($model) {
+                    $ayudaExpediente = AyudasExpedientes::find()->where(['id_ayuda' => $model->id_ayuda])->one();
+                    if($ayudaExpediente) {
+                        $expediente = Expedientes::findOne($ayudaExpediente->id_expediente)->numero;
+                        return $expediente;
+                    }
+                    else {
+                        return 'No asignado';
+                    }
+                },
+            ],
         ],
     ]) ?>
 
