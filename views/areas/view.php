@@ -3,11 +3,8 @@
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 
-/* @var $this yii\web\View */
-/* @var $model app\models\Areas */
-
-$this->title = $model->id_area;
-$this->params['breadcrumbs'][] = ['label' => 'Areas', 'url' => ['index']];
+$this->title = 'Área ' . $model->nombre;
+$this->params['breadcrumbs'][] = ['label' => 'Áreas', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="areas-view">
@@ -15,11 +12,11 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Update', ['update', 'id' => $model->id_area], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->id_area], [
+        <?= Html::a('Modificar', ['update', 'id' => $model->id_area], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Eliminar', ['delete', 'id' => $model->id_area], [
             'class' => 'btn btn-danger',
             'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
+                'confirm' => '¿Estás seguro de que quieres eliminar este área?',
                 'method' => 'post',
             ],
         ]) ?>
@@ -28,7 +25,6 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'id_area',
             'nombre',
         ],
     ]) ?>

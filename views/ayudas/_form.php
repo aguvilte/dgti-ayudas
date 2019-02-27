@@ -92,7 +92,7 @@ use app\models\Referentes;
                                 'id_area'
                             )
                             ->dropDownList(
-                                ArrayHelper::map(Areas::find()->orderBy(['nombre' => SORT_ASC])->all(), 'id_area', 'nombre'),
+                                ArrayHelper::map(Areas::find()->where(['estado' => '1'])->orderBy(['nombre' => SORT_ASC])->all(), 'id_area', 'nombre'),
                                 [
                                     'prompt' => '',
                                     // 'style' => 'max-width: 400px',
@@ -112,7 +112,7 @@ use app\models\Referentes;
                                 'id_referente'
                             )
                             ->dropDownList(
-                                ArrayHelper::map(Referentes::find()->orderBy(['apeynom' => SORT_ASC])->all(), 'id_referente', 'apeynom'),
+                                ArrayHelper::map(Referentes::find()->where(['estado' => '1'])->orderBy(['apeynom' => SORT_ASC])->all(), 'id_referente', 'apeynom'),
                                 [
                                     'prompt' => '',
                                     // 'style' => 'max-width: 400px',

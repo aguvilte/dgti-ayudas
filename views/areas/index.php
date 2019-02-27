@@ -7,7 +7,7 @@ use yii\grid\GridView;
 /* @var $searchModel app\models\AreasSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Areas';
+$this->title = 'Áreas';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="areas-index">
@@ -16,18 +16,40 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Create Areas', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Crear área', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
+        // 'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id_area',
+            // 'id_area',
             'nombre',
 
-            ['class' => 'yii\grid\ActionColumn'],
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'header' => 'Ver/Editar/Borrar',
+                'template' => '{view} {update} {delete}',
+                'buttons' => [
+                    'view' => function ($url, $model) {
+                        return Html::a('<span class="glyphicon glyphicon-eye-open"></span>', $url, [ 'title' => Yii::t('app', 'Ver'),'class' => 'btn btn-success btn-xs', ]);
+                    },
+                    'update' => function ($url, $model) {
+                        return Html::a('<span class="glyphicon glyphicon-pencil"></span>', $url, [ 'title' => Yii::t('app', 'Editar'),'class' => 'btn btn-primary btn-xs', ]);
+                    },
+                    'delete' => function ($url, $model) {
+                        return Html::a('<span class="glyphicon glyphicon-trash"></span>', ['delete', 'id' => $model->id_area], [
+                            'class' => 'btn btn-danger btn-xs',
+                            'data' => [
+                            'confirm' => '¿Estás seguro de que quieres eliminar este área?',
+                            'method' => 'post',
+                            ],
+                        ]);
+                    },
+                ],
+                'options' => ['class' => 'tbl-col-btn-ben'],
+            ],
         ],
     ]); ?>
 </div>

@@ -11,14 +11,8 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
-/**
- * AreasController implements the CRUD actions for Areas model.
- */
 class AreasController extends Controller
 {
-    /**
-     * @inheritdoc
-     */
      public function behaviors()
     {
         return [
@@ -54,10 +48,6 @@ class AreasController extends Controller
         ];
     }
 
-    /**
-     * Lists all Areas models.
-     * @return mixed
-     */
     public function actionIndex()
     {
         $searchModel = new AreasSearch();
@@ -69,11 +59,6 @@ class AreasController extends Controller
         ]);
     }
 
-    /**
-     * Displays a single Areas model.
-     * @param integer $id
-     * @return mixed
-     */
     public function actionView($id)
     {
         return $this->render('view', [
@@ -81,16 +66,13 @@ class AreasController extends Controller
         ]);
     }
 
-    /**
-     * Creates a new Areas model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return mixed
-     */
     public function actionCreate()
     {
         $model = new Areas();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post())) {
+            $model->estado = 1;
+            $model->save();
             return $this->redirect(['view', 'id' => $model->id_area]);
         } else {
             return $this->render('create', [
@@ -99,12 +81,6 @@ class AreasController extends Controller
         }
     }
 
-    /**
-     * Updates an existing Areas model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
-     * @return mixed
-     */
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
@@ -118,26 +94,18 @@ class AreasController extends Controller
         }
     }
 
-    /**
-     * Deletes an existing Areas model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
-     * @return mixed
-     */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        $areaToInactiva = $this->findModel($id);
+        $areaToInactiva->estado = 0;
+        $areaToInactiva->save();
 
+        // RegistroMovimientos::registrarMovimiento(4, 'ELIMINACIÓN', $areaToInactiva->id_area);
+
+        // Yii::info('se eliminó un área (id=' . Yii::$app->user->getId() . ')', 'eliminacion_area');
         return $this->redirect(['index']);
     }
 
-    /**
-     * Finds the Areas model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param integer $id
-     * @return Areas the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
-     */
     protected function findModel($id)
     {
         if (($model = Areas::findOne($id)) !== null) {
