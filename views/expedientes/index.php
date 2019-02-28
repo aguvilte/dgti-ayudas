@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use app\models\Expedientes;
 
 $this->title = 'Expedientes';
 $this->params['breadcrumbs'][] = $this->title;
@@ -36,9 +37,9 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'id_estado',
                 'value' => function($model) {
                     if ($model->estado == 1)
-                        return 'Activo';
+                        return 'Abierto';
                     else
-                        return 'Inactivo';
+                        return 'Cerrado';
                 }
             ],
             [
@@ -60,7 +61,10 @@ $this->params['breadcrumbs'][] = $this->title;
                         return Html::a('<span class="glyphicon glyphicon-eye-open"></span>', $url, [ 'title' => Yii::t('app', 'Ver'),'class' => 'btn btn-success btn-xs', ]);
                     },
                     'update' => function ($url, $model) {
-                        return Html::a('<span class="glyphicon glyphicon-pencil"></span>', $url, [ 'title' => Yii::t('app', 'Editar'),'class' => 'btn btn-primary btn-xs', ]);
+                        $expediente = Expedientes::findOne($model->id_expediente);
+                        if ($expediente->estado == 1) {
+                            return Html::a('<span class="glyphicon glyphicon-pencil"></span>', $url, [ 'title' => Yii::t('app', 'Editar'),'class' => 'btn btn-primary btn-xs', ]);
+                        }
                     },
                 ],
                 'options' => ['class' => 'tbl-col-btn-ben'],

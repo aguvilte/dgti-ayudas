@@ -4,29 +4,13 @@ namespace app\models;
 
 use Yii;
 
-/**
- * This is the model class for table "expedientes".
- *
- * @property integer $id_expediente
- * @property string $numero
- * @property double $monto_total
- * @property integer $estado
- * @property string $fecha_alta
- * @property string $fecha_cierre
- */
 class Expedientes extends \yii\db\ActiveRecord
 {
-    /**
-     * @inheritdoc
-     */
     public static function tableName()
     {
         return 'expedientes';
     }
 
-    /**
-     * @inheritdoc
-     */
     public function rules()
     {
         return [
@@ -38,9 +22,6 @@ class Expedientes extends \yii\db\ActiveRecord
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
     public function attributeLabels()
     {
         return [

@@ -109,7 +109,7 @@ class ExpedientesController extends Controller
 
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        // $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
     }
@@ -147,23 +147,22 @@ class ExpedientesController extends Controller
 
     public function actionQuitar($id)
     {
-            $ayudasExpedientes = AyudasExpedientes::find()
-                             ->where(['id_ayuda'=>$id])
-                             ->one();
+        $ayudasExpedientes = AyudasExpedientes::find()
+            ->where(['id_ayuda'=>$id])
+            ->one();
 
-            $ayuda = Ayudas::findOne($id);
-            $expedienteToActualizar = Expedientes::findOne($ayudasExpedientes->id_expediente);
+        $ayuda = Ayudas::findOne($id);
+        $expedienteToActualizar = Expedientes::findOne($ayudasExpedientes->id_expediente);
 
-            $ayudasExpedientes->delete();
+        $ayudasExpedientes->delete();
 
+        $expedienteToActualizar->monto_total = $expedienteToActualizar->monto_total - $ayuda->monto;
+        $expedienteToActualizar->save();
 
-            $expedienteToActualizar->monto_total = $expedienteToActualizar->monto_total - $ayuda->monto;
-            $expedienteToActualizar->save();
+        $descripcion='DISLIGACIÓN A Exp. nº'.$expedienteToActualizar->numero;
+        RegistroMovimientos::registrarMovimiento(5, $descripcion, $ayuda->id_ayuda);      
 
-            $descripcion='DISLIGACIÓN A Exp. nº'.$expedienteToActualizar->numero;
-            RegistroMovimientos::registrarMovimiento(5, $descripcion, $ayuda->id_ayuda);      
-
-            return $this->redirect(['/expedientes/view','id'=>$expedienteToActualizar->id_expediente]);
+        return $this->redirect(['/expedientes/view','id'=>$expedienteToActualizar->id_expediente]);
     }
 
     public function actionListado($id)
@@ -200,6 +199,16 @@ class ExpedientesController extends Controller
         ]);
         
         return $pdf->render(); 
+    }
+
+    public function actionCerrar($id)
+    {
+        $model = $this->findModel($id);
+        $model->estado = 0;
+        $model->fecha_cierre = Date('Y-m-d');
+        $model->save();
+
+        return $this->redirect(['view', 'id' => $model->id_expediente]);
     }
 
     protected function findModel($id)

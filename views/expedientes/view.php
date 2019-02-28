@@ -32,6 +32,20 @@ $this->params['breadcrumbs'][] = $this->title;
         <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal" id="btn-pdf">
             Generar PDF
         </button>
+        
+        <!-- <?= Html::a('Cerrar expediente', ['cerrar', 'id' => $model->id_expediente], ['class' => 'btn btn-success']) ?> -->
+        <?php
+        $expediente = Expedientes::findOne($model->id_expediente);
+        if ($expediente->estado == 1) {
+            echo Html::a('Cerrar expediente', ['cerrar', 'id' => $model->id_expediente], [
+                'class' => 'btn btn-success',
+                'data' => [
+                    'confirm' => 'Are you sure you want to delete this item?',
+                    'method' => 'post',
+                ],
+            ]);
+        }
+        ?>
     </p>
 
     <?= DetailView::widget([
@@ -43,12 +57,12 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'monto_total',
                 'value' => function ($model) {
                    if (!empty($model->id_expediente))
-                   {
+                    {
                         $expediente = Expedientes::findOne($model->id_expediente);
                         if ($expediente !== null) {
                             return '$' .  number_format($expediente->monto_total, 2, ',', '.');
                         }
-                   }
+                    }
                 },
             ],
             [
@@ -59,10 +73,10 @@ $this->params['breadcrumbs'][] = $this->title;
                    {
                         $expediente = Expedientes::findOne($model->id_expediente);
                         if ($expediente->estado == 1) {
-                            return 'Activo';
+                            return 'Abierto';
                         }
                         else {
-                            return 'Inactivo';
+                            return 'Cerrado';
                         }
                    }
                 },
@@ -194,7 +208,10 @@ $this->params['breadcrumbs'][] = $this->title;
                         return Html::a('<span class="glyphicon glyphicon-eye-open"></span>', 'index.php?r=pago/view&id=' . $model->id_ayuda, [ 'title' => Yii::t('app', 'Ver'),'class' => 'btn btn-success btn-xs', ]);
                     },
                     'expediente' => function ($url, $model) {
-                                return Html::a('<span class="glyphicon glyphicon-minus"></span>', ['/expedientes/quitar', 'id' => $model->id_ayuda], ['title' => Yii::t('app', 'Quitar de expediente'),'class' => 'btn btn-danger btn-xs']);
+                        $expediente = Expedientes::findOne($model->id_expediente);
+                        if ($expediente->estado == 1) {
+                            return Html::a('<span class="glyphicon glyphicon-minus"></span>', ['/expedientes/quitar', 'id' => $model->id_ayuda], ['title' => Yii::t('app', 'Quitar de expediente'),'class' => 'btn btn-danger btn-xs']);
+                        }
                     },
                 ],
                 'options' => ['class' => 'tbl-col-btn-ben', 'style' => 'max-width: 20px'],
