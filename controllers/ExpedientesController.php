@@ -14,6 +14,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use kartik\mpdf\Pdf;
+use app\components\RegistroMovimientos;
 
 class ExpedientesController extends Controller
 {
@@ -132,6 +133,9 @@ class ExpedientesController extends Controller
             $expedienteToActualizar->monto_total = $expedienteToActualizar->monto_total + $ayuda->monto;
             $expedienteToActualizar->save();
 
+            $descripcion='ASIGNACIÓN A Exp. nº'.$expedienteToActualizar->numero;
+            RegistroMovimientos::registrarMovimiento(5, $descripcion, $ayudasExpedientesModel->id_ayuda);
+
             return $this->redirect(['index']);
         } else {
             return $this->render('ayudas', [
@@ -154,7 +158,10 @@ class ExpedientesController extends Controller
 
 
             $expedienteToActualizar->monto_total = $expedienteToActualizar->monto_total - $ayuda->monto;
-            $expedienteToActualizar->save();      
+            $expedienteToActualizar->save();
+
+            $descripcion='DISLIGACIÓN A Exp. nº'.$expedienteToActualizar->numero;
+            RegistroMovimientos::registrarMovimiento(5, $descripcion, $ayuda->id_ayuda);      
 
             return $this->redirect(['/expedientes/view','id'=>$expedienteToActualizar->id_expediente]);
     }
