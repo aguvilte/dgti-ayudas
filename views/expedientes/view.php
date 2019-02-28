@@ -40,7 +40,7 @@ $this->params['breadcrumbs'][] = $this->title;
             echo Html::a('Cerrar expediente', ['cerrar', 'id' => $model->id_expediente], [
                 'class' => 'btn btn-success',
                 'data' => [
-                    'confirm' => 'Are you sure you want to delete this item?',
+                    'confirm' => 'Está seguro de cerrar el expediente? Considere que no podrá realizar más modificaciones en el mismo.',
                     'method' => 'post',
                 ],
             ]);
