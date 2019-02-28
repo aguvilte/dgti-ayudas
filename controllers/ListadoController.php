@@ -14,6 +14,10 @@ use app\models\AyudasSearch;
 use app\models\TiposAyudas;
 use app\models\Estados;
 use app\models\Usuarios;
+use app\models\Referentes;
+use app\models\Areas;
+use app\models\Expedientes;
+use app\models\AyudasExpedientes;
 use app\models\Devoluciones;
 
 /**
@@ -90,9 +94,11 @@ class ListadoController extends Controller
                           <th>Estado</th>
                           <th>Monto</th>
                           <th>Area</th>
+                          <th>Referente</th
                           <th>Fecha de Pago</th>
                           <th>Fecha de Entrada</th>
                           <th>Fecha de Nota</th>
+                          <th>Nro Expediente</th>
 
                       </tr>
                   </thead>';
@@ -109,18 +115,42 @@ class ListadoController extends Controller
 
 
                     $tipoayuda = TiposAyudas::findOne($ayuda->id_tipo);
-                    if ($tipoayuda !== null) {
+                    if ($tipoayuda) {
                     $tipoayuda=$tipoayuda->nombre;
                     } else {
                        $tipoayuda='';
                     } 
 
                     $estado = Estados::findOne($ayuda->id_estado);
-                    if ($estado !== null) {
+                    if ($estado) {
                     $estado=$estado->nombre;
                     } else {
                        $estado='';
                      }
+
+                    $area = Areas::findOne($ayuda->id_area);
+                    if ($area) {
+                    $area=$area->nombre;
+                    } else {
+                       $area='';
+                     }
+
+                    $referente = Referentes::findOne($ayuda->id_referente);
+                    if ($referente) {
+                    $referente=$referente->apeynom;
+                    } else {
+                       $referente='';
+                     }
+
+                     $AyudaExpediente = AyudasExpedientes::find()
+                                      ->where(['id_ayuda'=>$ayuda->id_ayuda])
+                                      ->one();
+                      if($AyudaExpediente){
+                      $expediente = Expedientes::findOne($AyudaExpediente->id_expediente);
+                      $expediente = $expediente->numero;  
+                      } else {
+                        $expediente='';
+                      }                
                     
 
                     echo '
@@ -131,10 +161,12 @@ class ListadoController extends Controller
                             <td>'.$tipoayuda.'</td>
                             <td>'.$estado.'</td>
                             <td>'.$ayuda['monto'].'</td>
-                            <td>'.$ayuda['area'].'</td>
+                            <td>'.$area.'</td>
+                            <td>'.$referente.'</td>
                             <td>'.$ayuda['fecha_pago'].'</td>
                             <td>'.$ayuda['fecha_entrada'].'</td>
                             <td>'.$ayuda['fecha_nota'].'</td>
+                            <td>'.$expediente.'</td>
                         </tr>
                     ';
                   }
@@ -149,7 +181,7 @@ class ListadoController extends Controller
                           ->orderBy(['id_ayuda'=>SORT_DESC])   
                           ->all();
 
-              $filename = 'Informe General de Ayudas Iniciadas-'.Date('YmdGis').'.xls';
+              $filename = 'Informe General de Ayudas-'.Date('YmdGis').'.xls';
               header("Content-type: application/vnd-ms-excel");
               header("Content-Disposition: attachment; filename=".$filename);
               echo '<table border="1" width="100%">
@@ -162,9 +194,11 @@ class ListadoController extends Controller
                           <th>Estado</th>
                           <th>Monto</th>
                           <th>Area</th>
+                          <th>Referente</th
                           <th>Fecha de Pago</th>
                           <th>Fecha de Entrada</th>
                           <th>Fecha de Nota</th>
+                          <th>Nro Expediente</th>
 
                       </tr>
                   </thead>';
@@ -181,18 +215,42 @@ class ListadoController extends Controller
 
 
                     $tipoayuda = TiposAyudas::findOne($ayuda->id_tipo);
-                    if ($tipoayuda !== null) {
+                    if ($tipoayuda) {
                     $tipoayuda=$tipoayuda->nombre;
                     } else {
                        $tipoayuda='';
                     } 
 
                     $estado = Estados::findOne($ayuda->id_estado);
-                    if ($estado !== null) {
+                    if ($estado) {
                     $estado=$estado->nombre;
                     } else {
                        $estado='';
                      }
+
+                    $area = Areas::findOne($ayuda->id_area);
+                    if ($area) {
+                    $area=$area->nombre;
+                    } else {
+                       $area='';
+                     }
+
+                    $referente = Referentes::findOne($ayuda->id_referente);
+                    if ($referente) {
+                    $referente=$referente->apeynom;
+                    } else {
+                       $referente='';
+                     }
+
+                     $AyudaExpediente = AyudasExpedientes::find()
+                                      ->where(['id_ayuda'=>$ayuda->id_ayuda])
+                                      ->one();
+                      if($AyudaExpediente){
+                      $expediente = Expedientes::findOne($AyudaExpediente->id_expediente);
+                      $expediente = $expediente->numero;  
+                      } else {
+                        $expediente='';
+                      }                
                     
 
                     echo '
@@ -203,10 +261,12 @@ class ListadoController extends Controller
                             <td>'.$tipoayuda.'</td>
                             <td>'.$estado.'</td>
                             <td>'.$ayuda['monto'].'</td>
-                            <td>'.$ayuda['area'].'</td>
+                            <td>'.$area.'</td>
+                            <td>'.$referente.'</td>
                             <td>'.$ayuda['fecha_pago'].'</td>
                             <td>'.$ayuda['fecha_entrada'].'</td>
                             <td>'.$ayuda['fecha_nota'].'</td>
+                            <td>'.$expediente.'</td>
                         </tr>
                     ';
                   }
@@ -221,7 +281,7 @@ class ListadoController extends Controller
                           ->orderBy(['id_ayuda'=>SORT_DESC])   
                           ->all();
 
-              $filename = 'Informe General de Ayudas En Proceso-'.Date('YmdGis').'.xls';
+              $filename = 'Informe General de Ayudas-'.Date('YmdGis').'.xls';
               header("Content-type: application/vnd-ms-excel");
               header("Content-Disposition: attachment; filename=".$filename);
               echo '<table border="1" width="100%">
@@ -234,9 +294,11 @@ class ListadoController extends Controller
                           <th>Estado</th>
                           <th>Monto</th>
                           <th>Area</th>
+                          <th>Referente</th
                           <th>Fecha de Pago</th>
                           <th>Fecha de Entrada</th>
                           <th>Fecha de Nota</th>
+                          <th>Nro Expediente</th>
 
                       </tr>
                   </thead>';
@@ -253,18 +315,42 @@ class ListadoController extends Controller
 
 
                     $tipoayuda = TiposAyudas::findOne($ayuda->id_tipo);
-                    if ($tipoayuda !== null) {
+                    if ($tipoayuda) {
                     $tipoayuda=$tipoayuda->nombre;
                     } else {
                        $tipoayuda='';
                     } 
 
                     $estado = Estados::findOne($ayuda->id_estado);
-                    if ($estado !== null) {
+                    if ($estado) {
                     $estado=$estado->nombre;
                     } else {
                        $estado='';
                      }
+
+                    $area = Areas::findOne($ayuda->id_area);
+                    if ($area) {
+                    $area=$area->nombre;
+                    } else {
+                       $area='';
+                     }
+
+                    $referente = Referentes::findOne($ayuda->id_referente);
+                    if ($referente) {
+                    $referente=$referente->apeynom;
+                    } else {
+                       $referente='';
+                     }
+
+                     $AyudaExpediente = AyudasExpedientes::find()
+                                      ->where(['id_ayuda'=>$ayuda->id_ayuda])
+                                      ->one();
+                      if($AyudaExpediente){
+                      $expediente = Expedientes::findOne($AyudaExpediente->id_expediente);
+                      $expediente = $expediente->numero;  
+                      } else {
+                        $expediente='';
+                      }                
                     
 
                     echo '
@@ -275,10 +361,12 @@ class ListadoController extends Controller
                             <td>'.$tipoayuda.'</td>
                             <td>'.$estado.'</td>
                             <td>'.$ayuda['monto'].'</td>
-                            <td>'.$ayuda['area'].'</td>
+                            <td>'.$area.'</td>
+                            <td>'.$referente.'</td>
                             <td>'.$ayuda['fecha_pago'].'</td>
                             <td>'.$ayuda['fecha_entrada'].'</td>
                             <td>'.$ayuda['fecha_nota'].'</td>
+                            <td>'.$expediente.'</td>
                         </tr>
                     ';
                   }
@@ -287,92 +375,13 @@ class ListadoController extends Controller
 
     public function actionExcel_inconvenientes()
         {
-              
-              $ayudas = Ayudas::find()
-                          ->orderBy(['id_ayuda'=>SORT_DESC])   
-                          ->all();
-
-              $filename = 'Informe General de Ayudas que tuvieron Inconvenientes-'.Date('YmdGis').'.xls';
-              header("Content-type: application/vnd-ms-excel");
-              header("Content-Disposition: attachment; filename=".$filename);
-              echo '<table border="1" width="100%">
-                  <thead>
-                      <tr>
-                          <th></th>
-                          <th>Apellido y Nombre</th>
-                          <th>Documento</th>
-                          <th>Tipo Ayuda</th>
-                          <th>Estado</th>
-                          <th>Monto</th>
-                          <th>Area</th>
-                          <th>Fecha de Pago</th>
-                          <th>Fecha de Entrada</th>
-                          <th>Fecha de Nota</th>
-
-                      </tr>
-                  </thead>';
-                  $i=0;
-                  foreach($ayudas as $ayuda){
-
-                        $CountDevoluciones = Devoluciones::find()
-                                          ->where(['id_ayuda'=>$ayuda->id_ayuda])
-                                          ->count();
-                  if($CountDevoluciones>0)
-                  {
-                    $i++;
-                    
-                    /*BUSCO DATOS DEL Beneficiario*/
-                    $idbeneficiario=$ayuda->id_beneficiario;
-
-                    $beneficiario = Beneficiarios::find()
-                                ->where(['id_beneficiario'=>$idbeneficiario])
-                                ->one();
-
-
-                    $tipoayuda = TiposAyudas::findOne($ayuda->id_tipo);
-                    if ($tipoayuda !== null) {
-                    $tipoayuda=$tipoayuda->nombre;
-                    } else {
-                       $tipoayuda='';
-                    } 
-
-                    $estado = Estados::findOne($ayuda->id_estado);
-                    if ($estado !== null) {
-                    $estado=$estado->nombre;
-                    } else {
-                       $estado='';
-                     }
-                    
-
-                    echo '
-                        <tr>
-                            <td>'.$i.'</td>
-                            <td>'.$beneficiario['apeynom'].'</td>
-                            <td>'.$beneficiario['documento'].'</td>
-                            <td>'.$tipoayuda.'</td>
-                            <td>'.$estado.'</td>
-                            <td>'.$ayuda['monto'].'</td>
-                            <td>'.$ayuda['area'].'</td>
-                            <td>'.$ayuda['fecha_pago'].'</td>
-                            <td>'.$ayuda['fecha_entrada'].'</td>
-                            <td>'.$ayuda['fecha_nota'].'</td>
-                        </tr>
-                    ';
-                  }
-                }
-              echo '</table>';
-        }
-
-
-    public function actionExcel_pagadas()
-        {
 
               $ayudas = Ayudas::find()
                           ->where(['id_estado'=>3])
                           ->orderBy(['id_ayuda'=>SORT_DESC])   
                           ->all();
 
-              $filename = 'Informe General de Ayudas Pagadas-'.Date('YmdGis').'.xls';
+              $filename = 'Informe General de Ayudas-'.Date('YmdGis').'.xls';
               header("Content-type: application/vnd-ms-excel");
               header("Content-Disposition: attachment; filename=".$filename);
               echo '<table border="1" width="100%">
@@ -385,9 +394,11 @@ class ListadoController extends Controller
                           <th>Estado</th>
                           <th>Monto</th>
                           <th>Area</th>
+                          <th>Referente</th
                           <th>Fecha de Pago</th>
                           <th>Fecha de Entrada</th>
                           <th>Fecha de Nota</th>
+                          <th>Nro Expediente</th>
 
                       </tr>
                   </thead>';
@@ -404,18 +415,42 @@ class ListadoController extends Controller
 
 
                     $tipoayuda = TiposAyudas::findOne($ayuda->id_tipo);
-                    if ($tipoayuda !== null) {
+                    if ($tipoayuda) {
                     $tipoayuda=$tipoayuda->nombre;
                     } else {
                        $tipoayuda='';
                     } 
 
                     $estado = Estados::findOne($ayuda->id_estado);
-                    if ($estado !== null) {
+                    if ($estado) {
                     $estado=$estado->nombre;
                     } else {
                        $estado='';
                      }
+
+                    $area = Areas::findOne($ayuda->id_area);
+                    if ($area) {
+                    $area=$area->nombre;
+                    } else {
+                       $area='';
+                     }
+
+                    $referente = Referentes::findOne($ayuda->id_referente);
+                    if ($referente) {
+                    $referente=$referente->apeynom;
+                    } else {
+                       $referente='';
+                     }
+
+                     $AyudaExpediente = AyudasExpedientes::find()
+                                      ->where(['id_ayuda'=>$ayuda->id_ayuda])
+                                      ->one();
+                      if($AyudaExpediente){
+                      $expediente = Expedientes::findOne($AyudaExpediente->id_expediente);
+                      $expediente = $expediente->numero;  
+                      } else {
+                        $expediente='';
+                      }                
                     
 
                     echo '
@@ -426,10 +461,312 @@ class ListadoController extends Controller
                             <td>'.$tipoayuda.'</td>
                             <td>'.$estado.'</td>
                             <td>'.$ayuda['monto'].'</td>
-                            <td>'.$ayuda['area'].'</td>
+                            <td>'.$area.'</td>
+                            <td>'.$referente.'</td>
                             <td>'.$ayuda['fecha_pago'].'</td>
                             <td>'.$ayuda['fecha_entrada'].'</td>
                             <td>'.$ayuda['fecha_nota'].'</td>
+                            <td>'.$expediente.'</td>
+                        </tr>
+                    ';
+                  }
+              echo '</table>';
+        }
+
+    public function actionExcel_canceladas()
+        {
+
+              $ayudas = Ayudas::find()
+                          ->where(['id_estado'=>4])
+                          ->orderBy(['id_ayuda'=>SORT_DESC])   
+                          ->all();
+
+              $filename = 'Informe General de Ayudas-'.Date('YmdGis').'.xls';
+              header("Content-type: application/vnd-ms-excel");
+              header("Content-Disposition: attachment; filename=".$filename);
+              echo '<table border="1" width="100%">
+                  <thead>
+                      <tr>
+                          <th></th>
+                          <th>Apellido y Nombre</th>
+                          <th>Documento</th>
+                          <th>Tipo Ayuda</th>
+                          <th>Estado</th>
+                          <th>Monto</th>
+                          <th>Area</th>
+                          <th>Referente</th
+                          <th>Fecha de Pago</th>
+                          <th>Fecha de Entrada</th>
+                          <th>Fecha de Nota</th>
+                          <th>Nro Expediente</th>
+
+                      </tr>
+                  </thead>';
+                  $i=0;
+                  foreach($ayudas as $ayuda){
+                    $i++;
+
+                    /*BUSCO DATOS DEL Beneficiario*/
+                    $idbeneficiario=$ayuda->id_beneficiario;
+
+                    $beneficiario = Beneficiarios::find()
+                                ->where(['id_beneficiario'=>$idbeneficiario])
+                                ->one();
+
+
+                    $tipoayuda = TiposAyudas::findOne($ayuda->id_tipo);
+                    if ($tipoayuda) {
+                    $tipoayuda=$tipoayuda->nombre;
+                    } else {
+                       $tipoayuda='';
+                    } 
+
+                    $estado = Estados::findOne($ayuda->id_estado);
+                    if ($estado) {
+                    $estado=$estado->nombre;
+                    } else {
+                       $estado='';
+                     }
+
+                    $area = Areas::findOne($ayuda->id_area);
+                    if ($area) {
+                    $area=$area->nombre;
+                    } else {
+                       $area='';
+                     }
+
+                    $referente = Referentes::findOne($ayuda->id_referente);
+                    if ($referente) {
+                    $referente=$referente->apeynom;
+                    } else {
+                       $referente='';
+                     }
+
+                     $AyudaExpediente = AyudasExpedientes::find()
+                                      ->where(['id_ayuda'=>$ayuda->id_ayuda])
+                                      ->one();
+                      if($AyudaExpediente){
+                      $expediente = Expedientes::findOne($AyudaExpediente->id_expediente);
+                      $expediente = $expediente->numero;  
+                      } else {
+                        $expediente='';
+                      }                
+                    
+
+                    echo '
+                        <tr>
+                            <td>'.$i.'</td>
+                            <td>'.$beneficiario['apeynom'].'</td>
+                            <td>'.$beneficiario['documento'].'</td>
+                            <td>'.$tipoayuda.'</td>
+                            <td>'.$estado.'</td>
+                            <td>'.$ayuda['monto'].'</td>
+                            <td>'.$area.'</td>
+                            <td>'.$referente.'</td>
+                            <td>'.$ayuda['fecha_pago'].'</td>
+                            <td>'.$ayuda['fecha_entrada'].'</td>
+                            <td>'.$ayuda['fecha_nota'].'</td>
+                            <td>'.$expediente.'</td>
+                        </tr>
+                    ';
+                  }
+              echo '</table>';
+        }
+
+    public function actionExcel_autorizadas()
+        {
+
+              $ayudas = Ayudas::find()
+                          ->where(['id_estado'=>5])
+                          ->orderBy(['id_ayuda'=>SORT_DESC])   
+                          ->all();
+
+              $filename = 'Informe General de Ayudas-'.Date('YmdGis').'.xls';
+              header("Content-type: application/vnd-ms-excel");
+              header("Content-Disposition: attachment; filename=".$filename);
+              echo '<table border="1" width="100%">
+                  <thead>
+                      <tr>
+                          <th></th>
+                          <th>Apellido y Nombre</th>
+                          <th>Documento</th>
+                          <th>Tipo Ayuda</th>
+                          <th>Estado</th>
+                          <th>Monto</th>
+                          <th>Area</th>
+                          <th>Referente</th
+                          <th>Fecha de Pago</th>
+                          <th>Fecha de Entrada</th>
+                          <th>Fecha de Nota</th>
+                          <th>Nro Expediente</th>
+
+                      </tr>
+                  </thead>';
+                  $i=0;
+                  foreach($ayudas as $ayuda){
+                    $i++;
+
+                    /*BUSCO DATOS DEL Beneficiario*/
+                    $idbeneficiario=$ayuda->id_beneficiario;
+
+                    $beneficiario = Beneficiarios::find()
+                                ->where(['id_beneficiario'=>$idbeneficiario])
+                                ->one();
+
+
+                    $tipoayuda = TiposAyudas::findOne($ayuda->id_tipo);
+                    if ($tipoayuda) {
+                    $tipoayuda=$tipoayuda->nombre;
+                    } else {
+                       $tipoayuda='';
+                    } 
+
+                    $estado = Estados::findOne($ayuda->id_estado);
+                    if ($estado) {
+                    $estado=$estado->nombre;
+                    } else {
+                       $estado='';
+                     }
+
+                    $area = Areas::findOne($ayuda->id_area);
+                    if ($area) {
+                    $area=$area->nombre;
+                    } else {
+                       $area='';
+                     }
+
+                    $referente = Referentes::findOne($ayuda->id_referente);
+                    if ($referente) {
+                    $referente=$referente->apeynom;
+                    } else {
+                       $referente='';
+                     }
+
+                     $AyudaExpediente = AyudasExpedientes::find()
+                                      ->where(['id_ayuda'=>$ayuda->id_ayuda])
+                                      ->one();
+                      if($AyudaExpediente){
+                      $expediente = Expedientes::findOne($AyudaExpediente->id_expediente);
+                      $expediente = $expediente->numero;  
+                      } else {
+                        $expediente='';
+                      }                
+                    
+
+                    echo '
+                        <tr>
+                            <td>'.$i.'</td>
+                            <td>'.$beneficiario['apeynom'].'</td>
+                            <td>'.$beneficiario['documento'].'</td>
+                            <td>'.$tipoayuda.'</td>
+                            <td>'.$estado.'</td>
+                            <td>'.$ayuda['monto'].'</td>
+                            <td>'.$area.'</td>
+                            <td>'.$referente.'</td>
+                            <td>'.$ayuda['fecha_pago'].'</td>
+                            <td>'.$ayuda['fecha_entrada'].'</td>
+                            <td>'.$ayuda['fecha_nota'].'</td>
+                            <td>'.$expediente.'</td>
+                        </tr>
+                    ';
+                  }
+              echo '</table>';
+        }
+
+    public function actionExcel_pagadas()
+        {
+
+              $ayudas = Ayudas::find()
+                          ->where(['id_estado'=>6])
+                          ->orderBy(['id_ayuda'=>SORT_DESC])   
+                          ->all();
+
+              $filename = 'Informe General de Ayudas-'.Date('YmdGis').'.xls';
+              header("Content-type: application/vnd-ms-excel");
+              header("Content-Disposition: attachment; filename=".$filename);
+              echo '<table border="1" width="100%">
+                  <thead>
+                      <tr>
+                          <th></th>
+                          <th>Apellido y Nombre</th>
+                          <th>Documento</th>
+                          <th>Tipo Ayuda</th>
+                          <th>Estado</th>
+                          <th>Monto</th>
+                          <th>Area</th>
+                          <th>Referente</th
+                          <th>Fecha de Pago</th>
+                          <th>Fecha de Entrada</th>
+                          <th>Fecha de Nota</th>
+                          <th>Nro Expediente</th>
+
+                      </tr>
+                  </thead>';
+                  $i=0;
+                  foreach($ayudas as $ayuda){
+                    $i++;
+
+                    /*BUSCO DATOS DEL Beneficiario*/
+                    $idbeneficiario=$ayuda->id_beneficiario;
+
+                    $beneficiario = Beneficiarios::find()
+                                ->where(['id_beneficiario'=>$idbeneficiario])
+                                ->one();
+
+
+                    $tipoayuda = TiposAyudas::findOne($ayuda->id_tipo);
+                    if ($tipoayuda) {
+                    $tipoayuda=$tipoayuda->nombre;
+                    } else {
+                       $tipoayuda='';
+                    } 
+
+                    $estado = Estados::findOne($ayuda->id_estado);
+                    if ($estado) {
+                    $estado=$estado->nombre;
+                    } else {
+                       $estado='';
+                     }
+
+                    $area = Areas::findOne($ayuda->id_area);
+                    if ($area) {
+                    $area=$area->nombre;
+                    } else {
+                       $area='';
+                     }
+
+                    $referente = Referentes::findOne($ayuda->id_referente);
+                    if ($referente) {
+                    $referente=$referente->apeynom;
+                    } else {
+                       $referente='';
+                     }
+
+                     $AyudaExpediente = AyudasExpedientes::find()
+                                      ->where(['id_ayuda'=>$ayuda->id_ayuda])
+                                      ->one();
+                      if($AyudaExpediente){
+                      $expediente = Expedientes::findOne($AyudaExpediente->id_expediente);
+                      $expediente = $expediente->numero;  
+                      } else {
+                        $expediente='';
+                      }                
+                    
+
+                    echo '
+                        <tr>
+                            <td>'.$i.'</td>
+                            <td>'.$beneficiario['apeynom'].'</td>
+                            <td>'.$beneficiario['documento'].'</td>
+                            <td>'.$tipoayuda.'</td>
+                            <td>'.$estado.'</td>
+                            <td>'.$ayuda['monto'].'</td>
+                            <td>'.$area.'</td>
+                            <td>'.$referente.'</td>
+                            <td>'.$ayuda['fecha_pago'].'</td>
+                            <td>'.$ayuda['fecha_entrada'].'</td>
+                            <td>'.$ayuda['fecha_nota'].'</td>
+                            <td>'.$expediente.'</td>
                         </tr>
                     ';
                   }
