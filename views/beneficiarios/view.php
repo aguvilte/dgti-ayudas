@@ -26,10 +26,21 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
+            
             'apeynom',
-            'documento',
+            [
+                'attribute' => 'documento',
+                'value' => function($model){
+                    // if(!empty($model->id_referente)){
+                        return number_format($model->documento, 0, ',', '.');
+                    // }
+                },
+            ],
             'cuil',
-            'fecha_nacimiento',
+            [
+                'attribute' => 'fecha_nacimiento',
+                'format' => ['date', 'php:d/m/Y']
+            ],
             'lugar_nacimiento',
             'domicilio',
             'telefono_fijo',
