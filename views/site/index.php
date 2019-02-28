@@ -160,7 +160,7 @@ $this->title = 'SRAE - Sistema de Registración de Ayudas Económicas';
                      </div>
                     </article>';
                   }
-                  if ($UsuariosSeccion->id_seccion==11) {
+                  if ($UsuariosSeccion->id_seccion==12) {
                     echo '
                     <article class="grid col-one-quarter mq3-col-full">
                      <div class="ipanel_icon ">';
@@ -169,7 +169,7 @@ $this->title = 'SRAE - Sistema de Registración de Ayudas Económicas';
                      </div>
                     </article>';
                   }
-                  if ($UsuariosSeccion->id_seccion==11) {
+                  if ($UsuariosSeccion->id_seccion==13) {
                     echo '
                     <article class="grid col-one-quarter mq3-col-full">
                      <div class="ipanel_icon ">';
@@ -178,7 +178,7 @@ $this->title = 'SRAE - Sistema de Registración de Ayudas Económicas';
                      </div>
                     </article>';
                   }
-                  if ($UsuariosSeccion->id_seccion==11) {
+                  if ($UsuariosSeccion->id_seccion==14) {
                     echo '
                     <article class="grid col-one-quarter mq3-col-full">
                      <div class="ipanel_icon ">';
