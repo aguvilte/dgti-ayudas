@@ -48,7 +48,7 @@ $this->params['breadcrumbs'][] = $this->title;
                      if($model->id_tipo_movimiento == 4)
                         return Html::a('<span class="glyphicon glyphicon-eye-open"></span> Ver', './index.php?r=tipos-ayudas/view&id=' . $model->id_dato_modificado);
                      if($model->id_tipo_movimiento == 5)
-                        return Html::a('<span class="glyphicon glyphicon-eye-open"></span> Ver', './index.php?r=pago/view&id=' . $model->id_dato_modificado);
+                        return Html::a('<span class="glyphicon glyphicon-eye-open"></span> Ver', './index.php?r=expedientes/view&id=' . $model->id_dato_modificado);
 
                     },
                 'options' => ['class' => 'tbl-col-pdf-ben'],

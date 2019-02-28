@@ -292,7 +292,7 @@ class PagoController extends Controller
                         <th>Monto</th>
                         <th>Área</th>
                         <th>Fecha de pago</th>
-                        <th>Fecha de eEntrada</th>
+                        <th>Fecha de Entrada</th>
                         <th>Fecha de nota</th>
                     </tr>
                 </thead>

@@ -134,7 +134,7 @@ class ExpedientesController extends Controller
             $expedienteToActualizar->save();
 
             $descripcion='ASIGNACIÓN A Exp. nº'.$expedienteToActualizar->numero;
-            RegistroMovimientos::registrarMovimiento(5, $descripcion, $ayudasExpedientesModel->id_ayuda);
+            RegistroMovimientos::registrarMovimiento(3, $descripcion, $ayudasExpedientesModel->id_ayuda);
 
             return $this->redirect(['index']);
         } else {
@@ -160,7 +160,7 @@ class ExpedientesController extends Controller
         $expedienteToActualizar->save();
 
         $descripcion='DISLIGACIÓN A Exp. nº'.$expedienteToActualizar->numero;
-        RegistroMovimientos::registrarMovimiento(5, $descripcion, $ayuda->id_ayuda);      
+        RegistroMovimientos::registrarMovimiento(3, $descripcion, $ayuda->id_ayuda);      
 
         return $this->redirect(['/expedientes/view','id'=>$expedienteToActualizar->id_expediente]);
     }
@@ -207,6 +207,8 @@ class ExpedientesController extends Controller
         $model->estado = 0;
         $model->fecha_cierre = Date('Y-m-d');
         $model->save();
+
+        RegistroMovimientos::registrarMovimiento(5, 'CIERRE', $model->id_expediente);      
 
         return $this->redirect(['view', 'id' => $model->id_expediente]);
     }
