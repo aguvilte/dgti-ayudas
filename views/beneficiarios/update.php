@@ -19,3 +19,5 @@ $this->params['breadcrumbs'][] = 'Actualizar';
     ]) ?>
 
 </div>
+
+<script src="js/beneficiarios/update.js"></script>

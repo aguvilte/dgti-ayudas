@@ -19,3 +19,5 @@ $this->params['breadcrumbs'][] = $this->title;
     ]) ?>
 
 </div>
+
+<script src="js/beneficiarios/create.js"></script>
