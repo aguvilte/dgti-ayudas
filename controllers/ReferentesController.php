@@ -10,6 +10,7 @@ use app\models\ReferentesSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use app\components\RegistroMovimientos;
 
 class ReferentesController extends Controller
 {
@@ -73,6 +74,9 @@ class ReferentesController extends Controller
         if ($model->load(Yii::$app->request->post())) {
             $model->estado = 1;
             $model->save();
+
+            RegistroMovimientos::registrarMovimiento(7, 'CREACION', $model->id_referente);  
+
             return $this->redirect(['view', 'id' => $model->id_referente]);
         } else {
             return $this->render('create', [
@@ -86,6 +90,7 @@ class ReferentesController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            RegistroMovimientos::registrarMovimiento(7, 'ACTUALIZACION', $model->id_referente);  
             return $this->redirect(['view', 'id' => $model->id_referente]);
         } else {
             return $this->render('update', [
@@ -99,6 +104,8 @@ class ReferentesController extends Controller
         $referenteToInactivo = $this->findModel($id);
         $referenteToInactivo->estado = 0;
         $referenteToInactivo->save();
+        
+        RegistroMovimientos::registrarMovimiento(7, 'ELIMINACION', $model->id_referente);  
 
         // RegistroMovimientos::registrarMovimiento(4, 'ELIMINACIÓN', $areaToInactiva->id_area);
 

@@ -10,6 +10,7 @@ use app\models\AreasSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use app\components\RegistroMovimientos;
 
 class AreasController extends Controller
 {
@@ -73,6 +74,9 @@ class AreasController extends Controller
         if ($model->load(Yii::$app->request->post())) {
             $model->estado = 1;
             $model->save();
+           
+            RegistroMovimientos::registrarMovimiento(6, 'CREACION', $model->id_area);  
+
             return $this->redirect(['view', 'id' => $model->id_area]);
         } else {
             return $this->render('create', [
@@ -86,6 +90,7 @@ class AreasController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            RegistroMovimientos::registrarMovimiento(6, 'ACTUALIZACION', $model->id_area);  
             return $this->redirect(['view', 'id' => $model->id_area]);
         } else {
             return $this->render('update', [
@@ -99,6 +104,8 @@ class AreasController extends Controller
         $areaToInactiva = $this->findModel($id);
         $areaToInactiva->estado = 0;
         $areaToInactiva->save();
+        
+        RegistroMovimientos::registrarMovimiento(6, 'ELIMINACION', $model->id_area);  
 
         // RegistroMovimientos::registrarMovimiento(4, 'ELIMINACIÓN', $areaToInactiva->id_area);
 

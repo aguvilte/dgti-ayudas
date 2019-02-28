@@ -133,7 +133,7 @@ class ExpedientesController extends Controller
             $expedienteToActualizar->monto_total = $expedienteToActualizar->monto_total + $ayuda->monto;
             $expedienteToActualizar->save();
 
-            $descripcion='ASIGNACIÓN A Exp. nº'.$expedienteToActualizar->numero;
+            $descripcion='ASIGNACION A Exp. nº'.$expedienteToActualizar->numero;
             RegistroMovimientos::registrarMovimiento(3, $descripcion, $ayudasExpedientesModel->id_ayuda);
 
             return $this->redirect(['index']);
@@ -159,7 +159,7 @@ class ExpedientesController extends Controller
         $expedienteToActualizar->monto_total = $expedienteToActualizar->monto_total - $ayuda->monto;
         $expedienteToActualizar->save();
 
-        $descripcion='DISLIGACIÓN A Exp. nº'.$expedienteToActualizar->numero;
+        $descripcion='DISLIGACION A Exp. nº'.$expedienteToActualizar->numero;
         RegistroMovimientos::registrarMovimiento(3, $descripcion, $ayuda->id_ayuda);      
 
         return $this->redirect(['/expedientes/view','id'=>$expedienteToActualizar->id_expediente]);
