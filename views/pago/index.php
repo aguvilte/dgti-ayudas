@@ -205,7 +205,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         return $usuario->username;
                     }
                 },
-                'filter'=> ArrayHelper::map(Referentes::find()->groupBy('apeynom')->all(), 'id_referente', 'apeynom'),  
+                'filter'=> ArrayHelper::map(Usuarios::find()->groupBy('username')->where(['id_rol' => 2])->all(), 'id', 'username'),  
             ],
         ],
         'options' => ['class' => 'tbl-completa'],
