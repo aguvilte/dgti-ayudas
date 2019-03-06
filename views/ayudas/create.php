@@ -8,23 +8,23 @@ use app\models\Ayudas;
 /* @var $this yii\web\View */
 /* @var $model app\models\Ayudas */
 
-$persona = Beneficiarios::find()
+$beneficiario = Beneficiarios::find()
 				->where(['id_beneficiario'=>$id])
 				->one();
-$this->title = $persona->apeynom.' DNI: '.$persona->documento;			
+$this->title = $beneficiario->apeynom.' DNI: '.$beneficiario->documento;			
 $this->params['breadcrumbs'][] = ['label' => 'Personas', 'url' => ['/beneficiarios/index']];
 $this->params['breadcrumbs'][] = 'Crear Ayuda';
 
-$idpersona=$persona->id_beneficiario;
+$idbeneficiario=$beneficiario->id_beneficiario;
 
 $countayudas=Ayudas::find()
-            ->where(['id_beneficiario'=>$idpersona])
+            ->where(['id_beneficiario'=>$idbeneficiario])
             ->count();
 
 
 if($countayudas>0) {
 $ayuda = Ayudas::find()
-    ->where(['id_beneficiario'=>$idpersona])
+    ->where(['id_beneficiario'=>$idbeneficiario])
     ->orderBy(['id_ayuda'=>SORT_DESC])
     ->one();
 
