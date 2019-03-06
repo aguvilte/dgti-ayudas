@@ -292,6 +292,17 @@ class Usuarios extends \yii\db\ActiveRecord implements IdentityInterface
        }
     }
 
+    public static function isTiposAyudas($id)
+    {
+      if (Usuarios::findOne(['id' => $id, 'id_rol' => 3])){
+        if (UsuariosSecciones::findOne(['id_usuario' => $id, 'id_seccion' => 15])){
+         return true;
+        }
+       } else {
+       return false;
+       }
+    }
+
 
 
 }
