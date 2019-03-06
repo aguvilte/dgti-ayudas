@@ -191,6 +191,24 @@ $this->title = 'SRAE - Sistema de Registración de Ayudas Económicas';
               echo '</div>';
               ?>
 
+            <?php
+                echo '<div class="panel-body">';
+
+                foreach ($UsuariosSecciones as $UsuariosSeccion) {
+
+                  if ($UsuariosSeccion->id_seccion==11) {
+                    echo '
+                    <article class="grid col-one-quarter mq3-col-full">
+                     <div class="ipanel_icon ">';
+                      echo Html::a(Html::img('@web/img/ico_areas.png') . Yii::t('app','TIPOS DE AYUDAS'), ['/tipos-ayudas/index']);
+                    echo '
+                     </div>
+                    </article>';
+                  }
+                }
+              echo '</div>';
+              ?>
+
             <?php } ?>
 
                             <!--
