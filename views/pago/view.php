@@ -45,10 +45,18 @@ $this->params['breadcrumbs'][] = $this->title;
     </p>
     <?php }?>
 
-<?php if($model->id_estado==5) {?>
+<?php if($model->id_estado==5 && $countExp > 0) {?>
     <p>
       <a class="btn btn-info" href="?r=pago%2Fpago&id=<?php echo $id; ?>" title="Realizar pago" aria-label="Pago">
         <span class="glyphicon glyphicon-usd"></span> Pagar
+      </a>
+    </p>
+    <?php }?>
+
+<?php if($countExp == 0) {?>
+    <p>
+      <a class="btn btn-warning" target="_blank" href="?r=expedientes%2Fayudas&id=<?php echo $id; ?>" title="Realizar pago" aria-label="Pago">
+        </span> Agregar a expediente
       </a>
     </p>
     <?php }?>
@@ -78,7 +86,7 @@ $this->params['breadcrumbs'][] = $this->title;
                    {
                       $beneficiario = Beneficiarios::findOne($model->id_beneficiario);
                       if ($beneficiario !== null) {
-                          return $beneficiario->documento;
+                            return number_format($beneficiario->documento, 0, ',', '.');
                       }
                    }
                 },
@@ -139,18 +147,24 @@ $this->params['breadcrumbs'][] = $this->title;
                    },
               ],
             'asunto',
-            'monto',
+            [
+                'label' => 'Monto',
+                'attribute' => 'monto',
+                'value' => function($model){
+                    return '$' . number_format($model->monto, 2, ',', '.');
+                },
+            ],
             [
                 'attribute' => 'fecha_nota',
-                'format' => ['date', 'php:d-m-Y']
+                'format' => ['date', 'php:d/m/Y']
             ],
             [
                 'attribute' => 'fecha_entrada',
-                'format' => ['date', 'php:d-m-Y']
+                'format' => ['date', 'php:d/m/Y']
             ],
             [
                 'attribute' => 'fecha_pago',
-                'format' => ['date', 'php:d-m-Y']
+                'format' => ['date', 'php:d/m/Y']
             ],
             'doc_adjunta',
             [

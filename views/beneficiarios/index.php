@@ -12,7 +12,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h2 class="titulo-area"><?= Html::encode($this->title) ?></h2>
 
     <p>
-        <?= Html::a('Crear persona', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Nuevo beneficiario', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?= GridView::widget([

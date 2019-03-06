@@ -80,9 +80,19 @@ class PagoController extends Controller
 
     public function actionView($id)
     {
+        $count = AyudasExpedientes::find()
+            ->where(['id_ayuda' => $id])
+            ->count();
+        
+        if($count > 0)
+            $countExp = $count;
+        else
+            $countExp = 0;
+
         return $this->render('view', [
             'model' => $this->findModel($id),
             'id' => $id,
+            'countExp' => $countExp,
         ]);
     }
 
