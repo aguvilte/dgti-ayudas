@@ -10,7 +10,7 @@ use app\models\Observaciones;
 use app\models\ObservacionesSearch;
 use app\models\Referentes;
 use app\models\TiposAyudas;
-
+use app\models\Devoluciones;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -48,12 +48,18 @@ class ObservacionesController extends Controller
             ->orderBy(['id_observacion' => SORT_DESC])
             ->all();
 
+        $Devoluciones = Devoluciones::find()
+            ->where(['id_ayuda' => $id])
+            ->orderBy(['id_devolucion' => SORT_DESC])
+            ->all();
+
         $model = Ayudas::find()
             ->where(['id_ayuda' => $id])
             ->one();
 
         return $this->render('view', [
             'observaciones' => $observaciones,
+            'Devoluciones' => $Devoluciones,
             'model' => $model,
         ]);
     }

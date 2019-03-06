@@ -6,7 +6,7 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\Observaciones */
 
-$this->title = 'Crear Observación';
+$this->title = 'Crear Nota';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="observaciones-create">

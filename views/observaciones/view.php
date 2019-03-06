@@ -8,12 +8,14 @@ use app\models\TiposAyudas;
 use app\models\Areas;
 use app\models\Referentes;
 use app\models\Estados;
+use app\models\Devoluciones;
+
 
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Devoluciones */
 
-$this->title = 'Observaciones';
+$this->title = 'Mis Notas';
 $this->params['breadcrumbs'][] = ['label' => 'Ayudas', 'url' => ['/pago/index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -22,9 +24,9 @@ $this->params['breadcrumbs'][] = $this->title;
     <h2 class="titulo-area"><?= Html::encode($this->title) ?></h2>
 
 
-    <h4><i class="glyphicon glyphicon-folder-open"></i>&nbsp;&nbsp;Observaciones para la ayuda.</h4>
+    <h4><i class="glyphicon glyphicon-folder-open"></i>&nbsp;&nbsp;Mis Notas.</h4>
     <p>
-        <?= Html::a('Crear nueva observación', ['create', 'id' => $model->id_ayuda], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Crear nueva nota', ['create', 'id' => $model->id_ayuda], ['class' => 'btn btn-success']) ?>
     </p>
     <?php
       foreach($observaciones as $observacion) {
@@ -36,6 +38,25 @@ $this->params['breadcrumbs'][] = $this->title;
             'descripcion',
             [
                 'attribute' => 'fecha_observacion',
+                'format' => ['date', 'php:d-m-Y']
+            ],
+                 ],
+             ]);
+      echo "</div>";
+    }
+    ?>
+
+    <h4><i class="glyphicon glyphicon-folder-open"></i>&nbsp;&nbsp;Devoluciones.</h4>
+    <?php
+      foreach($Devoluciones as $devolucion) {
+
+          echo "<div class='panel panel-default'>";
+          echo DetailView::widget([
+                 'model' => $devolucion,
+                 'attributes' => [
+            'descripcion',
+            [
+                'attribute' => 'fecha',
                 'format' => ['date', 'php:d-m-Y']
             ],
                  ],
