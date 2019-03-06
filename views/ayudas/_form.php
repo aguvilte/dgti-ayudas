@@ -19,16 +19,20 @@ use app\models\Referentes;
             <h2 class="titulo-seccion">AYUDA ECONOMICA</h2>
         </div>
         <div class="panel-body">
+            <p>Los campos marcados con (*) son obligatorios</p>
+            <br>
             <div class="row">
                 <div class="col-xs-12 col-sm-6">
                     <div class="form-group has-success">
-                        <?php $var1 = \yii\helpers\ArrayHelper::map(TiposAyudas::find()->where(['estado'=>1])->all(), 'id_tipo', 'nombre');?>
-                        <?= $form->field($model, 'id_tipo')->dropDownList($var1, ['prompt' => 'Seleccione Tipo de Ayuda']);?>
+                        <?php $var1 = \yii\helpers\ArrayHelper::map(TiposAyudas::find()->where(['estado'=>1])->all(), 'id_tipo', 'nombre');
+                        ?>
+                        <?= $form->field($model, 'id_tipo')->dropDownList($var1, ['prompt' => ''])->label('Tipo de ayuda (*)', ['class'=>'label-class']);
+                        ?>
                     </div>
                 </div>
                 <div class="col-xs-12 col-sm-6">
                     <div class="form-group has-success">
-                        <?= $form->field($model, 'doc_adjunta')->textInput(['maxlength' => true]) ?>  
+                        <?= $form->field($model, 'doc_adjunta')->textInput(['maxlength' => true])->label('Documentación adjunta', ['class'=>'label-class']) ?>  
                     </div>
                 </div>     
             </div>
@@ -43,12 +47,12 @@ use app\models\Referentes;
             <div class="row">
                 <div class="col-xs-12 col-sm-4">
                     <div class="form-group has-success">
-                        <?= $form->field($model, 'asunto')->textInput(['maxlength' => true]) ?>
+                        <?= $form->field($model, 'asunto')->textInput(['maxlength' => true])->label('Asunto', ['class'=>'label-class']) ?>
                     </div>
                 </div>
                 <div class="col-xs-12 col-sm-4">
                     <div class="form-group has-success">
-                        <?= $form->field($model, 'monto')->textInput(['maxlength' => true]) ?>
+                        <?= $form->field($model, 'monto')->textInput(['maxlength' => true])->label('Monto (*)', ['class'=>'label-class']) ?>
                     </div>
                 </div>
                 <div class="col-xs-12 col-sm-4">
@@ -68,7 +72,7 @@ use app\models\Referentes;
                                     'format' => 'dd/mm/yyyy',
                                     'todayHighlight'=> true
                                 ]
-                            ]);
+                            ])->label('Fecha de nota', ['class'=>'label-class']);
                         ?>
                     </div>
                 </div>
@@ -98,7 +102,7 @@ use app\models\Referentes;
                                     // 'style' => 'max-width: 400px',
                                 ]
                             )
-                            ->label('Área', ['class'=>'label-class'])
+                            ->label('Área (*)', ['class'=>'label-class'])
                         ?>
                     </div>
                 </div>
@@ -118,7 +122,7 @@ use app\models\Referentes;
                                     // 'style' => 'max-width: 400px',
                                 ]
                             )
-                            ->label('Referente', ['class'=>'label-class'])
+                            ->label('Referente (*)', ['class'=>'label-class'])
                         ?>
                     </div>
                 </div>
@@ -134,24 +138,24 @@ use app\models\Referentes;
             <div class="row">
                 <div class="col-xs-12 col-sm-6">
                     <div class="form-group has-success">
-                        <?= $form->field($model, 'file')->fileInput(); ?>                        
+                        <?= $form->field($model, 'file')->fileInput()->label('PDF de documentación adjunta', ['class'=>'label-class']); ?>                        
                     </div>
                 </div>
                 <div class="col-xs-12 col-sm-6">
                     <div class="form-group has-success">
-                        <?= $form->field($model, 'file1')->fileInput(); ?>                        
+                        <?= $form->field($model, 'file1')->fileInput()->label('PDF de gestor', ['class'=>'label-class']); ?>                        
                     </div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-xs-12 col-sm-6">
                     <div class="form-group has-success">
-                        <?= $form->field($model, 'file2')->fileInput(); ?>                        
+                        <?= $form->field($model, 'file2')->fileInput()->label('PDF de nota', ['class'=>'label-class']); ?>                        
                     </div>
                 </div>
                 <div class="col-xs-12 col-sm-6">
                     <div class="form-group has-success">
-                        <?= $form->field($model, 'file3')->fileInput(); ?>                        
+                        <?= $form->field($model, 'file3')->fileInput()->label('PDF de domicilio', ['class'=>'label-class']); ?>                        
                     </div>
                 </div>
             </div>

@@ -40,7 +40,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php if($model->id_estado==1 or $model->id_estado==3) {?>
             <?= Html::a('Actualizar', ['update', 'id' => $model->id_ayuda], ['class' => 'btn btn-primary']) ?>
         <?= Html::a('Enviar al área de pago', ['enviar', 'id' => $model->id_ayuda], [
-                'class' => 'btn btn-danger',
+                'class' => 'btn btn-success',
                 'data' => [
                 'confirm' => 'Está seguro de enviar esta ayuda al área de pago? Considere que no podrá realizar modificaciones futuras a dicha ayuda',
                 'method' => 'post',

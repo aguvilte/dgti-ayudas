@@ -40,7 +40,6 @@ $ayuda = Ayudas::find()
 
     <h3 class="titulo-area"><?= Html::encode($fecha_entrada) ?></h3>
 
-	<?= Html::a('Ver Tipos de Ayudas', ['/tipos-ayudas/index'], ['class' => 'btn btn-success', 'target'=>"_blank"]) ?>
     <?= $this->render('_form', [
         'model' => $model,
     ]) ?>
