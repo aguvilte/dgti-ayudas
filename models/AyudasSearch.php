@@ -16,7 +16,7 @@ class AyudasSearch extends Ayudas
     public function rules()
     {
         return [
-            [['id_tipo', 'id_ayuda', 'id_estado', 'id_beneficiario', 'id_area', 'id_referente', 'nro_cheque'], 'integer'],
+            [['id_tipo', 'id_ayuda', 'id_estado', 'id_beneficiario', 'id_area', 'id_referente', 'nro_cheque', 'id_usuario'], 'integer'],
             [['asunto', 'monto', 'fecha_nota', 'fecha_entrada', 'fecha_pago', 'doc_adjunta', 'pdf_doc_adjunta', 'pdf_nota', 'pdf_gestor', 'pdf_domicilio', 'globalSearch', 'horario_carga'], 'safe'],
             [['id_beneficiario'], 'number'],
         ];
@@ -76,6 +76,7 @@ class AyudasSearch extends Ayudas
             'id_referente' => $this->id_referente,
             'id_tipo' => $this->id_tipo,
             'id_estado' => $this->id_estado,
+            'id_usuario' => $this->id_usuario,
             // 'id_beneficiario' => $consultaBeneficiario->id_beneficiario,
             // 'beneficiarios.documento' => $this->id_beneficiario,
 

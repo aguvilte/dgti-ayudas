@@ -3,24 +3,27 @@
 namespace app\controllers;
 
 use Yii;
-use app\models\Usuarios;
-use yii\filters\AccessControl;
+use app\components\RegistroMovimientos;
+use app\models\Areas;
 use app\models\Ayudas;
+use app\models\AyudasExpedientes;
 use app\models\AyudasSearch;
-use yii\web\Controller;
-use yii\web\NotFoundHttpException;
+use app\models\Beneficiarios;
+use app\models\Estados;
+use app\models\Expedientes;
+use app\models\ExpedientesSearch;
+use app\models\Movimientos;
+use app\models\TiposAyudas;
+use app\models\Usuarios;
+
+use kartik\mpdf\Pdf;
+
+use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\web\UploadedFile;
-use kartik\mpdf\Pdf;
-use app\models\Beneficiarios;
-use app\models\TiposAyudas;
-use app\models\Estados;
-use app\models\Areas;
-use app\models\Movimientos;
-use app\models\Expedientes;
-use app\models\AyudasExpedientes;
-use app\models\ExpedientesSearch;
-use app\components\RegistroMovimientos;
+use yii\web\Controller;
+use yii\web\NotFoundHttpException;
+
 
 class AyudasController extends Controller
 {
@@ -31,29 +34,29 @@ class AyudasController extends Controller
                 'class' => AccessControl::className(),
                 'only' => ['view','enviar','update','index','mensaje_exito','create','mpdf','pdf_ayuda','updatepdf_doc_adjunta','updatepdfgestor','updatepdfnota','updatepdfdomicilio'],
                 'rules' => [
-                [
-                    //El administrador tiene permisos sobre las siguientes acciones
-                    'actions' => ['view','enviar','update','index','mensaje_exito','create','mpdf','pdf_ayuda','updatepdf_doc_adjunta','updatepdfgestor','updatepdfnota','updatepdfdomicilio'],
-                    //Esta propiedad establece que tiene permisos
-                    'allow' => true,
-                    //Usuarios autenticados, el signo ? es para invitados
-                    'roles' => ['@'],
-                    //Este método nos permite crear un filtro sobre la identidad del usuario
-                    //y así establecer si tiene permisos o no
-                    'matchCallback' => function ($rule, $action) {
-                        //Llamada al método que comprueba si es un administrador
-                        return Usuarios::isUserAdmin(Yii::$app->user->identity->id);
-                    },
-                ],
-                [
-                    //Los usuarios simples tienen permisos sobre las siguientes acciones
-                    'actions' => ['view','enviar','update','index','mensaje_exito','create','mpdf','pdf_ayuda','updatepdf_doc_adjunta','updatepdfgestor','updatepdfnota','updatepdfdomicilio'],
-                    'allow' => true,
-                    'roles' => ['@'],
-                    'matchCallback' => function ($rule, $action) {
-                        return Usuarios::isAyudas(Yii::$app->user->identity->id);
-                    },
-                ],
+                    [
+                        //El administrador tiene permisos sobre las siguientes acciones
+                        'actions' => ['view','enviar','update','index','mensaje_exito','create','mpdf','pdf_ayuda','updatepdf_doc_adjunta','updatepdfgestor','updatepdfnota','updatepdfdomicilio'],
+                        //Esta propiedad establece que tiene permisos
+                        'allow' => true,
+                        //Usuarios autenticados, el signo ? es para invitados
+                        'roles' => ['@'],
+                        //Este método nos permite crear un filtro sobre la identidad del usuario
+                        //y así establecer si tiene permisos o no
+                        'matchCallback' => function ($rule, $action) {
+                            //Llamada al método que comprueba si es un administrador
+                            return Usuarios::isUserAdmin(Yii::$app->user->identity->id);
+                        },
+                    ],
+                    [
+                        //Los usuarios simples tienen permisos sobre las siguientes acciones
+                        'actions' => ['view','enviar','update','index','mensaje_exito','create','mpdf','pdf_ayuda','updatepdf_doc_adjunta','updatepdfgestor','updatepdfnota','updatepdfdomicilio'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                        'matchCallback' => function ($rule, $action) {
+                            return Usuarios::isAyudas(Yii::$app->user->identity->id);
+                        },
+                    ],
                 ],
             ],
         ];
@@ -105,17 +108,17 @@ class AyudasController extends Controller
         $ayuda->id_estado=4; //estado cancelado.
         $ayuda->save(false);
 
-      $ayudaExpediente = AyudasExpedientes::find()
-                        ->where(['id_ayuda'=>$id])
-                        ->one();
-       if(!empty($ayudaExpediente)){
+        $ayudaExpediente = AyudasExpedientes::find()
+            ->where(['id_ayuda'=>$id])
+            ->one();
 
+       if (!empty($ayudaExpediente)) {
             $expedienteToActualizar = Expedientes::findOne($ayudaExpediente->id_expediente);
             $expedienteToActualizar->monto_total = $expedienteToActualizar->monto_total - $ayuda->monto;
             $expedienteToActualizar->save();
 
             $ayudaExpediente->delete();
-            }
+        }
 
         RegistroMovimientos::registrarMovimiento(2, 'CANCELADO', $ayuda->id_ayuda);
 
@@ -124,7 +127,7 @@ class AyudasController extends Controller
 
     public function actionMensaje_exito()
     {
-      return $this->render('mensaje_exito');
+        return $this->render('mensaje_exito');
     }
 
     public function actionCreate($id,$documento)
@@ -140,59 +143,44 @@ class AyudasController extends Controller
             $model->id_beneficiario=$id;
             $model->id_estado=1; //estado iniciado
 
-            //$NombrePdf = $model->nro_decreto;
-            $NombrePdf = str_replace("/","-", $model->id_beneficiario.'-'.$model->fecha_entrada);
-
-                $model->file = UploadedFile::getInstance($model,'file');
-                if(!empty($model->file)){
-                    /*Guardamos pdf en carpeta uploads*/ 
-                    $model->file->saveAs( 'uploads/Pdf-DOC-ADJUNTA/'.$NombrePdf.'.'.$model->file->extension );
-
-                    /*Le asignamos en la db la ruta donde esta el pdf*/ 
-                    $model->pdf_doc_adjunta = 'uploads/Pdf-DOC-ADJUNTA/'.$NombrePdf.'.'.$model->file->extension;
-                }
-
-            //$NombrePdf = $model->nro_decreto;
-            $NombrePdf = str_replace("/","-", $model->id_beneficiario.'-'.$model->fecha_entrada);
-
-                $model->file1 = UploadedFile::getInstance($model,'file1');
-                if(!empty($model->file1)){
-                    /*Guardamos pdf en carpeta uploads*/ 
-                    $model->file1->saveAs( 'uploads/Pdf-GESTOR/'.$NombrePdf.'.'.$model->file1->extension );
-
-                    /*Le asignamos en la db la ruta donde esta el pdf*/ 
-                    $model->pdf_gestor = 'uploads/Pdf-GESTOR/'.$NombrePdf.'.'.$model->file1->extension;
-                }
-
-            //$NombrePdf = $model->nro_decreto;
-            $NombrePdf = str_replace("/","-", $model->id_beneficiario.'-'.$model->fecha_entrada);
-
-                $model->file2 = UploadedFile::getInstance($model,'file2');
-                if(!empty($model->file2)){
-                    /*Guardamos pdf en carpeta uploads*/ 
-                    $model->file2->saveAs( 'uploads/Pdf-NOTA/'.$NombrePdf.'.'.$model->file2->extension );
-
-                    /*Le asignamos en la db la ruta donde esta el pdf*/ 
-                    $model->pdf_nota = 'uploads/Pdf-NOTA/'.$NombrePdf.'.'.$model->file2->extension;
-                }
-
-            //$NombrePdf = $model->nro_decreto;
-            $NombrePdf = str_replace("/","-", $model->id_beneficiario.'-'.$model->fecha_entrada);
-
-            $model->file3 = UploadedFile::getInstance($model,'file3');
-            if(!empty($model->file3)){
+            $nombrePdf = str_replace("/","-", $model->id_beneficiario . '-' . $model->fecha_entrada);
+            $model->file = UploadedFile::getInstance($model,'file');
+            if (!empty($model->file)) {
                 /*Guardamos pdf en carpeta uploads*/ 
-                $model->file3->saveAs( 'uploads/Pdf-DOMICILIO/'.$NombrePdf.'.'.$model->file3->extension );
+                $model->file->saveAs('uploads/Pdf-DOC-ADJUNTA/' . $nombrePdf . '.' . $model->file->extension );
 
                 /*Le asignamos en la db la ruta donde esta el pdf*/ 
-                $model->pdf_domicilio = 'uploads/Pdf-DOMICILIO/'.$NombrePdf.'.'.$model->file3->extension;
+                $model->pdf_doc_adjunta = 'uploads/Pdf-DOC-ADJUNTA/' . $nombrePdf . '.' . $model->file->extension;
             }
 
+            $nombrePdf = str_replace("/","-", $model->id_beneficiario . '-' . $model->fecha_entrada);
+            $model->file1 = UploadedFile::getInstance($model,'file1');
+            if (!empty($model->file1)) {
+                $model->file1->saveAs('uploads/Pdf-GESTOR/' . $nombrePdf . '.' . $model->file1->extension );
+                $model->pdf_gestor = 'uploads/Pdf-GESTOR/' . $nombrePdf . '.' . $model->file1->extension;
+            }
+
+            $nombrePdf = str_replace("/","-", $model->id_beneficiario.'-'.$model->fecha_entrada);
+            $model->file2 = UploadedFile::getInstance($model,'file2');
+            if (!empty($model->file2)) {
+                $model->file2->saveAs('uploads/Pdf-NOTA/' . $nombrePdf . '.' . $model->file2->extension );
+                $model->pdf_nota = 'uploads/Pdf-NOTA/' . $nombrePdf . '.' . $model->file2->extension;
+            }
+
+            $nombrePdf = str_replace("/","-", $model->id_beneficiario.'-'.$model->fecha_entrada);
+            $model->file3 = UploadedFile::getInstance($model,'file3');
+            if (!empty($model->file3)) {
+                $model->file3->saveAs('uploads/Pdf-DOMICILIO/' . $nombrePdf . '.' . $model->file3->extension );
+                $model->pdf_domicilio = 'uploads/Pdf-DOMICILIO/' . $nombrePdf . '.' . $model->file3->extension;
+            }
+
+            $model->id_usuario = Yii::$app->user->identity->id;
             $model->save();
 
             RegistroMovimientos::registrarMovimiento(2, 'CREACIÓN', $model->id_ayuda);
 
             return $this->redirect(['view', 'id' => $model->id_ayuda]);
+
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -212,7 +200,7 @@ class AyudasController extends Controller
         $arrayMeses = array('Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
         'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre');
 
-        $arrayDias = array( 'Domingo', 'Lunes', 'Martes',
+        $arrayDias = array('Domingo', 'Lunes', 'Martes',
               'Miercoles', 'Jueves', 'Viernes', 'Sabado');
 
         ini_set('date.timezone','America/Argentina/La_Rioja');
@@ -242,9 +230,7 @@ class AyudasController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-
-              RegistroMovimientos::registrarMovimiento(2, 'ACTUALIZACION', $model->id_ayuda);
-
+            RegistroMovimientos::registrarMovimiento(2, 'ACTUALIZACION', $model->id_ayuda);
             return $this->redirect(['view', 'id' => $model->id_ayuda]);
         } else {
             return $this->render('update', [
@@ -257,27 +243,28 @@ class AyudasController extends Controller
     {
 
       /*BUSCO DATOS DE LA AYUDA*/
+        $ayuda = Ayudas::find()
+            ->where(['id_ayuda'=>$id])
+            ->one();
+        $beneficiario = Beneficiarios::find()
+            ->where(['id_beneficiario'=>$ayuda->id_beneficiario])
+            ->one();
 
-      $ayuda = Ayudas::find()
-                  ->where(['id_ayuda'=>$id])
-                  ->one();
-      $beneficiario = Beneficiarios::find()
-                ->where(['id_beneficiario'=>$ayuda->id_beneficiario])
-                ->one();
-
-      return $this->render('pdf_ayuda', [
-                'ayuda' => $ayuda,
-                'beneficiario'=>$beneficiario,
-          ]);
+        return $this->render('pdf_ayuda', [
+            'ayuda' => $ayuda,
+            'beneficiario'=>$beneficiario,
+        ]);
 
     }
 
-    public function actionDelete($id) {
+    public function actionDelete($id)
+    {
         $model = $this->findModel($id);
 
         $estado = $model->id_estado;
 
-        if ($estado==1) {
+        if ($estado == 1) {
+
             $pdf_doc_adjunta=$model->pdf_doc_adjunta;
 
             if (empty($pdf_doc_adjunta)) {
@@ -286,7 +273,7 @@ class AyudasController extends Controller
             }
 
             $model = $this->findModel($id);
-            $pdf_gestor=$model->pdf_gestor;
+            $pdf_gestor = $model->pdf_gestor;
 
             if (empty($pdf_gestor)) {
             } else {
@@ -294,7 +281,7 @@ class AyudasController extends Controller
             }
 
             $model = $this->findModel($id);
-            $pdf_nota=$model->pdf_nota;
+            $pdf_nota = $model->pdf_nota;
 
             if (empty($pdf_nota)) {
             } else {
@@ -302,7 +289,7 @@ class AyudasController extends Controller
             }
 
             $model = $this->findModel($id);
-            $pdf_domicilio=$model->pdf_domicilio;
+            $pdf_domicilio = $model->pdf_domicilio;
 
             if (empty($pdf_domicilio)) {
             } else {
@@ -314,33 +301,36 @@ class AyudasController extends Controller
             $this->findModel($id)->delete();
 
             return $this->redirect(['index']);
+
         } else {
             throw new NotFoundHttpException('No se puede eliminar una ayuda que no esté en estado iniciada.');
         }
     }
 
-    public function actionUpdatepdf_doc_adjunta($id) {
+    public function actionUpdatepdf_doc_adjunta($id)
+    {
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post())) {
 
-            $NombrePdf1 = str_replace("/","-", $model->id_ayuda);
-            $NombrePdf1 = $model->id_ayuda.'-'.$NombrePdf1;
+            $nombrePdf1 = str_replace("/", "-", $model->id_ayuda);
+            $nombrePdf1 = $model->id_ayuda . '-' . $nombrePdf1;
             $model->file = UploadedFile::getInstance($model,'file');
 
             if(!empty($model->file)){
                 /*Guardamos pdf en carpeta uploads*/
-                $model->file->saveAs( 'uploads/Pdf-DOC-ADJUNTA/'.$NombrePdf1.'.'.$model->file->extension );
+                $model->file->saveAs('uploads/Pdf-DOC-ADJUNTA/' . $nombrePdf1 . '.' . $model->file->extension );
 
                 /*Le asignamos en la db la ruta donde esta el pdf*/
-                $model->pdf_doc_adjunta = 'uploads/Pdf-DOC-ADJUNTA/'.$NombrePdf1.'.'.$model->file->extension;
+                $model->pdf_doc_adjunta = 'uploads/Pdf-DOC-ADJUNTA/' . $nombrePdf1 . '.' . $model->file->extension;
 
                 //ACTUALIZAMOS EL PDF
                 $pdf_doc_adjunta=$model->pdf_doc_adjunta;
                 $id_ayuda=$model->id_ayuda;
 
-                $condition = ['and',
-                ['=', 'id_ayuda', $id_ayuda],
+                $condition = [
+                    'and',
+                    ['=', 'id_ayuda', $id_ayuda],
                 ];
 
                 Ayudas::updateAll(['pdf_doc_adjunta' => $pdf_doc_adjunta],$condition);
@@ -363,16 +353,16 @@ class AyudasController extends Controller
 
         if ($model->load(Yii::$app->request->post())) {
 
-            $NombrePdf1 = str_replace("/","-", $model->id_ayuda);
-            $NombrePdf1 = $model->id_ayuda.'-'.$NombrePdf1;
-            $model->file1 = Uploadedfile::getInstance($model,'file1');
+            $nombrePdf1 = str_replace("/", "-", $model->id_ayuda);
+            $nombrePdf1 = $model->id_ayuda . '-' . $nombrePdf1;
+            $model->file1 = Uploadedfile::getInstance($model, 'file1');
 
             if(!empty($model->file1)){
                 /*Guardamos pdf en carpeta uploads*/
-                $model->file1->saveAs( 'uploads/Pdf-GESTOR/'.$NombrePdf1.'.'.$model->file1->extension );
+                $model->file1->saveAs('uploads/Pdf-GESTOR/' . $nombrePdf1 . '.' . $model->file1->extension );
 
                 /*Le asignamos en la db la ruta donde esta el pdf*/
-                $model->pdf_gestor = 'uploads/Pdf-GESTOR/'.$NombrePdf1.'.'.$model->file1->extension;
+                $model->pdf_gestor = 'uploads/Pdf-GESTOR/' . $nombrePdf1 . '.' . $model->file1->extension;
 
                 //ACTUALIZAMOS EL PDF
                 $pdf_gestor=$model->pdf_gestor;
@@ -397,28 +387,26 @@ class AyudasController extends Controller
         }
     }
 
-    public function actionUpdatepdfnota($id) {
+    public function actionUpdatepdfnota($id)
+    {
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post())) {
 
-            $NombrePdf1 = str_replace("/","-", $model->id_ayuda);
-            $NombrePdf1 = $model->id_ayuda.'-'.$NombrePdf1;
-            $model->file2 = Uploadedfile::getInstance($model,'file2');
+            $nombrePdf1 = str_replace("/", "-", $model->id_ayuda);
+            $nombrePdf1 = $model->id_ayuda . '-' . $nombrePdf1;
+            $model->file2 = Uploadedfile::getInstance($model, 'file2');
 
-            if(!empty($model->file2)){
-                /*Guardamos pdf en carpeta uploads*/
-                $model->file2->saveAs( 'uploads/Pdf-NOTA/'.$NombrePdf1.'.'.$model->file2->extension );
+            if (!empty($model->file2)) {
+                $model->file2->saveAs('uploads/Pdf-NOTA/' . $nombrePdf1 . '.' . $model->file2->extension );
+                $model->pdf_nota = 'uploads/Pdf-NOTA/' . $nombrePdf1 . '.' . $model->file2->extension;
 
-                /*Le asignamos en la db la ruta donde esta el pdf*/
-                $model->pdf_nota = 'uploads/Pdf-NOTA/'.$NombrePdf1.'.'.$model->file2->extension;
+                $pdf_nota = $model->pdf_nota;
+                $id_ayuda = $model->id_ayuda;
 
-                //ACTUALIZAMOS EL PDF
-                $pdf_nota=$model->pdf_nota;
-                $id_ayuda=$model->id_ayuda;
-
-                $condition = ['and',
-                ['=', 'id_ayuda', $id_ayuda],
+                $condition = [
+                    'and',
+                    ['=', 'id_ayuda', $id_ayuda],
                 ];
 
                 Ayudas::updateAll(['pdf_nota' => $pdf_nota],$condition);
@@ -426,9 +414,11 @@ class AyudasController extends Controller
                 RegistroMovimientos::registrarMovimiento(2, 'Actualización PDF nota', $model->id_ayuda);
 
                 return $this->redirect(['view', 'id' => $model->id_ayuda]);
+
             } else {
                 throw new NotFoundHttpException('Seleccione un archivo');
             }
+
         } else {
             return $this->render('updatepdfnota', [
                 'model' => $model,
@@ -436,23 +426,20 @@ class AyudasController extends Controller
         }
     }
 
-    public function actionUpdatepdfdomicilio($id) {
+    public function actionUpdatepdfdomicilio($id)
+    {
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post())) {
 
-            $NombrePdf1 = str_replace("/","-", $model->id_ayuda);
-            $NombrePdf1 = $model->id_ayuda.'-'.$NombrePdf1;
-            $model->file3 = UploadedFile::getInstance($model,'file3');
+            $nombrePdf1 = str_replace("/", "-", $model->id_ayuda);
+            $nombrePdf1 = $model->id_ayuda . '-' . $nombrePdf1;
+            $model->file3 = UploadedFile::getInstance($model, 'file3');
 
-            if(!empty($model->file3)){
-                /*Guardamos pdf en carpeta uploads*/
-                $model->file3->saveAs( 'uploads/Pdf-DOMICILIO/'.$NombrePdf1.'.'.$model->file3->extension );
+            if (!empty($model->file3)) {
+                $model->file3->saveAs('uploads/Pdf-DOMICILIO/' . $nombrePdf1 . '.' . $model->file3->extension );
+                $model->pdf_domicilio = 'uploads/Pdf-DOMICILIO/' . $nombrePdf1 . '.' . $model->file3->extension;
 
-                /*Le asignamos en la db la ruta donde esta el pdf*/
-                $model->pdf_domicilio = 'uploads/Pdf-DOMICILIO/'.$NombrePdf1.'.'.$model->file3->extension;
-
-                //ACTUALIZAMOS EL PDF
                 $pdf_domicilio=$model->pdf_domicilio;
                 $id_ayuda=$model->id_ayuda;
 
@@ -465,9 +452,11 @@ class AyudasController extends Controller
                 RegistroMovimientos::registrarMovimiento(2, 'Actualización PDF domicilio', $model->id_ayuda);
 
                 return $this->redirect(['view', 'id' => $model->id_ayuda]);
+
             } else {
                 throw new NotFoundHttpException('Seleccione un archivo');
             }
+
         } else {
             return $this->render('updatepdfdomicilio', [
                 'model' => $model,
@@ -513,19 +502,20 @@ class AyudasController extends Controller
             'cssInline' => '.kv-heading-1{font-size:18px}', 
             'options' => ['title' => 'Krajee Report Title'],
             'methods' => [ 
-                'SetFooter'=>['{PAGENO}'],
+                'SetFooter' => ['{PAGENO}'],
             ]
         ]);
         
         return $pdf->render(); 
     }
 
-    public function actionExcel() {
+    public function actionExcel()
+    {
         $ayudas = Ayudas::find()
             ->orderBy(['id_ayuda' => SORT_DESC])   
             ->all();
 
-        $filename = 'ayudas-'.Date('YmdGis').'.xls';
+        $filename = 'ayudas-' . Date('YmdGis') . '.xls';
         header("Content-type: application/vnd-ms-excel");
         header("Content-Disposition: attachment; filename=" . $filename);
         echo '

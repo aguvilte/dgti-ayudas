@@ -13,11 +13,12 @@ namespace app\controllers;
 use Yii;
 use app\models\Movimientos;
 use app\models\MovimientosSearch;
+use app\models\Usuarios;
+
+use yii\filters\AccessControl;
+use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
-use app\models\Usuarios;
-use yii\filters\AccessControl;
 
 class MovimientosController extends Controller
 {
@@ -28,30 +29,30 @@ class MovimientosController extends Controller
                 'class' => AccessControl::className(),
                 'only' => ['index','view','update','create'],
                 'rules' => [
-                  [
-                      //El administrador tiene permisos sobre las siguientes acciones
-                      'actions' => ['index','view','update','create'],
-                      //Esta propiedad establece que tiene permisos
-                      'allow' => true,
-                      //Usuarios autenticados, el signo ? es para invitados
-                      'roles' => ['@'],
-                      //Este método nos permite crear un filtro sobre la identidad del usuario
-                      //y así establecer si tiene permisos o no
-                      'matchCallback' => function ($rule, $action) {
-                          //Llamada al método que comprueba si es un administrador
-                          return Usuarios::isUserAdmin(Yii::$app->user->identity->id);
-                      },
-                  ],
-                  [
-                     //Los usuarios simples tienen permisos sobre las siguientes acciones
-                     'actions' => ['index','view','update','create'],
-                     'allow' => true,
-                     'roles' => ['@'],
-                     'matchCallback' => function ($rule, $action) {
-                        return Usuarios::isMovimientos(Yii::$app->user->identity->id);
-                    },
-                  ],
-              ],
+                    [
+                        //El administrador tiene permisos sobre las siguientes acciones
+                        'actions' => ['index','view','update','create'],
+                        //Esta propiedad establece que tiene permisos
+                        'allow' => true,
+                        //Usuarios autenticados, el signo ? es para invitados
+                        'roles' => ['@'],
+                        //Este método nos permite crear un filtro sobre la identidad del usuario
+                        //y así establecer si tiene permisos o no
+                        'matchCallback' => function ($rule, $action) {
+                            //Llamada al método que comprueba si es un administrador
+                            return Usuarios::isUserAdmin(Yii::$app->user->identity->id);
+                        },
+                    ],
+                    [
+                        //Los usuarios simples tienen permisos sobre las siguientes acciones
+                        'actions' => ['index','view','update','create'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                        'matchCallback' => function ($rule, $action) {
+                         return Usuarios::isMovimientos(Yii::$app->user->identity->id);
+                        },
+                    ],
+                ],
             ],
             'verbs' => [
                 'class' => VerbFilter::className(),

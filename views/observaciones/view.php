@@ -24,14 +24,14 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h4><i class="glyphicon glyphicon-folder-open"></i>&nbsp;&nbsp;Observaciones para la ayuda.</h4>
     <p>
-        <?= Html::a('Crear Nueva Observacion', ['create', 'id' => $model->id_ayuda], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Crear nueva observación', ['create', 'id' => $model->id_ayuda], ['class' => 'btn btn-success']) ?>
     </p>
     <?php
-      foreach($Observaciones as $Observacion) {
+      foreach($observaciones as $observacion) {
 
           echo "<div class='panel panel-default'>";
           echo DetailView::widget([
-                 'model' => $Observacion,
+                 'model' => $observacion,
                  'attributes' => [
             'descripcion',
             [

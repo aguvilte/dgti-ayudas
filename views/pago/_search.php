@@ -11,6 +11,7 @@ use app\models\Estados;
 use app\models\Referentes;
 use app\models\TiposAyudas;
 use app\models\Expedientes;
+use app\models\Usuarios;
 ?>
 
 <div class="archivos-search">
@@ -144,20 +145,27 @@ use app\models\Expedientes;
         <?=
         $form
             ->field($modelExp, 'id_expediente')
-            // ->field($model, 'id_expediente')
             ->dropDownList(
                 ArrayHelper::map(Expedientes::find()->all(), 'id_expediente', 'numero'),
                 [
                     'prompt' => '',
                     'style' => 'max-width: 350px',
-                    // 'onchange' => '
-                    //     $.post("index.php?r=categorias-archivos/lists&id=' . '"+$(this).val(), function(data) {
-                    //         $("select#archivossearch-id_categoria_archivo").html(data);
-                    //     });
-                    // '
                 ]
             )
             ->label('Expediente', ['class'=>'label-class label-titulo'])
+        ?>
+
+        <?=
+            $form
+            ->field($model, 'id_usuario')
+            ->dropDownList(
+                ArrayHelper::map(Usuarios::find()->where(['id_rol' => 2])->all(), 'id', 'username'),
+                [
+                    'prompt' => '',
+                    'style' => 'max-width: 350px',
+                ]
+            )
+            ->label('Usuario de carga', ['class'=>'label-class label-titulo'])
         ?>
     </div>
     <br>

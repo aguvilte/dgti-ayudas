@@ -11,6 +11,7 @@ use app\models\Areas;
 use app\models\Observaciones;
 use app\models\Expedientes;
 use app\models\AyudasExpedientes;
+use app\models\Usuarios;
 
 $this->title = 'Consulta General';
 $this->params['breadcrumbs'][] = $this->title;
@@ -194,6 +195,17 @@ $this->params['breadcrumbs'][] = $this->title;
                     //     return Html::a('<span class="glyphicon glyphicon-minus"></span>', ['/expedientes/ayudas', 'id' => $model->id_ayuda], ['title' => Yii::t('app', 'Crear ayuda'),'class' => 'btn btn-danger btn-xs']);
                     // },
                 ],
+            ],
+            [
+                'label' => 'Usuario',
+                'attribute' => 'id_usuario',
+                'value' => function($model){
+                    $usuario = Usuarios::findOne($model->id_usuario);
+                    if ($usuario !== null) {
+                        return $usuario->username;
+                    }
+                },
+                'filter'=> ArrayHelper::map(Referentes::find()->groupBy('apeynom')->all(), 'id_referente', 'apeynom'),  
             ],
         ],
         'options' => ['class' => 'tbl-completa'],

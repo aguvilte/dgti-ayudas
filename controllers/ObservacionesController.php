@@ -3,27 +3,20 @@
 namespace app\controllers;
 
 use Yii;
+use app\components\RegistroMovimientos;
+use app\models\Areas;
+use app\models\Ayudas;
 use app\models\Observaciones;
 use app\models\ObservacionesSearch;
+use app\models\Referentes;
+use app\models\TiposAyudas;
+
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use app\models\Ayudas;
-use app\models\TiposAyudas;
-use app\models\Areas;
-use app\models\Referentes;
-use app\components\RegistroMovimientos;
 
-
-
-/**
- * ObservacionesController implements the CRUD actions for Observaciones model.
- */
 class ObservacionesController extends Controller
 {
-    /**
-     * @inheritdoc
-     */
     public function behaviors()
     {
         return [
@@ -36,10 +29,6 @@ class ObservacionesController extends Controller
         ];
     }
 
-    /**
-     * Lists all Observaciones models.
-     * @return mixed
-     */
     public function actionIndex()
     {
         $searchModel = new ObservacionesSearch();
@@ -51,63 +40,52 @@ class ObservacionesController extends Controller
         ]);
     }
 
-    /**
-     * Displays a single Observaciones model.
-     * @param integer $id
-     * @return mixed
-     */
     public function actionView($id)
     {
 
-        $Observaciones = Observaciones::find()
-                    ->where(['id_ayuda'=>$id])
-                    ->OrderBy(['id_observacion'=> SORT_DESC])
-                    ->all();
+        $observaciones = Observaciones::find()
+            ->where(['id_ayuda' => $id])
+            ->orderBy(['id_observacion' => SORT_DESC])
+            ->all();
 
         $model = Ayudas::find()
-                    ->where(['id_ayuda'=>$id])
-                    ->one();
+            ->where(['id_ayuda' => $id])
+            ->one();
 
         return $this->render('view', [
-            'Observaciones' => $Observaciones,
+            'observaciones' => $observaciones,
             'model' => $model,
         ]);
     }
 
-    /**
-     * Creates a new Observaciones model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return mixed
-     */
     public function actionCreate($id)
     {
-         $model = new Observaciones();
+        $model = new Observaciones();
 
         if ($model->load(Yii::$app->request->post())) {
 
             date_default_timezone_set('America/Argentina/Buenos_Aires');
             $fecha = Date('Y-m-d');
-            $model->fecha_observacion=$fecha;
-            $model->id_ayuda=$id;
+            $model->fecha_observacion = $fecha;
+            $model->id_ayuda = $id;
 
-            if (!Yii::$app->user->isGuest)
-              {
-               $usuario_activo=Yii::$app->user->identity->id;
-              }
-              $model->id_usuario=$usuario_activo;
+            if (!Yii::$app->user->isGuest) {
+               $usuario_activo = Yii::$app->user->identity->id;
+            }
 
+            $model->id_usuario = $usuario_activo;
             $model->save();
 
             RegistroMovimientos::registrarMovimiento(3, 'OBSERVACION', $model->id_ayuda);
 
-            $Observaciones = Observaciones::find()
-                    ->where(['id_ayuda'=>$id])
-                    ->OrderBy(['id_observacion'=> SORT_DESC])
-                    ->all();
+            $observaciones = Observaciones::find()
+                ->where(['id_ayuda' => $id])
+                ->orderBy(['id_observacion' => SORT_DESC])
+                ->all();
 
-             $model = Ayudas::find()
-                    ->where(['id_ayuda'=>$id])
-                    ->one();
+            $model = Ayudas::find()
+                ->where(['id_ayuda' => $id])
+                ->one();
 
             return $this->redirect(['view', 'id' => $model->id_ayuda]);
         } else {
@@ -117,12 +95,6 @@ class ObservacionesController extends Controller
         }
     }
 
-    /**
-     * Updates an existing Observaciones model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
-     * @return mixed
-     */
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
@@ -136,12 +108,6 @@ class ObservacionesController extends Controller
         }
     }
 
-    /**
-     * Deletes an existing Observaciones model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
-     * @return mixed
-     */
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();
@@ -149,13 +115,6 @@ class ObservacionesController extends Controller
         return $this->redirect(['index']);
     }
 
-    /**
-     * Finds the Observaciones model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param integer $id
-     * @return Observaciones the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
-     */
     protected function findModel($id)
     {
         if (($model = Observaciones::findOne($id)) !== null) {

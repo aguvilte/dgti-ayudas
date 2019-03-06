@@ -15,14 +15,14 @@ $this->params['breadcrumbs'][] = $this->title;
     <h2 class="titulo-area"><?= Html::encode($this->title) ?></h2>
 
 
-    <h4><i class="glyphicon glyphicon-folder-open"></i>&nbsp;&nbsp;Historial de Devoluciones de la Ayuda.</h4>
+    <h4><i class="glyphicon glyphicon-folder-open"></i>&nbsp;&nbsp;Historial de devoluciones de la ayuda.</h4>
 
     <?php
-      foreach($Devoluciones as $Devolucion) {
+      foreach($devoluciones as $devolucion) {
 
         echo "<div class='panel panel-default'>";
           echo DetailView::widget([
-                 'model' => $Devolucion,
+                 'model' => $devolucion,
                  'attributes' => [
             'descripcion',
             [

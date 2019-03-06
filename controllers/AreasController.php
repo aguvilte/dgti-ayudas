@@ -3,14 +3,15 @@
 namespace app\controllers;
 
 use Yii;
-use app\models\Usuarios;
-use yii\filters\AccessControl;
+use app\components\RegistroMovimientos;
 use app\models\Areas;
 use app\models\AreasSearch;
+use app\models\Usuarios;
+
+use yii\filters\AccessControl;
+use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
-use app\components\RegistroMovimientos;
 
 class AreasController extends Controller
 {
@@ -106,8 +107,6 @@ class AreasController extends Controller
         $areaToInactiva->save();
         
         RegistroMovimientos::registrarMovimiento(6, 'ELIMINACION', $model->id_area);  
-
-        // RegistroMovimientos::registrarMovimiento(4, 'ELIMINACIÓN', $areaToInactiva->id_area);
 
         // Yii::info('se eliminó un área (id=' . Yii::$app->user->getId() . ')', 'eliminacion_area');
         return $this->redirect(['index']);
