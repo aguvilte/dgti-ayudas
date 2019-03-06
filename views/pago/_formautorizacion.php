@@ -20,7 +20,7 @@ use app\models\Estados;
   
     <div class="panel panel-default">
             <div class="panel-heading">
-              <h2 class="titulo-seccion">REALIZAR PAGO</h2>
+              <h2 class="titulo-seccion">REALIZAR AUTORIZACIÓN</h2>
             </div>
             <div class="panel-body">
               <div class="row">
@@ -28,6 +28,21 @@ use app\models\Estados;
                   <div class="form-group has-success">
                       <?= $form->field($model, 'nro_cheque')->textInput(['maxlength' => true]) ?>  
                   </div>
+                </div>
+                <div class="col-xs-12 col-sm-4">
+                  <?= $form->field($model, 'fecha_pago')->widget(
+                            DatePicker::className(), [
+                                // inline too, not bad
+                                 'inline' => false,
+                                 'language' => 'es',
+                                 // modify template for custom rendering
+                                //'template' => '<div class="well well-sm" style="background-color: #fff; width:250px">{input}</div>',
+                                'clientOptions' => [
+                                    'autoclose' => true,
+                                    'format' => 'dd-mm-yyyy',
+                                    'todayHighlight'=> true
+                                ]
+                        ]);?>
                 </div>
               </div>
              </div>

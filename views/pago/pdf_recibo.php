@@ -116,7 +116,7 @@ $mpdf->WriteHTML($html);
 <p style="text-align: letf;" class="titulo-area">De conformidad a los términos de Resolución S.G.yL.G. Nº.....................................</p>
 <h5 style="text-align: letf;"><a name="top"></a>Con cargo de oportuna rendición de cuentas, Art. 223 a 228; 229 a 241 y 242 a 260 de la Resolución del Tribulan de Cuentas Nº 11/11.</h5>
 <br>
-<p style="text-align: letf;" class="titulo-area">La Rioja, '.date('d').' de '.$arrayMeses[date('m')-1].' de '.date('Y').'</p>
+<p style="text-align: letf;" class="titulo-area">Fecha de Pago: '.$ayuda->fecha_pago.'</p>
 <p style="text-align: letf;" class="titulo-area">Domicilio: '.$beneficiario->domicilio.'</p>
 <br>
 <br>

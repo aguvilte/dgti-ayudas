@@ -102,6 +102,7 @@ class PagoController extends Controller
 
         if ($model->load(Yii::$app->request->post())) {
 
+        if($model->fecha_pago!= NULL) {
             if ($model->nro_cheque!= NULL) {
 
                 $ayuda = Ayudas::find()
@@ -111,6 +112,7 @@ class PagoController extends Controller
                 //Ayudas::updateAllCounters(['id_estado' => 1]);
                 $ayuda->id_estado=5; //estado autorizado
                 $ayuda->nro_cheque= $model->nro_cheque;
+                $ayuda->fecha_pago= $model->fecha_pago;
                 $ayuda->save(false);
 
                 RegistroMovimientos::registrarMovimiento(3, 'AUTORIZACIÓN', $ayuda->id_ayuda);
@@ -120,6 +122,9 @@ class PagoController extends Controller
                 } else {
                     throw new NotFoundHttpException('Es requerido que complete el campo de Nro de Cheque para realizar la operación.');
                 }
+             } else {
+                throw new NotFoundHttpException('Es requerido que complete el campo de Fecha de Pago para realizar la operación.');
+            }
         } else {
             return $this->render('autorizacion', [
                 'model' => $model,
@@ -133,7 +138,6 @@ class PagoController extends Controller
 
         if ($model->load(Yii::$app->request->post())) {
 
-            if($model->fecha_pago!= NULL) {
 
                //$NombrePdf = $model->nro_decreto;
                 $NombrePdf = str_replace("/","-", $model->id_ayuda);
@@ -156,9 +160,6 @@ class PagoController extends Controller
                 } else {
                     throw new NotFoundHttpException('Es requerido que complete el campo de PDF Recibo para realizar la operación.');
                 }
-            } else {
-                throw new NotFoundHttpException('Es requerido que complete el campo de Fecha de Pago para realizar la operación.');
-            }
         } else {
             return $this->render('pago', [
                 'model' => $model,
