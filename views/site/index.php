@@ -73,7 +73,7 @@ $this->title = 'SRAE - Sistema de Registración de Ayudas Económicas';
                     echo '
                     <article class="grid col-one-quarter mq3-col-full">
                      <div class="ipanel_icon ">';
-                      echo Html::a(Html::img('@web/img/ico_movimientos.png') . Yii::t('app','MOVIMIENTOS'), ['/movimientos/index']);
+                      echo Html::a(Html::img('@web/img/ico_movimientos.png') . Yii::t('app','MOVIMIENTOS DE USUARIOS'), ['/movimientos/index']);
                     echo '
                      </div>
                     </article>';
@@ -110,34 +110,34 @@ $this->title = 'SRAE - Sistema de Registración de Ayudas Económicas';
                       echo '
                       <article class="grid col-one-quarter mq3-col-full">
                        <div class="ipanel_icon ">';
-                        echo Html::a(Html::img('@web/img/ico_orden_pago.png') . Yii::t('app','PAGO'), ['/pago/filters']);
+                        echo Html::a(Html::img('@web/img/ico_orden_pago.png') . Yii::t('app','PAGOS'), ['/pago/index']);
                       echo '
                        </div>
                       </article>';
                     }
-                  if ($UsuariosSeccion->id_seccion==7) {
-                    echo '
-                    <article class="grid col-one-quarter mq3-col-full">
-                     <div class="ipanel_icon ">';
-                      echo Html::a(Html::img('@web/img/ico_historial.png') . Yii::t('app','CONSULTA POR FECHA DE PAGO'), ['/fecha-pago/fecha_pago']);
-                    echo '
-                     </div>
-                    </article>';
-                  }
-                  if ($UsuariosSeccion->id_seccion==8) {
-                    echo '
-                    <article class="grid col-one-quarter mq3-col-full">
-                     <div class="ipanel_icon ">';
-                      echo Html::a(Html::img('@web/img/ico_historial.png') . Yii::t('app','CONSULTA POR FECHA DE ENTRADA'), ['/fecha-entrada/fecha_entrada']);
-                    echo '
-                     </div>
-                    </article>';
-                  }
+                  // if ($UsuariosSeccion->id_seccion==7) {
+                  //   echo '
+                  //   <article class="grid col-one-quarter mq3-col-full">
+                  //    <div class="ipanel_icon ">';
+                  //     echo Html::a(Html::img('@web/img/ico_historial.png') . Yii::t('app','CONSULTA POR FECHA DE PAGO'), ['/fecha-pago/fecha_pago']);
+                  //   echo '
+                  //    </div>
+                  //   </article>';
+                  // }
+                  // if ($UsuariosSeccion->id_seccion==8) {
+                  //   echo '
+                  //   <article class="grid col-one-quarter mq3-col-full">
+                  //    <div class="ipanel_icon ">';
+                  //     echo Html::a(Html::img('@web/img/ico_historial.png') . Yii::t('app','CONSULTA POR FECHA DE ENTRADA'), ['/fecha-entrada/fecha_entrada']);
+                  //   echo '
+                  //    </div>
+                  //   </article>';
+                  // }
                    if ($UsuariosSeccion->id_seccion==9) {
                     echo '
                     <article class="grid col-one-quarter mq3-col-full">
                      <div class="ipanel_icon ">';
-                      echo Html::a(Html::img('@web/img/ico_movimientos.png') . Yii::t('app','MOVIMIENTOS'), ['/movimientos/index']);
+                      echo Html::a(Html::img('@web/img/ico_movimientos.png') . Yii::t('app','MOVIMIENTOS DE USUARIOS'), ['/movimientos/index']);
                     echo '
                      </div>
                     </article>';

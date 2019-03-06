@@ -30,7 +30,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
-        // 'filterModel' => $searchModel,
+        'filterModel' => $searchModel,
         'rowOptions' => function($model) {
             if($model->id_estado == 3) //0 inconvenientes
                 return ['class' => 'danger'];
