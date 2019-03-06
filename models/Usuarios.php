@@ -136,17 +136,6 @@ class Usuarios extends \yii\db\ActiveRecord implements IdentityInterface
        }
     }
 
-    public static function isTiposAyudas($id)
-    {
-      if (Usuarios::findOne(['id' => $id, 'id_rol' => 2])){
-        if (UsuariosSecciones::findOne(['id_usuario' => $id, 'id_seccion' => 2])){
-         return true;
-        }
-       } else {
-       return false;
-       }
-    }
-
     public static function isFechaPago($id)
     {
       //Verifico que el usuario tenga el rol correcto
