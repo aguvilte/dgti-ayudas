@@ -22,6 +22,8 @@ use kartik\file\FileInput;
         </div>
 
         <div class="panel-body">
+            <p>Los campos marcados con (*) son obligatorios</p>
+            <br>
             <div class="row">
                 <div class="col-xs-12 col-sm-4">
                     <div class="form-group has-success">
@@ -32,6 +34,7 @@ use kartik\file\FileInput;
                                 'maxlength' => true,
                                 'placeholder' => 'Nombre/s y apellido/s'
                             ])
+                            ->label('Nombre y apellido (*)', ['class'=>'label-class']);
                         ?>
                     </div>
                 </div>
@@ -46,6 +49,7 @@ use kartik\file\FileInput;
                                 'minlength' => 8,
                                 'required' => true
                             ])
+                            ->label('DNI (*)', ['class'=>'label-class']);
                         ?>
                     </div>
                 </div>
@@ -60,6 +64,7 @@ use kartik\file\FileInput;
                                 'minlength' => 13,
                                 'required' => false
                             ])
+                            ->label('CUIL', ['class'=>'label-class']);
                         ?>
                     </div>
                 </div>
@@ -82,18 +87,19 @@ use kartik\file\FileInput;
                                         'autoclose' => true,
                                         'format' => 'dd/mm/yyyy'
                                     ]
-                            ]);
+                            ])
+                            ->label('Fecha de nacimiento', ['class'=>'label-class']);
                         ?>
                     </div>
                 </div>
                 <div class="col-xs-12 col-sm-4">
                     <div class="form-group has-success">
-                        <?= $form->field($model, 'lugar_nacimiento')->textInput() ?>
+                        <?= $form->field($model, 'lugar_nacimiento')->textInput()->label('Lugar de nacimiento', ['class'=>'label-class']); ?>
                     </div>
                 </div>
                 <div class="col-xs-12 col-sm-4">
                     <div class="form-group has-success">
-                        <?= $form->field($model, 'domicilio')->textInput() ?>
+                        <?= $form->field($model, 'domicilio')->textInput()->label('Domicilio', ['class'=>'label-class']); ?>
                     </div>
                 </div>
             </div>
@@ -101,12 +107,12 @@ use kartik\file\FileInput;
             <div class="row">
                 <div class="col-xs-12 col-sm-4">
                     <div class="form-group has-success">
-                        <?= $form->field($model, 'telefono_fijo')->textInput() ?>
+                        <?= $form->field($model, 'telefono_fijo')->textInput()->label('Teléfono fijo', ['class'=>'label-class']); ?>
                     </div>
                 </div>
                 <div class="col-xs-12 col-sm-4">
                     <div class="form-group has-success">
-                        <?= $form->field($model, 'telefono_celular')->textInput() ?>
+                        <?= $form->field($model, 'telefono_celular')->textInput()->label('Teléfono celular', ['class'=>'label-class']); ?>
                     </div>
                 </div>
             </div>
@@ -121,14 +127,14 @@ use kartik\file\FileInput;
             <div class="row">
                 <div class="col-xs-12 co sm-3">
                     <div class="form-group has-success">
-                        <?= $form->field($model, 'file')->fileInput(); ?>
+                        <?= $form->field($model, 'file')->fileInput()->label('Archivo PDF de DNI', ['class'=>'label-class']); ?>
                     </div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-xs-12 co sm-3">
                     <div class="form-group has-success">
-                        <?= $form->field($model, 'file1')->fileInput(); ?>
+                        <?= $form->field($model, 'file1')->fileInput()->label('Archivo PDF de CUIL', ['class'=>'label-class']); ?>
                     </div>
                 </div>
             </div>
