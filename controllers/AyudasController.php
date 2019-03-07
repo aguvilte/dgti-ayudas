@@ -13,6 +13,7 @@ use app\models\Estados;
 use app\models\Expedientes;
 use app\models\ExpedientesSearch;
 use app\models\Movimientos;
+use app\models\Referentes;
 use app\models\TiposAyudas;
 use app\models\Usuarios;
 
@@ -561,9 +562,10 @@ class AyudasController extends Controller
                         <th>Tipo de ayuda</th>
                         <th>Estado</th>
                         <th>Monto</th>
-                        <th>Área</th>
+                        <th> ' . utf8_decode('Área') . '</th>
+                        <th>Referente</th>
                         <th>Fecha de pago</th>
-                        <th>Fecha de eEntrada</th>
+                        <th>Fecha de entrada</th>
                         <th>Fecha de nota</th>
                     </tr>
                 </thead>
@@ -598,15 +600,22 @@ class AyudasController extends Controller
             else
                 $area = '';
 
+            $referente = Referentes::findOne($ayuda->id_referente);
+            if ($referente !== null)
+                $referente = $referente->apeynom;
+            else
+                $referente = '';
+
             echo '
                 <tr>
                     <td>' . $i . '</td>
-                    <td>' . $beneficiario['apeynom'] . '</td>
+                    <td>' . utf8_decode($beneficiario['apeynom']) . '</td>
                     <td>' . $beneficiario['documento'] . '</td>
                     <td>' . $tipoAyuda . '</td>
                     <td>' . $estado . '</td>
                     <td>' . $ayuda['monto'] . '</td>
-                    <td>' . $area . '</td>
+                    <td>' . utf8_decode($area) . '</td>
+                    <td>' . utf8_decode($referente) . '</td>
                     <td>' . $ayuda['fecha_pago'] . '</td>
                     <td>' . $ayuda['fecha_entrada'] . '</td>
                     <td>' . $ayuda['fecha_nota'] . '</td>
