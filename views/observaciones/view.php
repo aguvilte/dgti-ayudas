@@ -10,11 +10,6 @@ use app\models\Referentes;
 use app\models\Estados;
 use app\models\Devoluciones;
 
-
-
-/* @var $this yii\web\View */
-/* @var $model app\models\Devoluciones */
-
 $this->title = 'Mis Notas';
 $this->params['breadcrumbs'][] = ['label' => 'Ayudas', 'url' => ['/pago/index']];
 $this->params['breadcrumbs'][] = $this->title;
@@ -38,7 +33,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'descripcion',
             [
                 'attribute' => 'fecha_observacion',
-                'format' => ['date', 'php:d-m-Y']
+                'format' => ['date', 'php:d/m/Y']
             ],
                  ],
              ]);
@@ -57,7 +52,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'descripcion',
             [
                 'attribute' => 'fecha',
-                'format' => ['date', 'php:d-m-Y']
+                'format' => ['date', 'php:d/m/Y']
             ],
                  ],
              ]);
@@ -155,15 +150,15 @@ $this->params['breadcrumbs'][] = $this->title;
             'monto',
             [
                 'attribute' => 'fecha_nota',
-                'format' => ['date', 'php:d-m-Y']
+                'format' => ['date', 'php:d/m/Y']
             ],
             [
                 'attribute' => 'fecha_entrada',
-                'format' => ['date', 'php:d-m-Y']
+                'format' => ['date', 'php:d/m/Y']
             ],
             [
                 'attribute' => 'fecha_pago',
-                'format' => ['date', 'php:d-m-Y']
+                'format' => ['date', 'php:d/m/Y']
             ],
             'doc_adjunta',
             [

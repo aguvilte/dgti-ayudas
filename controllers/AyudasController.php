@@ -32,7 +32,20 @@ class AyudasController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['view','enviar','update','index','mensaje_exito','create','mpdf','pdf_ayuda','updatepdf_doc_adjunta','updatepdfgestor','updatepdfnota','updatepdfdomicilio'],
+                'only' => [
+                    'create',
+                    'enviar',
+                    'index',
+                    'mensaje_exito',
+                    'mpdf',
+                    'pdf_ayuda',
+                    'update',
+                    'updatepdf_doc_adjunta',
+                    'updatepdfdomicilio',
+                    'updatepdfgestor',
+                    'updatepdfnota',
+                    'view',
+                ],
                 'rules' => [
                     [
                         //El administrador tiene permisos sobre las siguientes acciones
@@ -229,13 +242,23 @@ class AyudasController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            RegistroMovimientos::registrarMovimiento(2, 'ACTUALIZACION', $model->id_ayuda);
-            return $this->redirect(['view', 'id' => $model->id_ayuda]);
-        } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
+        $ayudaExpediente = AyudasExpedientes::find()
+            ->where(['id_ayuda' => $id])
+            ->count();
+
+        if($ayudaExpediente == 0) {
+            if ($model->load(Yii::$app->request->post()) && $model->save()) {
+                RegistroMovimientos::registrarMovimiento(2, 'ACTUALIZACION', $model->id_ayuda);
+                return $this->redirect(['view', 'id' => $model->id_ayuda]);
+            } else {
+                return $this->render('update', [
+                    'model' => $model,
+                ]);
+            }
+        }
+        else {
+            throw new NotFoundHttpException('No se puede modificar una ayuda asignada a un expediente');
+            
         }
     }
 
@@ -244,7 +267,7 @@ class AyudasController extends Controller
 
       /*BUSCO DATOS DE LA AYUDA*/
         $ayuda = Ayudas::find()
-            ->where(['id_ayuda'=>$id])
+            ->where(['id_ayuda' => $id])
             ->one();
         $beneficiario = Beneficiarios::find()
             ->where(['id_beneficiario'=>$ayuda->id_beneficiario])
@@ -492,7 +515,16 @@ class AyudasController extends Controller
                 'searchModel'  => $searchModel
             ]
         );
-            
+        
+        $arrayMeses = array('Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+        'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre');
+      
+        $arrayDias = array( 'Domingo', 'Lunes', 'Martes',
+        'Miercoles', 'Jueves', 'Viernes', 'Sabado');
+        
+        ini_set('date.timezone','America/Argentina/La_Rioja');
+        $hora = date("g:i A");
+
         $pdf = new Pdf([
             'format' => Pdf::FORMAT_A4, 
             'orientation' => Pdf::ORIENT_PORTRAIT, 
@@ -500,9 +532,10 @@ class AyudasController extends Controller
             'content' => $content,  
             'cssFile' => '@vendor/kartik-v/yii2-mpdf/assets/kv-mpdf-bootstrap.min.css',
             'cssInline' => '.kv-heading-1{font-size:18px}', 
-            'options' => ['title' => 'Krajee Report Title'],
-            'methods' => [ 
-                'SetFooter' => ['{PAGENO}'],
+            'options' => ['title' => 'Listado de ayudas'],
+            'methods' => [
+                'SetHeader' => $arrayDias[date('w')] . ", " . date('d') . " de ".$arrayMeses[date('m')-1] . " de " . date('Y') . ", " . $hora,
+                'SetFooter' => ['Desarrollo: Dirección General de Tecnologia Informatica.', '{PAGENO}'] ,
             ]
         ]);
         

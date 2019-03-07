@@ -21,7 +21,12 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
             'apeynom',
-            'documento',
+            [
+                'attribute' => 'documento',
+                'value' => function($model){
+                    return number_format($model->documento, 0, ',', '.');
+                },
+            ],
             'domicilio',
             [
                 'attribute' => 'pdf_dni',
@@ -29,7 +34,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'format' => 'raw',
                 'value' => function ($model) {
                     if (!empty($model->pdf_dni))
-                        return Html::a('<span class="glyphicon glyphicon-file"></span>', $model->pdf_dni, ['title' => Yii::t('app', 'Ver Pdf'), 'target'=>'_blank', 'class' => 'btn btn-success btn-xs']) . ' ' . Html::a('<span class="glyphicon glyphicon-arrow-up"></span>', ['updatepdfdni', 'id' => $model->id_beneficiario], ['title' => Yii::t('app', 'Actualizar PDF'), 'target'=>'_blank', 'class' => 'btn btn-info btn-xs']);
+                        return Html::a('<span class="glyphicon glyphicon-file"></span>', $model->pdf_dni, ['title' => Yii::t('app', 'Ver Pdf'), 'target'=>'_blank', 'class' => 'btn btn-success btn-xs']) . ' ' . Html::a('<span class="glyphicon glyphicon-arrow-up"></span>', ['updatepdfdni', 'id' => $model->id_beneficiario], ['title' => Yii::t('app', 'Actualizar PDF'), 'target'=>'_blank', 'class' => 'btn btn-warning btn-xs']);
                     else
                         return Html::a('<span class="glyphicon glyphicon-arrow-up"></span>', ['updatepdfdni', 'id' => $model->id_beneficiario ], ['title' => Yii::t('app', 'Subir PDF'), 'target'=>'_blank', 'class' => 'btn btn-info btn-xs']);
                 },
@@ -42,7 +47,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'format' => 'raw',
                 'value' => function ($model) {
                     if (!empty($model->pdf_cuil))
-                        return Html::a('<span class="glyphicon glyphicon-file"></span>', $model->pdf_cuil, ['title' => Yii::t('app', 'Ver Pdf'), 'target'=>'_blank', 'class' => 'btn btn-success btn-xs']) . ' ' . Html::a('<span class="glyphicon glyphicon-arrow-up"></span>', ['updatepdfcuil', 'id' => $model->id_beneficiario ], ['title' => Yii::t('app', 'Actualizar PDF'), 'target'=>'_blank', 'class' => 'btn btn-info btn-xs']);
+                        return Html::a('<span class="glyphicon glyphicon-file"></span>', $model->pdf_cuil, ['title' => Yii::t('app', 'Ver Pdf'), 'target'=>'_blank', 'class' => 'btn btn-success btn-xs']) . ' ' . Html::a('<span class="glyphicon glyphicon-arrow-up"></span>', ['updatepdfcuil', 'id' => $model->id_beneficiario ], ['title' => Yii::t('app', 'Actualizar PDF'), 'target'=>'_blank', 'class' => 'btn btn-warning btn-xs']);
                     else
                         return Html::a('<span class="glyphicon glyphicon-arrow-up"></span>', ['updatepdfcuil', 'id' => $model->id_beneficiario ], ['title' => Yii::t('app', 'Subir PDF'), 'target'=>'_blank', 'class' => 'btn btn-info btn-xs']);
                 },

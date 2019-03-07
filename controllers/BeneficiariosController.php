@@ -22,7 +22,16 @@ class BeneficiariosController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['view','updatepdfdni','updatepdfcuil','update','index','historial','create','historial','pdf_historial'],
+                'only' => [
+                    'create',
+                    'historial',
+                    'index',
+                    'pdf_historial',
+                    'update',
+                    'updatepdfcuil',
+                    'updatepdfdni',
+                    'view',
+                ],
                 'rules' => [
                     [
                         //El administrador tiene permisos sobre las siguientes acciones

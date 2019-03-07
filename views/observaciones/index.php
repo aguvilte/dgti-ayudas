@@ -28,7 +28,10 @@ $this->params['breadcrumbs'][] = $this->title;
             'id_ayuda',
             'descripcion',
             'id_usuario',
-            'fecha_observacion',
+            [
+                'attribute' => 'fecha_observacion',
+                'format' => ['date', 'php:d/m/Y']
+            ],
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

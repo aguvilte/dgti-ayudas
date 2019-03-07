@@ -8,11 +8,6 @@ use app\models\Estados;
 use app\models\Areas;
 use app\models\Referentes;
 
-
-
-/* @var $this yii\web\View */
-/* @var $model app\models\Ayudas */
-
 $this->title = 'Ver Ayuda';
 $this->params['breadcrumbs'][] = ['label' => 'Ayudas', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
@@ -26,37 +21,66 @@ $this->params['breadcrumbs'][] = $this->title;
         <span class="glyphicon glyphicon-stats"></span> Exportar Informe
       </a>
     </div>
-    <p>
+    <div>
+        <div style="max-width: 48%; min-width: 48%; margin: 0; display: inline-block">
+            <?php 
+                if($model->id_estado == 1) {
+                    echo Html::a('
+                        Eliminar',
+                        [
+                            'delete',
+                            'id' => $model->id_ayuda
+                        ],
+                        [
+                            'class' => 'btn btn-danger',
+                            'data' => [
+                                'confirm' => 'Esta seguro de eliminar esta ayuda económica?',
+                                'method' => 'post',
+                            ],
+                        ]
+                    ); 
+                    echo Html::a('Actualizar', ['update', 'id' => $model->id_ayuda], ['class' => 'btn btn-primary']);
+                }
+            ?>
+        </div>
 
-      <?php if($model->id_estado==1) {?>
-        <?= Html::a('Eliminar', ['delete', 'id' => $model->id_ayuda], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => 'Esta seguro de eliminar esta ayuda económica?',
-                'method' => 'post',
-            ],
-        ]) ?>
-      <?php } ?>
-    <?php if($model->id_estado==1 or $model->id_estado==3) {?>
-            <?= Html::a('Actualizar', ['update', 'id' => $model->id_ayuda], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Enviar al área de pago', ['enviar', 'id' => $model->id_ayuda], [
-                'class' => 'btn btn-success',
-                'data' => [
-                'confirm' => 'Está seguro de enviar esta ayuda al área de pago? Considere que no podrá realizar modificaciones futuras a dicha ayuda',
-                'method' => 'post',
-            ],
-        ]) ?>
-        <?= Html::a('Cancelar', ['cancelar', 'id' => $model->id_ayuda], [
-                'class' => 'btn btn-danger',
-                'data' => [
-                'confirm' => 'Está seguro de cancelar la ayuda económica? Considere que no podrá seguir operando con dicha ayuda',
-                'method' => 'post',
-            ],
-        ]) ?>
-        <?php } ?>
-    </p>
+        <div style="max-width: 48%; min-width: 48%; margin: 0; display: inline-block; text-align: right;">
+            <?php
+                if($model->id_estado == 1 or $model->id_estado == 3) {
+                    echo Html::a(
+                        'Enviar al área de pago',
+                        [
+                            'enviar',
+                            'id' => $model->id_ayuda
+                        ],
+                        [
+                            'class' => 'btn btn-success',
+                            'data' => [
+                                'confirm' => 'Está seguro de enviar esta ayuda al área de pago? Considere que no podrá realizar modificaciones futuras a dicha ayuda',
+                                'method' => 'post',
+                            ],
+                        ]
+                    );
+                    echo Html::a(
+                        'Cancelar',
+                        [
+                            'cancelar',
+                            'id' => $model->id_ayuda
+                        ],
+                        [
+                            'class' => 'btn btn-danger',
+                            'data' => [
+                                'confirm' => 'Está seguro de cancelar la ayuda económica? Considere que no podrá seguir operando con dicha ayuda',
+                                'method' => 'post',
+                            ],
+                        ]
+                    );
+                }
+            ?>
 
-
+    </div>
+    <br>
+    <br>
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [

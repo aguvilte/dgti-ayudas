@@ -53,7 +53,7 @@ $this->params['breadcrumbs'][] = $this->title;
     </p>
     <?php }?>
 
-<?php if($countExp == 0) {?>
+<?php if($countExp == 0 && $model->id_estado != 4 && $model->id_estado != 1) {?>
     <p>
       <a class="btn btn-warning" target="_blank" href="?r=expedientes%2Fayudas&id=<?php echo $id; ?>" title="Realizar pago" aria-label="Pago">
         </span> Agregar a expediente

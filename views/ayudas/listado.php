@@ -9,11 +9,10 @@ $this->title = 'Listado';
 
 <div class="pdf-ayudas">
 
-    <!-- <img src="img/encabezado-listados.png"> -->
+    <img src="/img/cabecera.png" alt="La Rioja - Argentina">
+    <br>
+    <h1 style="text-align: center;color:#0078CF;"><a name="top"></a>Listado de ayudas</h1>
 
-    <br>
-    <br>
-    <h1 style="text-align: center;"><?= Html::encode($this->title) ?> </h1>
     <br>
     <br>
 
@@ -31,6 +30,14 @@ $this->title = 'Listado';
                 'attribute' => 'id_tipo',
                 'label' => 'Tipo',
                 'value' => 'tiposAyudas.nombre',
+                'enableSorting' => false
+            ],
+            [
+                'attribute' => 'monto',
+                'label' => 'Monto',
+                'value' => function($model) {
+                    return '$' . number_format($model->monto, 0, ',', '.');
+                },
                 'enableSorting' => false
             ],
             [

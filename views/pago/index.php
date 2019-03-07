@@ -50,11 +50,15 @@ $this->params['breadcrumbs'][] = $this->title;
                         }
                     }
                 },
+                // 'filter' => function ($model) {
+                //     Beneficiarios::find()->andWhere(['apeynom' => $model->id_beneficiario])->all();
+                // }
+                'filter' => '',
             ],
             [
                 'label' => 'Documento',
                 'attribute'=>'id_beneficiario',
-                'value'=>function ($model) {
+                'value'=>function ($model) {    
                     if (!empty($model->id_beneficiario))
                     {
                         $beneficiario = Beneficiarios::findOne($model->id_beneficiario);

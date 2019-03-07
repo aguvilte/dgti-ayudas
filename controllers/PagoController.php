@@ -30,7 +30,14 @@ class PagoController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['view','index','pago','mpdf','pdf_ayuda'],
+                'only' => [
+                    'view',
+                    'index',
+                    'pago',
+                    'mpdf',
+                    'pdf_ayuda',
+
+                ],
                 'rules' => [
                 [
                     //El administrador tiene permisos sobre las siguientes acciones

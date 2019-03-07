@@ -77,6 +77,7 @@ class AyudasSearch extends Ayudas
             'id_tipo' => $this->id_tipo,
             'id_estado' => $this->id_estado,
             'id_usuario' => $this->id_usuario,
+            'id_area' => $this->id_area,
             // 'id_beneficiario' => $consultaBeneficiario->id_beneficiario,
             // 'beneficiarios.documento' => $this->id_beneficiario,
 
