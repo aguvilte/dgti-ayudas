@@ -9,7 +9,7 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="areas-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h2 class="titulo-area"><?= Html::encode($this->title) ?></h2>
 
     <p>
         <?= Html::a('Modificar', ['update', 'id' => $model->id_area], ['class' => 'btn btn-primary']) ?>
