@@ -18,33 +18,35 @@ $this->title = 'Listado';
     <br>
     <br>
 
-    <h4><b>Filtros aplicados:</b></h4>
-
-    <?php
-    if($_GET['dni'])
-        echo '<p style="margin-left: 8%;"><b>DNI de beneficiario:</b> ' . $_GET['dni'] . '</p>';
-
-    if($_GET['tipo'])
-        echo '<p style="margin-left: 8%;"><b>Tipo de ayuda:</b> ' . $_GET['tipo'] . '</p>';
-
-    if($_GET['estado'])
-        echo '<p style="margin-left: 8%;"><b>Estado:</b> ' . $_GET['estado'] . '</p>';
-        
-    if($_GET['area'])
-        echo '<p style="margin-left: 8%;"><b>Área:</b> ' . $_GET['area'] . '</p>';
+    <?php 
+    if($_GET['filtros'] == 'v') {
+        echo '<h4><b>Filtros aplicados:</b></h4>';
     
-    if($_GET['referente'])
-        echo '<p style="margin-left: 8%;"><b>Referente:</b> ' . $_GET['referente'] . '</p>';
+        if($_GET['dni'])
+            echo '<p style="margin-left: 8%;"><b>DNI de beneficiario:</b> ' . $_GET['dni'] . '</p>';
+    
+        if($_GET['tipo'])
+            echo '<p style="margin-left: 8%;"><b>Tipo de ayuda:</b> ' . $_GET['tipo'] . '</p>';
+    
+        if($_GET['estado'])
+            echo '<p style="margin-left: 8%;"><b>Estado:</b> ' . $_GET['estado'] . '</p>';
+            
+        if($_GET['area'])
+            echo '<p style="margin-left: 8%;"><b>Área:</b> ' . $_GET['area'] . '</p>';
+        
+        if($_GET['referente'])
+            echo '<p style="margin-left: 8%;"><b>Referente:</b> ' . $_GET['referente'] . '</p>';
+    
+        if($_GET['usuario'])
+            echo '<p style="margin-left: 8%;"><b>Usuario de carga:</b> ' . $_GET['usuario'] . '</p>';
+    
+        if($_GET['monto'])
+            echo '<p style="margin-left: 8%;"><b>Monto:</b> $' . number_format($_GET['monto'], 0, ',', '.') . '</p>';
 
-    if($_GET['usuario'])
-        echo '<p style="margin-left: 8%;"><b>Usuario de carga:</b> ' . $_GET['usuario'] . '</p>';
-
-    if($_GET['monto'])
-        echo '<p style="margin-left: 8%;"><b>Monto:</b> $' . number_format($_GET['monto'], 0, ',', '.') . '</p>';
+        echo '<br><br>';
+    }
     ?>
 
-    <br>
-    <br>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
