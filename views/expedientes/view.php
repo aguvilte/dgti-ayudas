@@ -20,8 +20,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h2 class="titulo-area"><?= Html::encode($this->title) ?></h2>
 
-    <p>
+    <p> <?php if($model->estado==1) { ?>
         <?= Html::a('Modificar', ['update', 'id' => $model->id_expediente], ['class' => 'btn btn-primary']) ?>
+        <?php } ?>
         <!-- <?= Html::a('Eliminar', ['delete', 'id' => $model->id_expediente], [
             'class' => 'btn btn-danger',
             'data' => [
