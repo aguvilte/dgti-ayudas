@@ -217,37 +217,9 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
         'options' => ['class' => 'tbl-completa'],
     ]); ?>
+
 </div>
 
+<script language="JavaScript" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src='js/pago/index.js'></script>
-<script>
-   /*   btnPDF = document.getElementById('btn-pdf');
-          inputCodigo = document.getElementsByClassName('form-control')[1];
-          inputCodigo2 = document.getElementsByClassName('form-control')[2];
-          inputCodigo3 = document.getElementsByClassName('form-control')[3];
-          inputCodigo4 = document.getElementsByClassName('form-control')[4];
-          inputCodigo5 = document.getElementsByClassName('form-control')[5];
-          btnPDF.addEventListener('click', function() {
-              var searchParams = new URLSearchParams(window.location.search);
-              searchParams.set('r','pago/mpdf')
-              searchParams.set('inputdni', inputCodigo.value)
-              searchParams.set('inputtipoayuda', inputCodigo2.value)
-              searchParams.set('inputestado', inputCodigo3.value)
-              searchParams.set('inputmonto', inputCodigo4.value)
-              searchParams.set('inputarea', inputCodigo5.value)
-              var newParams = searchParams.toString()
-              
-              var nuevaURL = location.protocol + '//' + location.host + location.pathname + '?' + newParams;
-              // window.location = nuevaURL;
-              window.open(nuevaURL, '_blank');
-          });
-    inputCodigo0 = document.getElementsByClassName('form-control')[0];
-    inputCodigo6 = document.getElementsByClassName('form-control')[6];
-    inputCodigo7 = document.getElementsByClassName('form-control')[7];
-    inputCodigo8 = document.getElementsByClassName('form-control')[8];
-    
-    inputCodigo0.parentNode.removeChild(inputCodigo0);
-    inputCodigo6.parentNode.removeChild(inputCodigo6);
-    inputCodigo7.parentNode.removeChild(inputCodigo7);
-    inputCodigo8.parentNode.removeChild(inputCodigo8); */
-</script>
+

@@ -230,11 +230,12 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
 </div>
 
+<script language="JavaScript" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src='js/ayudas/index.js'></script>
 
-<script>
+<!-- <script>
 var url_string = window.location.href;
 var url = new URL(url_string);
 var c = url.searchParams.get("AyudasSearch[id_area]");
 console.log(c);
-</script>
+</script> -->

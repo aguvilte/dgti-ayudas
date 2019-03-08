@@ -625,6 +625,42 @@ class AyudasController extends Controller
         echo '</table>';
     }
 
+    public function actionAjaxq($idTipo = 0, $idEstado = 0, $idArea = 0, $idReferente = 0, $idUsuario = 0) {
+        if($idTipo > 0)
+            $tipo = TiposAyudas::findOne($idTipo)->nombre;
+        else
+            $tipo = '';
+        
+        if($idEstado > 0)
+            $estado = Estados::findOne($idEstado)->nombre;
+        else
+            $estado = '';
+        
+        if($idArea > 0)
+            $area = Areas::findOne($idArea)->nombre;
+        else
+            $area = '';
+        
+        if($idReferente > 0)
+            $referente = Referentes::findOne($idReferente)->apeynom;
+        else
+            $referente = '';
+        
+        if($idUsuario > 0)
+            $usuario = Usuarios::findOne($idUsuario)->username;
+        else
+            $usuario = '';
+
+        $resultados[0] = $tipo;
+        $resultados[1] = $estado;
+        $resultados[2] = $area;
+        $resultados[3] = $referente;
+        $resultados[4] = $usuario;
+
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        return $resultados;
+    }
+
     protected function findModel($id)
     {
         if (($model = Ayudas::findOne($id)) !== null) {

@@ -273,6 +273,15 @@ class PagoController extends Controller
                 'searchModel'  => $searchModel
             ]
         );
+
+        $arrayMeses = array('Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+        'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre');
+      
+        $arrayDias = array( 'Domingo', 'Lunes', 'Martes',
+        'Miercoles', 'Jueves', 'Viernes', 'Sabado');
+        
+        ini_set('date.timezone','America/Argentina/La_Rioja');
+        $hora = date("g:i A");
             
         $pdf = new Pdf([
             'format' => Pdf::FORMAT_A4, 
@@ -281,9 +290,10 @@ class PagoController extends Controller
             'content' => $content,  
             'cssFile' => '@vendor/kartik-v/yii2-mpdf/assets/kv-mpdf-bootstrap.min.css',
             'cssInline' => '.kv-heading-1{font-size:18px}', 
-            'options' => ['title' => 'Krajee Report Title'],
-            'methods' => [ 
-                'SetFooter'=>['{PAGENO}'],
+            'options' => ['title' => 'Listado de ayudas'],
+            'methods' => [
+                'SetHeader' => $arrayDias[date('w')] . ", " . date('d') . " de ".$arrayMeses[date('m')-1] . " de " . date('Y') . ", " . $hora,
+                'SetFooter' => ['Desarrollo: Dirección General de Tecnologia Informatica.', '{PAGENO}'] ,
             ]
         ]);
         
