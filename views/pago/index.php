@@ -129,15 +129,18 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'attribute' => 'fecha_pago',
-                'format' => ['date', 'php:d/m/Y']
+                'format' => ['date', 'php:d/m/Y'],
+                'filter'=> '',  
             ],
             [
                 'attribute' => 'fecha_entrada',
-                'format' => ['date', 'php:d/m/Y']
+                'format' => ['date', 'php:d/m/Y'],
+                'filter'=> '',  
             ],
             [
                 'attribute' => 'fecha_nota',
-                'format' => ['date', 'php:d/m/Y']
+                'format' => ['date', 'php:d/m/Y'],
+                'filter'=> '',  
             ],
             [
                 'class' => 'yii\grid\DataColumn',
